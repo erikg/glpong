@@ -4,5 +4,4 @@
 	move from sdl_mixer to openal
 	gameplay tweaks
 	performance statistics
-	improved collision detection
 	endian fixes
