@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.8 2003/06/27 14:11:44 erik Exp $ 
+ * $Id: sound.c,v 1.9 2003/06/28 15:48:41 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -35,25 +35,29 @@
 static ALuint wave[2];
 static ALuint source;
 
-ALuint
-sound_load (char *name)
+void
+sound_load (ALuint id, char *name)
 {
-    ALuint id;
     char filename[BUFSIZ];
-    Uint32 len;
-    Uint8 *buf;
-    SDL_AudioSpec spec;
+    Uint32 len=0;
+    Uint8 *buf=NULL;
+    SDL_AudioSpec spec,*spec2;
 
-    snprintf (filename, BUFSIZ, "%s%s", DATADIR, name);
-    if (SDL_LoadWAV (filename, &spec, &buf, &len) == NULL)
+    memset(&spec,0,sizeof(spec));
+    spec.format=AUDIO_S16MSB;
+    spec.channels=1;
+
+    snprintf (filename, BUFSIZ, "%s/%s", DATADIR, name);
+    if ((spec2=SDL_LoadWAV (filename, &spec, &buf, &len)) == NULL)
       {
 	  printf ("Unable to load sound %s\n", filename);
 	  return -1;
       }
-    alGenBuffers (1, &id);
-    alBufferData (id, AL_FORMAT_MONO16, buf, len, spec.freq);
+    printf("Loaded sound %s into id %d\n", filename, id);
+    printf("format: %x\nchannels: %x\nfreq: %d\n", spec2->format, spec2->channels, spec2->freq);
+    alBufferData (id, AL_FORMAT_MONO16, buf, len, spec2->freq);
     free (buf);
-    return id;
+    return;
 }
 
 void
@@ -62,9 +66,9 @@ sound_init ()
     static void *context_id;
     ALCdevice *dev;
 
-    if ((dev = alcOpenDevice (0x0)) == 0x0)
+    if ((dev = alcOpenDevice (NULL)) == NULL)
 	return;
-    if ((context_id = alcCreateContext (dev, 0x0)) == 0x0)
+    if ((context_id = alcCreateContext (dev, NULL)) == NULL)
       {
 	  alcCloseDevice (dev);
 	  return;
@@ -73,8 +77,9 @@ sound_init ()
 
     alGenSources (1, &source);
 
-    wave[SOUND_BOINK] = sound_load ("/boink.wav");
-    wave[SOUND_NNGNGNG] = sound_load ("/lose.wav");
+    alGenBuffers(2,wave);
+    sound_load (wave[SOUND_BOINK], "/boink.wav");
+    sound_load (wave[SOUND_NNGNGNG], "/lose.wav");
 
     alDistanceModel (AL_DISTANCE_MODEL);
     alSourcef(source, AL_REFERENCE_DISTANCE, 22.0);
@@ -98,6 +103,7 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     alSourcei(source, AL_BUFFER, wave[sound]);
     alSourcei(source, AL_GAIN, 1);
     alSourcei(source, AL_LOOPING, 0);
-    alSourcePlay (wave[sound]);
+    alSourcePlay (source);
+    printf("Playing %d\n", wave[sound]);
     return;
 }
