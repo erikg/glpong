@@ -27,7 +27,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.5 2003/06/22 22:48:20 erik Exp $
+ * $Id: text.c,v 1.6 2003/06/23 20:13:00 erik Exp $
  */
 
 /*****************************************************************************
@@ -50,7 +50,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.5 2003/06/22 22:48:20 erik Exp $ 
+ * $Id: text.c,v 1.6 2003/06/23 20:13:00 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -86,7 +86,7 @@ float texcoords[][4] = {
 void
 text_init ()
 {
-    video_load_texture("texture.png",&textid);
+    video_load_texture("texture",&textid);
     glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

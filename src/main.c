@@ -27,7 +27,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.4 2003/06/22 22:48:20 erik Exp $
+ * $Id: main.c,v 1.5 2003/06/23 20:13:00 erik Exp $
  */
 
 /*****************************************************************************
@@ -50,7 +50,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.4 2003/06/22 22:48:20 erik Exp $ 
+ * $Id: main.c,v 1.5 2003/06/23 20:13:00 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -66,10 +66,21 @@
 #include "timer.h"
 #include "video.h"
 
+void nurk()
+{
+	FILE *fd;
+	char buf[BUFSIZ];
+	fd = fopen("/tmp/glpong.txt", "w");
+	fprintf(fd,"%s\n", getcwd(buf, BUFSIZ));
+	fclose(fd);
+	return;
+}
+
 int
 main (int argc, char **argv)
 {
     game_t *g;
+    nurk();
 
     if(argc>1)printf("%s: I don't do parms yet\n", argv[0]);
 

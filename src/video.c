@@ -27,7 +27,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.6 2003/06/22 22:48:20 erik Exp $
+ * $Id: video.c,v 1.7 2003/06/23 20:13:00 erik Exp $
  */
 
 /*****************************************************************************
@@ -50,7 +50,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.6 2003/06/22 22:48:20 erik Exp $ 
+ * $Id: video.c,v 1.7 2003/06/23 20:13:00 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -145,7 +145,7 @@ video_load_texture (char *file, unsigned int *texid)
   glEnable (GL_TEXTURE_2D);
   glGenTextures (1, texid);
 
-  snprintf(buf,BUFSIZ,"%s/%s",DATADIR,file);
+  snprintf(buf,BUFSIZ,"%s/%s."IMGEXT,DATADIR,file);
   printf("trying %s\n", buf);
   t = IMG_Load (buf);
 
@@ -185,7 +185,7 @@ video_load_texture (char *file, unsigned int *texid)
 static void
 form_reflmap ()
 {
-  video_load_texture ("refl.png", &refl);
+  video_load_texture ("refl", &refl);
   glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
   glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
