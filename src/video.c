@@ -27,7 +27,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.7 2003/06/23 20:13:00 erik Exp $
+ * $Id: video.c,v 1.8 2003/06/23 22:39:35 erik Exp $
  */
 
 /*****************************************************************************
@@ -50,7 +50,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.7 2003/06/23 20:13:00 erik Exp $ 
+ * $Id: video.c,v 1.8 2003/06/23 22:39:35 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -151,21 +151,21 @@ video_load_texture (char *file, unsigned int *texid)
 
   if (t == NULL)
   {
-	  printf("couldn't read %s\n\t%s\n", buf, IMG_GetError());
-	  snprintf(buf,BUFSIZ,"../data/%s",file);
+	  printf("couldn't read %s\n\t%s."IMGEXT"\n", buf, IMG_GetError());
+	  snprintf(buf,BUFSIZ,"../data/%s."IMGEXT,file);
 	  printf("trying %s\n", buf);
 	  t = IMG_Load (buf);
   }
   if (t == NULL)
   {
-	  printf("couldn't read %s\n\t%s\n", buf, IMG_GetError());
-	  snprintf(buf,BUFSIZ,"data/%s",file);
+	  printf("couldn't read %s\n\t%s."IMGEXT"\n", buf, IMG_GetError());
+	  snprintf(buf,BUFSIZ,"data/%s."IMGEXT,file);
 	  printf("trying %s\n", buf);
 	  t = IMG_Load (buf);
   }
   if (t == NULL)
   {
-	  printf("couldn't read %s\n\t%s\n", buf, IMG_GetError());
+	  printf("couldn't read %s\n\t%s."IMGEXT"\n", buf, IMG_GetError());
 	  fprintf(stderr, "Cannot load texture: %s\nAborting...\n", file);
 	  SDL_Quit();
 	  exit(-1);
