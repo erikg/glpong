@@ -19,8 +19,9 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.19 2003/10/04 12:45:46 erik Exp $ 
+ * $Id: physics.c,v 1.20 2003/12/28 17:40:51 erik Exp $ 
  */
+
 #include <stdio.h>
 #include <math.h>
 #include "game.h"
@@ -41,7 +42,7 @@
 float
 clamp (float low, float high, float val)
 {
-	return val<low?low:val>high?high:val;
+    return val < low ? low : val > high ? high : val;
 }
 
 float
@@ -143,7 +144,10 @@ void
 physics_do (game_t * g)
 {
     int i;
-    float ballvelleft = magnitude (g->ball[0].vel) * timer_delta();
+    float ballvelleft = magnitude (g->ball[0].vel) * timer_delta ();
+    float dt;
+
+    dt = timer_delta ();
 
     game = g;
 
@@ -157,24 +161,25 @@ physics_do (game_t * g)
 	    g->player[i].X = sign (g->player[i].X) * 3;
 
     bpos = g->ball->pos;
+#if 0
     do
       {
 	  nearestdist = 999999.9;	/* effectively infinity... */
 	  map_map_tri (physdist);
-	  printf ("(ballvelleft) %.2f  (nearestdist) %.2f  (pos) %.2f %.2f %.2f  (vel) %.2f %.2f %.2f\n", ballvelleft, nearestdist, bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
+	  //printf ("(ballvelleft) %.2f  (nearestdist) %.2f  (pos) %.2f %.2f %.2f  (vel) %.2f %.2f %.2f\n", ballvelleft, nearestdist, bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
 	  switch (nearesttype)
 	    {
 	    case MAP_WALL:
 		{
 		    float t[3], a[3];
 
-		    printf("Nearest: %f", nearestdist);
+		    //printf("Nearest: %f", nearestdist);
 		    //printf(" move to: %.2f ", nearestdist-g->ball->radius);
-		    scale (t, normalize(a,bvel), clamp(0.0,9999,nearestdist)); //- g->ball->radius));
-	//	    add (bpos, bpos, t);
+		    scale (t, normalize (a, bvel), clamp (0.0, 9999, nearestdist));	//- g->ball->radius));
+		    //          add (bpos, bpos, t);
 		    bvel[0] = -bvel[0];
-		    PRINTVECTOR(bvel);
-		    printf("\n");
+		    //PRINTVECTOR(bvel);
+		    //printf("\n");
 		}
 		break;
 	    case MAP_GATE:
@@ -188,21 +193,31 @@ physics_do (game_t * g)
       }
     while (ballvelleft > nearestdist);
     memcpy (g->ball[0].vel, bvel, sizeof (float) * 3);
+#endif
+
+    /* TODO remove this hack, use 'real' cd */
+#define WALL 3.95
+    if (fabs (g->ball[0].pos[0]) > WALL)
+      {
+	  g->ball[0].pos[0] -= g->ball[0].vel[1] * timer_delta ();
+	  g->ball[0].vel[1] *= -1;
+      }
+#undef WALL
 
     /*
      * paddle bounce
-     *
-     i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
-     if (fabs (g->ball[0].pos[1]) > 8.0
-     && fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
-     {
-     g->ball[0].vel[1] +=
-     VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
-     g->ball[0].vel[0] *=
-     VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
-     sound_play (SOUND_BOINK, NULL, NULL, NULL);
-     }
      */
+    i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
+    if (fabs (g->ball[0].pos[1]) > 8.0
+	&& fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
+      {
+	  g->ball[0].vel[1] +=
+	      VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
+	  g->ball[0].vel[0] *=
+	      VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
+      }
+
   GOAL:
     /*
      * goal made 
