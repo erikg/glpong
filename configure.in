@@ -15,14 +15,17 @@ LIBS="$LIBS $SDL_LIBS -lSDL_image $GL_LIBS $AL_LIBS"
 
 case $target in
 	*-apple-darwin*)
+		GLPONGDATADIR = "$build_topdir/$(PACKAGE).app/Contents/Resources"
 		MYDATADIR="$PACKAGE.app/Contents/Resources"
 		IMGEXT="tga"
 		;;
 	*)
-		MYDATADIR="$datadir/glpong"
+		GLPONGDATADIR = "$datadir/glpong"
+		MYDATADIR="$GLPONGDATADIR/glpong"
 		IMGEXT="png"
 	esac
-
+AC_SUBST(IMGEXT)
+AC_SUBST(GLPONGDATADIR)
 CFLAGS="$CFLAGS -DDATADIR=\\\"$MYDATADIR\\\" -DIMGEXT=\\\"$IMGEXT\\\""
 
 AC_OUTPUT(Makefile data/Makefile src/Makefile glpong.spec Info.plist version.plist)
