@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.20 2003/12/28 17:40:51 erik Exp $ 
+ * $Id: physics.c,v 1.21 2003/12/28 17:44:15 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -201,6 +201,7 @@ physics_do (game_t * g)
       {
 	  g->ball[0].pos[0] -= g->ball[0].vel[1] * timer_delta ();
 	  g->ball[0].vel[1] *= -1;
+	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
 #undef WALL
 
