@@ -19,8 +19,12 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.18 2004/01/02 12:30:47 erik Exp $ 
+ * $Id: sound.c,v 1.19 2004/01/03 14:38:41 erik Exp $ 
  */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #ifdef HAVE_SOUND
 
@@ -64,11 +68,12 @@ sound_load (ALuint id, char *name)
     return;
 }
 
+static void *context_id;
+ALCdevice *dev;
+
 void
 sound_init ()
 {
-    static void *context_id;
-    ALCdevice *dev;
 
     if ((dev = alcOpenDevice (NULL)) == NULL)
 	return;
@@ -92,15 +97,28 @@ sound_init ()
 }
 
 void
+sound_close ()
+{
+    alcDestroyContext (context_id);
+    alcCloseDevice (dev);
+    return;
+}
+
+void
 sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
 {
-    float zero[4] = { 0, 0, 0, 0 };
-    float fwd[4] = { 0, 1, 0, 0 };
+    ALfloat back[] = { 0, 0, -1, 0, 1, 0 };
+    ALfloat fwd[] = { 0, 0, 1, 0, 1, 0 };
+    ALfloat sourcepos[] = { 0, 0, 1 };
+    ALfloat zero[] = { 0, 0, 0, 0 };
 
-    alSourcefv (wave[sound], AL_POSITION, noisepos ? noisepos : zero);
+    alListenerfv (AL_VELOCITY, zero);
     alListenerfv (AL_POSITION, playerpos ? playerpos : zero);
     alListenerfv (AL_ORIENTATION, playeror ? playeror : fwd);
 
+    alSourcefv (source, AL_ORIENTATION, back);
+    alSourcefv (source, AL_POSITION, noisepos ? noisepos : sourcepos);
+    alSourcefv (source, AL_VELOCITY, zero);
     alSourcei (source, AL_BUFFER, wave[sound]);
     alSourcei (source, AL_GAIN, 1);
     alSourcei (source, AL_LOOPING, 0);
@@ -112,6 +130,12 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
 
 void
 sound_init ()
+{
+    return;
+}
+
+void
+sound_close ()
 {
     return;
 }

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.18 2004/01/01 19:15:39 erik Exp $ 
+ * $Id: main.c,v 1.19 2004/01/03 14:38:41 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -157,6 +157,7 @@ main (int argc, char **argv)
 	physics_do (g);
 	video_do (g);
     }
+    sound_close();
     printf ("%s\n", timer_report (buf));
     SDL_Quit ();
     return 0;
