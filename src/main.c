@@ -27,7 +27,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.5 2003/06/23 20:13:00 erik Exp $
+ * $Id: main.c,v 1.6 2003/06/23 22:24:15 erik Exp $
  */
 
 /*****************************************************************************
@@ -50,7 +50,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.5 2003/06/23 20:13:00 erik Exp $ 
+ * $Id: main.c,v 1.6 2003/06/23 22:24:15 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -80,6 +80,7 @@ int
 main (int argc, char **argv)
 {
     game_t *g;
+    char buf[BUFSIZ];
     nurk();
 
     if(argc>1)printf("%s: I don't do parms yet\n", argv[0]);
@@ -111,6 +112,7 @@ main (int argc, char **argv)
 	physics_do (g);
 	video_do (g);
     }
+    printf("%s\n", timer_report(buf));
     SDL_Quit ();
     return 0;
 }
