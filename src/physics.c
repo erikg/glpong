@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.22 2003/12/28 17:47:38 erik Exp $ 
+ * $Id: physics.c,v 1.23 2003/12/28 18:09:31 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -208,16 +208,16 @@ physics_do (game_t * g)
     /*
      * paddle bounce
      */
+#define PADDLEHALFWIDTH 1.0
     i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
-    if (fabs (g->ball[0].pos[1]) > 8.0
-	&& fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
+    if (fabs (g->ball[0].pos[1]) >= 8.0 && fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
       {
-	  g->ball[0].vel[1] +=
-	      VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
-	  g->ball[0].vel[0] *=
-	      VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+	  printf("DOING!\n");
+	  g->ball[0].vel[1] += VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
+	  g->ball[0].vel[0] *= VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
 	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
+#undef PADDLEHALFWIDTH
 
   GOAL:
     /*
