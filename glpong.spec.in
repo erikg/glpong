@@ -1,13 +1,13 @@
 Summary: OpenGL Pong.
-Name: glpong
-Version: 1.1
+Name: @PACKAGE@
+Version: @VERSION@
 Release: 1
 Copyright: GPL
 Vendor: Erik Greenwald
 Url: http://math.smsu.edu/~erik/software.php?id=72
 Group: Amusements/Games
-Source0: http://math.smsu.edu/~erik/files/glpong-1.1.tar.gz
-Buildroot: /usr/src/redhat/BUILD/glpong
+Source0: http://math.smsu.edu/~erik/files/@PACKAGE@-@VERSION@.tar.gz
+Buildroot: /usr/src/redhat/BUILD/@PACKAGE@
 
 %description
 An implementation of the classic game 'Pong' using OpenGL, SDL, SDL_image, and
@@ -23,15 +23,15 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin
-mkdir -p $RPM_BUILD_ROOT/usr/share/glpong
+mkdir -p $RPM_BUILD_ROOT/usr/share/@PACKAGE@
 make DESTDIR=$RPM_BUILD_ROOT install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-/usr/bin/glpong
-/usr/share/glpong/*
+/usr/bin/@PACKAGE@
+/usr/share/@PACKAGE@/*
 
 %changelog
 

@@ -1,5 +1,6 @@
 AC_INIT(src/main.c)
 AC_CANONICAL_TARGET
+AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(glpong, 1.1)
 
 AC_PROG_CC
@@ -24,5 +25,5 @@ case $target in
 
 CFLAGS="$CFLAGS -DDATADIR=\\\"$MYDATADIR\\\" -DIMGEXT=\\\"$IMGEXT\\\""
 
-AC_OUTPUT(Makefile data/Makefile src/Makefile)
+AC_OUTPUT(Makefile data/Makefile src/Makefile glpong.spec)
 
