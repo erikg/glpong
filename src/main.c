@@ -1,7 +1,7 @@
 
 /*****************************************************************************
  * glpong - opengl/sdl game of the original video game; pong.                *
- * Copyright (C) 2001-2003 Erik Greenwald <erik@smluc.org>                   *
+ * Copyright (C) 2001-2004 Erik Greenwald <erik@smluc.org>                   *
  *                                                                           *
  * This program is free software; you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.20 2004/04/17 14:46:23 erik Exp $ 
+ * $Id: main.c,v 1.21 2004/04/18 01:39:29 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -76,7 +76,7 @@ int
 doversion (char *name)
 {
     printf ("\
-%s (%s) Copyright (C) 2001-2003 Erik Greenwald <erik@smluc.org>\n\
+%s (%s) Copyright (C) 2001-2004 Erik Greenwald <erik@smluc.org>\n\
 %s comes with ABSOLUTELY NO WARRANTY. Please read the GPL for details.\n\n", name, PACKAGE, VERSION);
     return 0;
 }
@@ -136,7 +136,7 @@ main (int argc, char **argv)
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
-    SDL_WM_SetCaption ("glpong (C) 2001-2003 Erik Greenwald", "glpong");
+    SDL_WM_SetCaption ("glpong (C) 2001-2004 Erik Greenwald", "glpong");
 
     g = game_init ();
 
