@@ -1,0 +1,42 @@
+
+GL pong.      A reimplementation of PONG using OpenGL and SDL
+Copyright (C) 2001 Erik Greenwald <erik@smluc.org>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Installation:
+	standard...
+	 ./configure && make install
+
+Deinstallation:
+	Keep a copy around, cd into the glpong directory, run "make deinstall"
+
+Playing the game:
+	The object is to get the ball past the machine without letting it get
+	the ball past you. Ping pong... :) The near paddle is you, the far one
+	is the machine.
+
+	Controls:
+		The left arrow key moves your paddle to the left
+		The right arrow key moves your paddle to the right (surprised?)
+		The escape key exits the program
+		F10 captures a screenshot and saves it as screenshot.bmp
+
+	Command line arguments:
+		If there are any arguments at all, it goes fullscreen.
+
+Reporting BUGS:
+	Email erik@smluc.org and stick 'glpong' in the subject. 
+
