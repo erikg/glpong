@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.h,v 1.7 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: video.h,v 1.8 2004/04/25 17:40:02 erik Exp $ 
  */
 
 #ifndef __VIDEO_H_
@@ -27,7 +27,7 @@
 
 #include "game.h"
 
-void video_init ();
+void video_init (int width, int height);
 void video_do (game_t * g);
 void video_screenshot ();
 unsigned int video_load_texture (char *file, unsigned int *texid);

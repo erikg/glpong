@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.21 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: main.c,v 1.22 2004/04/25 17:40:02 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -100,6 +100,7 @@ int
 main (int argc, char **argv)
 {
     game_t *g;
+    int width, height;
     char buf[BUFSIZ], *name = *argv;
     int c, fullscreen = 0;
 
@@ -130,9 +131,11 @@ main (int argc, char **argv)
 	    dohelp (name);
 	    return 2;
 	}
+    width = 640;
+    height = 480;
 
     SDL_Init (SDL_INIT_VIDEO);
-    SDL_SetVideoMode (640, 480, 32, SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
+    SDL_SetVideoMode (width, height, 32, SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
@@ -145,7 +148,7 @@ main (int argc, char **argv)
     text_init ();
     timer_init ();
     sound_init ();
-    video_init ();
+    video_init (width, height);
 
     map_new ();
     main_add_map ();
