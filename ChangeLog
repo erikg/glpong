@@ -1,22 +1,38 @@
 
-May ??, 2004:
-	* release 1.2
-	* Improved text rendering
-	* Improved collision detection
-	* -g option to set window geometry
-	* Build system improvements
-	* Improved ball emission algorithm
+20050105:
+	* add /usr/local and /sw to paths, if they exist.
 
-Jan 03, 2004:
-	* release 1.1
-	* MacosX port
-	* Changed from SDL_Mixer to OpenAL
-	* Changed from SDL_Image to libpng
-	* Endian fixes (should work on big endian machines now)
-	* Gameplay tweaks
-	* Performance statistics (printed to stdout on program termination)
-	* Initial manpage
-	* RPM and MacOSX bundle support
+20041012:
+	* code fixes for -W type flags.
 
-Jun 02 2001:
-	* first release
+20040815:
+	* improved ball emission.
+
+20040725:
+	* fixed memory leak by freeing texture.
+
+20040511:
+	* erm, determinants added?
+	* added -g flag for setting window geometry.
+
+20040425:
+	* ortho mode for text (better rendering).
+	* better text centering.
+	* resolution genericized.
+
+20040303:
+	* minor fixes for MacOSX.3.
+
+20040103:
+	* release 1.1.
+	* MacosX port.
+	* Changed from SDL_Mixer to OpenAL.
+	* Changed from SDL_Image to libpng.
+	* Endian fixes (should work on big endian machines now).
+	* Gameplay tweaks.
+	* Performance statistics (printed to stdout on program termination).
+	* Initial manpage.
+	* RPM and MacOSX bundle support.
+
+20010602:
+	* first release.
