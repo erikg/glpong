@@ -1,11 +1,14 @@
 
+next release
+	* better text
+	* abstract cd
+
 future
 	* deb generator
-	* abstract cd
 	* menu
 	* highscores
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.10 2004/01/03 14:58:28 erik Exp $
+$Id: TODO,v 1.11 2004/04/04 14:59:18 erik Exp $
 
