@@ -25,5 +25,5 @@ case $target in
 
 CFLAGS="$CFLAGS -DDATADIR=\\\"$MYDATADIR\\\" -DIMGEXT=\\\"$IMGEXT\\\""
 
-AC_OUTPUT(Makefile data/Makefile src/Makefile glpong.spec)
+AC_OUTPUT(Makefile data/Makefile src/Makefile glpong.spec Info.plist version.plist)
 
