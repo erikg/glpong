@@ -3,7 +3,6 @@
 
 #include "game.h"
 
-void ai_init (game_t * g);
 void ai_do (game_t * g);
 
 #endif

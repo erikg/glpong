@@ -1,17 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <SDL.h>
-#include <GL/gl.h>
 
+#include "ai.h"
 #include "game.h"
 #include "input.h"
 #include "physics.h"
+#include "sound.h"
+#include "text.h"
+#include "timer.h"
 #include "video.h"
-
 
 int
 main (int argc, char **argv)
 {
     game_t *g;
+
+    if(argc>1)printf("%s: I don't do parms yet\n", argv[0]);
 
     SDL_Init (SDL_INIT_VIDEO);
     if (argc == 1)
@@ -26,13 +31,12 @@ main (int argc, char **argv)
 
     g = game_init ();
 
-    ai_init (g);
-    input_init (g);
-    physics_init (g);
+    input_init ();
+    physics_init ();
     text_init ();
     timer_init ();
 	sound_init();
-    video_init (g);
+    video_init ();
 
     while (input_do (g))
     {

@@ -3,7 +3,7 @@
 
 #include "game.h"
 
-void physics_init (game_t * g);
+void physics_init ();
 void physics_do (game_t * g);
 
 #endif

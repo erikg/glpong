@@ -3,7 +3,7 @@
 
 #include "game.h"
 
-void input_init (game_t * g);
+void input_init ();
 int input_do (game_t * g);
 
 #endif

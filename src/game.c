@@ -1,6 +1,19 @@
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include "game.h"
+
+	/* define pi if it's not already defined */
+#ifndef M_PI
+# ifdef PI
+#   define M_PI PI
+# else
+#   define M_PI 3.14159265358979323846
+# endif
+#endif
 
 game_t *
 game_init ()

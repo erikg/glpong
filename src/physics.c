@@ -16,7 +16,7 @@ sign (float x)
 }
 
 void
-physics_init (game_t * g)
+physics_init ()
 {
     return;
 }
@@ -68,9 +68,11 @@ physics_do (game_t * g)
     }
 
     if(fabs(g->ballJ)<.3)
+    {
 	if(g->ballJ<0)g->ballJ=-.3;
 	else
 		g->ballJ=.3;
+    }
 
     if(g->ballJ>100)g->ballJ=100;
     if(g->ballJ<-100)g->ballJ=-100;

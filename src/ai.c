@@ -4,12 +4,6 @@
 #include "timer.h"
 
 void
-ai_init (game_t * g)
-{
-    return;
-}
-
-void
 ai_do (game_t * g)
 {
     /*

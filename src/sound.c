@@ -1,4 +1,5 @@
-#include "SDL_mixer.h"
+#include <unistd.h>
+#include <SDL_mixer.h>
 
 #include "sound.h"
 

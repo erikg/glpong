@@ -1,11 +1,13 @@
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <GL/gl.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include "text.h"
+#include "video.h"
 
-int textid;
+unsigned int textid;
 
 	/*
 	 * evil magic bound to our texture 
@@ -59,7 +61,6 @@ text_draw_static (int id, float x, float y, float w, float h)
 void
 text_draw_string (char *s, float x, float y, float w, float h)
 {
-    float t = 0;
     float mlen = w / (float)strlen (s);
 
     glEnable (GL_TEXTURE_2D);

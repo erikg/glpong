@@ -1,15 +1,17 @@
 #include <SDL.h>
+#include <string.h>
 
-#include "input.h"
 #include "game.h"
+#include "input.h"
 #include "timer.h"
+#include "video.h"
 
 static char state[SDLK_LAST];
 
 void
-input_init (game_t * g)
+input_init ()
 {
-	memset(state,0,SDLK_LAST);
+    memset(state,0,SDLK_LAST);
     return;
 }
 
@@ -29,11 +31,9 @@ input_do (game_t * g)
 	    else
 		state[ev.key.keysym.sym] = 1;
 	    break;
-
 	case SDL_KEYUP:
 	    state[ev.key.keysym.sym] = 0;
 	    break;
-	default:
 	}
     if (state[SDLK_RIGHT])
 	g->playerX += 4.0 * timer_delta ();

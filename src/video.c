@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <GL/gl.h>
@@ -133,7 +136,7 @@ form_reflmap ()
 }
 
 void
-video_init (game_t * g)
+video_init ()
 {
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
@@ -241,7 +244,8 @@ static void
 flip_surface (SDL_Surface * s)
 {
     int x;
-    Uint8 buf[s->pitch];
+    Uint8 *buf;
+    buf = (Uint8 *)malloc(s->pitch);
 
     for (x = 0; x < (480 / 2); x++)
     {
