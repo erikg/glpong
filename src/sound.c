@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.15 2003/07/29 15:38:15 erik Exp $ 
+ * $Id: sound.c,v 1.16 2003/07/29 15:39:53 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -95,9 +95,12 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     float zero[4] = { 0, 0, 0, 0 };
     float fwd[4] = { 0, 1, 0, 0 };
 
-    alSourcefv (wave[sound], AL_POSITION, noisepos);
-    alListenerfv (AL_POSITION, playerpos);
-    alListenerfv (AL_ORIENTATION, playeror);
+    if (noisepos)
+	alSourcefv (wave[sound], AL_POSITION, noisepos);
+    if (playerpos)
+	alListenerfv (AL_POSITION, playerpos);
+    if (playeror)
+	alListenerfv (AL_ORIENTATION, playeror);
 
     alSourcefv (source, AL_POSITION, zero);
     alListenerfv (AL_POSITION, zero);
