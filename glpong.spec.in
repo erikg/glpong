@@ -32,6 +32,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 /usr/bin/@PACKAGE@
 /usr/share/@PACKAGE@/*
+/usr/man/man1/@PACKAGE@.1*
 
 %changelog
 
