@@ -1,7 +1,9 @@
 AC_INIT(src/main.c)
+AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
-AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(glpong, 1.1)
+
+AM_CONFIG_HEADER(config.h)
 
 AC_PROG_CC
 AC_PROG_INSTALL
@@ -18,10 +20,9 @@ AM_PATH_PNG(,AC_ERROR(Cannot find libpng.))
 AC_SUBST(PNG_CFLAGS)
 AC_SUBST(PNG_LIBS)
 
-AM_PATH_OPENAL(,AC_ERROR(Cannot find OpenAL. Get it from http://www.openal.org))
+AM_PATH_OPENAL(AC_DEFINE(HAVE_SOUND,,OpenAL exists),AC_MSG_WARN(Cannot find OpenAL. Get it from http://www.openal.org))
 AC_SUBST(AL_CFLAGS)
 AC_SUBST(AL_LIBS)
-AC_DEFINE(HAVE_SOUND,,Always enable sound)
 
 case $target in
 	*-apple-darwin*)
