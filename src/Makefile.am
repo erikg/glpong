@@ -24,3 +24,6 @@ noinst_HEADERS =\
 	video.h
 
 LDADD = 
+
+indent:
+	for a in *.[ch]; do indent $$a ; done

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.11 2003/07/19 19:18:41 erik Exp $ 
+ * $Id: main.c,v 1.12 2003/07/19 19:20:48 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -36,19 +36,21 @@
 #include "timer.h"
 #include "video.h"
 
-void main_add_map()
+void
+main_add_map ()
 {
-	int i;
-	float map[4][3][3] = {
-		{{4.2, -.3, -9},{4.2, -.3, 9},{4.0, -.3, 9}},
-		{{4.2, -.3, 9},{4.0, -.3, 9},{4.0, -.3, -9}},
-		{{-4.2, -.3, -9},{-4.2, -.3, 9},{-4.0, -.3, 9}},
-		{{-4.2, -.3, 9},{-4.0, -.3, 9},{-4.0, -.3, -9}}
-	};
-	for(i=0;i<4;++i)
-		map_add_tri(MAP_WALL, map[i]);
-	return;
-}	
+    int i;
+    float map[4][3][3] = {
+	{{4.2, -.3, -9}, {4.2, -.3, 9}, {4.0, -.3, 9}},
+	{{4.2, -.3, 9}, {4.0, -.3, 9}, {4.0, -.3, -9}},
+	{{-4.2, -.3, -9}, {-4.2, -.3, 9}, {-4.0, -.3, 9}},
+	{{-4.2, -.3, 9}, {-4.0, -.3, 9}, {-4.0, -.3, -9}}
+    };
+
+    for (i = 0; i < 4; ++i)
+	map_add_tri (MAP_WALL, map[i]);
+    return;
+}
 
 int
 main (int argc, char **argv)
@@ -79,8 +81,8 @@ main (int argc, char **argv)
     sound_init ();
     video_init ();
 
-	map_new();
-	main_add_map();
+    map_new ();
+    main_add_map ();
 
     while (input_do (g))
       {

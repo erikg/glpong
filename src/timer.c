@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.9 2003/06/27 13:58:37 erik Exp $ 
+ * $Id: timer.c,v 1.10 2003/07/19 19:20:48 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -34,9 +34,10 @@ static int frames = 0, oframes = 0;
 char *
 timer_report (char *buf)
 {
-    double cpuseconds = (double) (clock () - clock0) / (double) CLOCKS_PER_SEC;
+    double cpuseconds =
+	(double) (clock () - clock0) / (double) CLOCKS_PER_SEC;
     double wallseconds = (nowtime - firsttime) / 1000.0;
-    double avefps = (double)oframes/(double)wallseconds;
+    double avefps = (double) oframes / (double) wallseconds;
 
     snprintf (buf, BUFSIZ, "\
 average fps:         %f\n\
@@ -45,7 +46,7 @@ max fps:             %f\n\
 seconds in game:     %f\n\
 seconds of cpu time: %f\n\
 %% cpu usage:        %f\n\
-Max theoretical FPS: %f\n", (double) oframes / (double) wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes/cpuseconds);
+Max theoretical FPS: %f\n", (double) oframes / (double) wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes / cpuseconds);
 
     return buf;
 }
@@ -55,7 +56,7 @@ timer_init ()
 {
     nowtime = SDL_GetTicks ();
     firsttime = nowtime;
-    clock0 = clock();
+    clock0 = clock ();
     timer_update ();
     return;
 }

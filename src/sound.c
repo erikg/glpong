@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.11 2003/06/28 17:52:16 erik Exp $ 
+ * $Id: sound.c,v 1.12 2003/07/19 19:20:48 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -40,21 +40,22 @@ void
 sound_load (ALuint id, char *name)
 {
     char filename[BUFSIZ];
-    Uint32 len=0, i;
-    Uint16 *buf=NULL;
-    SDL_AudioSpec spec,*spec2;
+    Uint32 len = 0, i;
+    Uint16 *buf = NULL;
+    SDL_AudioSpec spec, *spec2;
 
-    memset(&spec,0,sizeof(spec));
-    spec.format=AUDIO_S16MSB;
-    spec.channels=1;
+    memset (&spec, 0, sizeof (spec));
+    spec.format = AUDIO_S16MSB;
+    spec.channels = 1;
 
     snprintf (filename, BUFSIZ, "%s/%s", DATADIR, name);
-    if ((spec2=SDL_LoadWAV (filename, &spec, (Uint8 **)&buf, &len)) == NULL)
+    if ((spec2 =
+	 SDL_LoadWAV (filename, &spec, (Uint8 **) & buf, &len)) == NULL)
       {
 	  printf ("Unable to load sound %s\n", filename);
       }
-    for(i=0;i<len/2;++i)
-	    buf[i]=SDL_SwapLE16(buf[i]);
+    for (i = 0; i < len / 2; ++i)
+	buf[i] = SDL_SwapLE16 (buf[i]);
     alBufferData (id, AL_FORMAT_MONO16, buf, len, spec2->freq);
     free (buf);
     return;
@@ -77,12 +78,12 @@ sound_init ()
 
     alGenSources (1, &source);
 
-    alGenBuffers(2,wave);
+    alGenBuffers (2, wave);
     sound_load (wave[SOUND_BOINK], "/boink.wav");
     sound_load (wave[SOUND_NNGNGNG], "/lose.wav");
 
     alDistanceModel (AL_DISTANCE_MODEL);
-    alSourcef(source, AL_REFERENCE_DISTANCE, 22.0);
+    alSourcef (source, AL_REFERENCE_DISTANCE, 22.0);
 
     return;
 }
@@ -90,8 +91,9 @@ sound_init ()
 void
 sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
 {
-	float zero[4] = {0,0,0,0};
-	float fwd[4] = {0,1,0,0};
+    float zero[4] = { 0, 0, 0, 0 };
+    float fwd[4] = { 0, 1, 0, 0 };
+
 /*
     alSourcefv (wave[sound], AL_POSITION, noisepos);
     alListenerfv (AL_POSITION, playerpos);
@@ -100,9 +102,9 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     alSourcefv (source, AL_POSITION, zero);
     alListenerfv (AL_POSITION, zero);
     alListenerfv (AL_ORIENTATION, fwd);
-    alSourcei(source, AL_BUFFER, wave[sound]);
-    alSourcei(source, AL_GAIN, 1);
-    alSourcei(source, AL_LOOPING, 0);
+    alSourcei (source, AL_BUFFER, wave[sound]);
+    alSourcei (source, AL_GAIN, 1);
+    alSourcei (source, AL_LOOPING, 0);
     alSourcePlay (source);
     return;
 }

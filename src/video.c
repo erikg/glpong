@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.12 2003/07/03 06:13:53 erik Exp $ 
+ * $Id: video.c,v 1.13 2003/07/19 19:20:48 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -34,7 +34,7 @@
 #include "timer.h"
 #include "video.h"
 
-Uint32 rmask,gmask,bmask,amask;
+Uint32 rmask, gmask, bmask, amask;
 
 GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
 char buf[1024];

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: map.h,v 1.1 2003/07/19 19:08:24 erik Exp $
+ * $Id: map.h,v 1.2 2003/07/19 19:20:48 erik Exp $
  */
 
 #define MAP_WALL 0
@@ -27,11 +27,10 @@
 #define MAP_LAST 2
 
 	/* wipes out existing map */
-void map_new();	
+void map_new ();
 
 	/* adds a single triangle to the map */
-int map_add_tri(int type, float v[3][3]);
+int map_add_tri (int type, float v[3][3]);
 
 	/* apply <func> to each vertex in <type> list */
-int map_map_tri(int type, void (*func)(float v[3][3]));
-
+int map_map_tri (int type, void (*func) (float v[3][3]));

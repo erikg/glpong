@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: map.c,v 1.1 2003/07/19 19:08:24 erik Exp $
+ * $Id: map.c,v 1.2 2003/07/19 19:20:48 erik Exp $
  */
 
 #include <stdio.h>
@@ -30,39 +30,46 @@
 
 struct _ll
 {
-	struct _ll *next;
-	void *data;
-} *map[MAP_LAST];
+    struct _ll *next;
+    void *data;
+}
+*map[MAP_LAST];
 
 	/* wipes out existing map */
-void map_new()
+void
+map_new ()
 {
-	int i;
-	for(i=0;i<MAP_LAST;++i)
-	{
-		/* memleak, need proper clearing */
-		map[i]=NULL;
-	}
-	return;
-}	
+    int i;
+
+    for (i = 0; i < MAP_LAST; ++i)
+      {
+	  /* memleak, need proper clearing */
+	  map[i] = NULL;
+      }
+    return;
+}
 
 	/* adds a single triangle to the map */
-int map_add_tri(int type, float v[3][3])
+int
+map_add_tri (int type, float v[3][3])
 {
-	struct _ll *l = (struct _ll *)malloc(sizeof(struct _ll));
-	if(l==NULL)return -1;
-	l->data=memdup(v,sizeof(float)*3*3);
-	l->next=map[type];
-	map[type]=l;
-	return 0;
+    struct _ll *l = (struct _ll *) malloc (sizeof (struct _ll));
+
+    if (l == NULL)
+	return -1;
+    l->data = memdup (v, sizeof (float) * 3 * 3);
+    l->next = map[type];
+    map[type] = l;
+    return 0;
 }
 
 	/* apply <func> to each vertex in <type> list */
-int map_map_tri(int type, void (*func)(float v[3][3]))
+int
+map_map_tri (int type, void (*func) (float v[3][3]))
 {
-	struct _ll *l;
-	for(l=map[type];l;l=l->next)
-		func(l->data);
-	return 0;
-}
+    struct _ll *l;
 
+    for (l = map[type]; l; l = l->next)
+	func (l->data);
+    return 0;
+}
