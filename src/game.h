@@ -19,17 +19,23 @@
  ****************************************************************************/
 
 /*
- * $Id: game.h,v 1.6 2003/07/24 15:57:22 erik Exp $ 
+ * $Id: game.h,v 1.7 2003/07/25 18:20:19 erik Exp $ 
  */
 
 #ifndef __GAME_H_
 #define __GAME_H_
 
+typedef struct ball_s
+{
+	float pos[3], vel[3];
+	float radius;
+} ball_t;
+
 typedef struct game_s
 {
     float playerX;
     float machineX;
-    float ball_pos[3], ball_vel[3];
+    ball_t ball[1];
     int playerscore, machinescore;
 }
 game_t;

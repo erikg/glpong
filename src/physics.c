@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.10 2003/07/24 15:57:22 erik Exp $ 
+ * $Id: physics.c,v 1.11 2003/07/25 18:20:19 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -43,6 +43,8 @@ physics_init ()
 void
 physics_do (game_t * g)
 {
+	float ballvel = sqrt( g->ball->vel[0]*g->ball->vel[0]+ g->ball->vel[1]*g->ball->vel[1]+ g->ball->vel[2]*g->ball->vel[2]);
+
 	/* keep the paddles on the grid */
     if (g->machineX > 3)
 	g->machineX = 3;
@@ -54,13 +56,13 @@ physics_do (game_t * g)
 	g->playerX = -3;
 
 	/* wall bounce */
-    if (fabs (g->ball_pos[0]) > 4.0 && (sign (g->ball_pos[0]) == sign (g->ball_vel[1])))
-	g->ball_vel[1] *= -1;
+    if (fabs (g->ball->pos[0]) > 4.0 && (sign (g->ball->pos[0]) == sign (g->ball->vel[1])))
+	g->ball->vel[1] *= -1;
 
     	/* goal made */
-    if (g->ball_pos[1] > 8.0 && g->ball_vel[0] > 0)
+    if (g->ball->pos[1] > 8.0 && g->ball->vel[0] > 0)
       {
-	  if (fabs (g->playerX - g->ball_pos[0]) > 1.0)
+	  if (fabs (g->playerX - g->ball->pos[0]) > 1.0)
 	    {
 		g->machinescore++;
 		game_newball (g);
@@ -69,15 +71,15 @@ physics_do (game_t * g)
 	    }
 	  else
 	    {
-		g->ball_vel[1] += VELAMP * -sin ((g->playerX - g->ball_pos[0]));
-		g->ball_vel[0] *= VELAMP * -cos (1 * (g->playerX - g->ball_pos[0]));
+		g->ball->vel[1] += VELAMP * -sin ((g->playerX - g->ball->pos[0]));
+		g->ball->vel[0] *= VELAMP * -cos (1 * (g->playerX - g->ball->pos[0]));
 		sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	    }
       }
 
-    if (g->ball_pos[1] < -8.0 && g->ball_vel[0] < 0)
+    if (g->ball->pos[1] < -8.0 && g->ball->vel[0] < 0)
       {
-	  if (fabs (g->machineX - g->ball_pos[0]) > 1.0)
+	  if (fabs (g->machineX - g->ball->pos[0]) > 1.0)
 	    {
 		g->playerscore++;
 		game_newball (g);
@@ -85,21 +87,21 @@ physics_do (game_t * g)
 	    }
 	  else
 	    {
-		g->ball_vel[1] += VELAMP * -sin ((g->machineX - g->ball_pos[0]));
-		g->ball_vel[0] *= -VELAMP * cos (1 * (g->machineX - g->ball_pos[0]));
+		g->ball->vel[1] += VELAMP * -sin ((g->machineX - g->ball->pos[0]));
+		g->ball->vel[0] *= -VELAMP * cos (1 * (g->machineX - g->ball->pos[0]));
 		sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	    }
       }
 
     	/* cap ball velocity */
-    if (g->ball_vel[0] > MAXVEL)
-	g->ball_vel[0] = MAXVEL;
-    if (g->ball_vel[0] < -MAXVEL)
-	g->ball_vel[0] = -MAXVEL;
+    if (g->ball->vel[0] > MAXVEL)
+	g->ball->vel[0] = MAXVEL;
+    if (g->ball->vel[0] < -MAXVEL)
+	g->ball->vel[0] = -MAXVEL;
 
     	/* update ball location */
-    g->ball_pos[0] += g->ball_vel[1] * timer_delta ();
-    g->ball_pos[1] += g->ball_vel[0] * timer_delta ();
+    g->ball->pos[0] += g->ball->vel[1] * timer_delta ();
+    g->ball->pos[1] += g->ball->vel[0] * timer_delta ();
 
     return;
 }
