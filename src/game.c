@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.c,v 1.19 2004/06/20 00:12:30 erik Exp $ 
+ * $Id: game.c,v 1.20 2004/08/15 18:39:34 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -64,11 +64,22 @@ game_newball (game_t * g)
 {
     float angle;
 
-    do
-    {
-	angle = (float)rand () * (2.0 * M_PI / (float)RAND_MAX);
-    }
-    while (sin (angle) > INITCOS);
+    /* 
+     * the puck emission would be towards one of the players relatively
+     * aggressively, so it doesn't bounce side to side too much and get
+     * boring...
+     *
+     * Probably a good heuristic is not to be any further than 45 degrees from
+     * the play line... so our emission range would be (in radians)
+     * [pi/4,3pi/4] and [5pi/4,7pi/4], the second being equilveant to
+     * [-pi/4,-3pi/4]. With a single sweep being pi/2, what we can do is get
+     * a random number between 0 and pi, and subtract pi/2 from that, resulting
+     * in a range of [-pi/4,pi/4]. We can then use sign*(range + pi/4) to get
+     * the output angle. 
+     */
+    angle = ((float)rand()/(float)RAND_MAX - 0.5) * M_PI;
+    angle = (angle>0?1:-1) * (fabs(angle) + M_PI/4.0);
+
     g->ball->pos[0] = 0.0;
     g->ball->pos[1] = 0.0;
     g->ball->pos[2] = 0.0;
