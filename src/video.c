@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.25 2004/01/01 20:20:25 erik Exp $ 
+ * $Id: video.c,v 1.26 2004/01/02 12:31:00 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -53,9 +53,9 @@ draw_paddle (int reflective, float x)
     left = 0.0833333333333333 * x + .25;
     right = 0.0833333333333333 * x + .75;
     if (reflective)
-      {
-	  glEnable (GL_TEXTURE_2D);
-      }
+    {
+	glEnable (GL_TEXTURE_2D);
+    }
     glBindTexture (GL_TEXTURE_2D, refl);
     glBegin (GL_TRIANGLE_STRIP);
     glTexCoord2d (left, 1);
@@ -122,41 +122,43 @@ video_load_texture (char *file, unsigned int *texid)
     snprintf (buf, BUFSIZ, "%s/%s.png", DATADIR, file);
     t = image_load (buf, &width, &height, &bpp);
     if (t == NULL)
-      {
-	  printf ("couldn't read %s: %s\n", buf, image_error ());
-	  snprintf (buf, BUFSIZ, "../data/%s.png", file);
-	  t = image_load (buf, &width, &height, &bpp);
-      }
+    {
+	printf ("couldn't read %s: %s\n", buf, image_error ());
+	snprintf (buf, BUFSIZ, "../data/%s.png", file);
+	t = image_load (buf, &width, &height, &bpp);
+    }
     if (t == NULL)
-      {
-	  printf ("couldn't read %s: %s\n", buf, image_error ());
-	  snprintf (buf, BUFSIZ, "data/%s.png", file);
-	  t = image_load (buf, &width, &height, &bpp);
-      }
+    {
+	printf ("couldn't read %s: %s\n", buf, image_error ());
+	snprintf (buf, BUFSIZ, "data/%s.png", file);
+	t = image_load (buf, &width, &height, &bpp);
+    }
     if (t == NULL)
-      {
-	  printf ("couldn't read %s: %s\n", buf, image_error ());
-	  fprintf (stderr, "Cannot load texture: %s\nAborting...\n", file);
-	  SDL_Quit ();
-	  exit (-1);
-      }
-    switch(bpp){
-	    case 4:
-		    type = GL_RGBA;
-		    break;
-	    case 3:
-		    type = GL_RGB;
-		    break;
-	    default:
-		    printf("Unknown depth: %d (reading %s)\n", bpp, file);
-		    exit(-1);
+    {
+	printf ("couldn't read %s: %s\n", buf, image_error ());
+	fprintf (stderr, "Cannot load texture: %s\nAborting...\n", file);
+	SDL_Quit ();
+	exit (-1);
+    }
+    switch (bpp)
+    {
+    case 4:
+	type = GL_RGBA;
+	break;
+    case 3:
+	type = GL_RGB;
+	break;
+    default:
+	printf ("Unknown depth: %d (reading %s)\n", bpp, file);
+	exit (-1);
     }
     glBindTexture (GL_TEXTURE_2D, *texid);
     glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, type, GL_UNSIGNED_BYTE, t);
+    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, type,
+	GL_UNSIGNED_BYTE, t);
     return *texid;
 }
 
@@ -217,30 +219,30 @@ static void
 drawtri (struct map_tri *t)
 {
     switch (t->type)
-      {
-      case MAP_WALL:
-	  if (curcolor != 0xff0000)
-	    {
-		curcolor = 0xff0000;
-		glColor3f (1, 0, 0);
-	    }
-	  glVertex3fv (t->v[0]);
-	  glVertex3fv (t->v[1]);
-	  glVertex3fv (t->v[2]);
-	  break;
-      case MAP_GATE:
+    {
+    case MAP_WALL:
+	if (curcolor != 0xff0000)
+	{
+	    curcolor = 0xff0000;
+	    glColor3f (1, 0, 0);
+	}
+	glVertex3fv (t->v[0]);
+	glVertex3fv (t->v[1]);
+	glVertex3fv (t->v[2]);
+	break;
+    case MAP_GATE:
 #ifdef DRAW_GATE
-	  if (curcolor != 0x00ff00)
-	    {
-		curcolor = 0x00ff00;
-		glColor3f (0, .5, 0);
-	    }
-	  glVertex3fv (t->v[0]);
-	  glVertex3fv (t->v[1]);
-	  glVertex3fv (t->v[2]);
+	if (curcolor != 0x00ff00)
+	{
+	    curcolor = 0x00ff00;
+	    glColor3f (0, .5, 0);
+	}
+	glVertex3fv (t->v[0]);
+	glVertex3fv (t->v[1]);
+	glVertex3fv (t->v[2]);
 #endif
-	  break;
-      }
+	break;
+    }
     return;
 }
 
@@ -325,13 +327,12 @@ flip_surface (SDL_Surface * s)
     buf = (Uint8 *) malloc (s->pitch);
 
     for (x = 0; x < (480 / 2); x++)
-      {
-	  memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
-	  memcpy ((Uint8 *) (s->pixels + x * s->pitch),
-		  (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
-	  memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf,
-		  s->pitch);
-      }
+    {
+	memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
+	memcpy ((Uint8 *) (s->pixels + x * s->pitch),
+	    (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
+	memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf, s->pitch);
+    }
     return;
 }
 

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: image.c,v 1.4 2004/01/01 20:20:25 erik Exp $
+ * $Id: image.c,v 1.5 2004/01/02 12:31:00 erik Exp $
  */
 
 #include <stdio.h>
@@ -35,8 +35,8 @@
 #include "image.h"
 
 char image_error_string[BUFSIZ];
-void *readpng(void *buf, int *width, int *height, int *bpp);
-void user_read_data(png_structp png_ptr, png_bytep data, png_size_t length);
+void *readpng (void *buf, int *width, int *height, int *bpp);
+void user_read_data (png_structp png_ptr, png_bytep data, png_size_t length);
 
 void *
 image_load (char *filename, int *width, int *height, int *bpp)
@@ -53,78 +53,84 @@ image_load (char *filename, int *width, int *height, int *bpp)
     close (fd);
     user_read_data (NULL, NULL, 0);
     if (size != sb.st_size)
-      {
-	  sprintf (image_error_string, "Bad read! (%s)\n", filename);
-	  free (buf);
-	  return NULL;
-      }
+    {
+	sprintf (image_error_string, "Bad read! (%s)\n", filename);
+	free (buf);
+	return NULL;
+    }
     if (!ispng (buf))
-      {
-	  sprintf (image_error_string, "%s is not a PNG", filename);
-	  return NULL;
-      }
+    {
+	sprintf (image_error_string, "%s is not a PNG", filename);
+	return NULL;
+    }
     image = readpng (buf, width, height, bpp);
     free (buf);
     return image;
 }
 
-char *image_error()
+char *
+image_error ()
 {
-	return image_error_string;
+    return image_error_string;
 }
 
 void
-user_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
 {
-	static int      bar = 0;
-	if (png_ptr == NULL)
-		bar = 0;
-	else
-		memcpy(data, (void *)(png_ptr->io_ptr) + bar, length);
-	bar += length;
-	return;
+    static int bar = 0;
+
+    if (png_ptr == NULL)
+	bar = 0;
+    else
+	memcpy (data, (void *)(png_ptr->io_ptr) + bar, length);
+    bar += length;
+    return;
 }
 
 int
-ispng(void *buf)
+ispng (void *buf)
 {
-	return !png_sig_cmp(buf, 0, 4);
+    return !png_sig_cmp (buf, 0, 4);
 }
 
 void *
-readpng(void *buf, int *width, int *height, int *bpp)
+readpng (void *buf, int *width, int *height, int *bpp)
 {
-	png_structp     png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	png_infop       info_ptr = png_create_info_struct(png_ptr);
-	png_bytepp	row_pointers;
-	void	*out;
-	int		i, pitch, channels, depth;
+    png_structp png_ptr =
+	png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    png_infop info_ptr = png_create_info_struct (png_ptr);
+    png_bytepp row_pointers;
+    void *out;
+    int i, pitch, channels, depth;
 
-	if (png_ptr == NULL || info_ptr == NULL) {
-		sprintf(image_error_string, "Bad allocation\n");
-		return NULL;
-	}
-	if (setjmp(png_jmpbuf(png_ptr))) {
-		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-		sprintf(image_error_string, "Woops!\n");
-		return NULL;
-	}
-	png_set_read_fn(png_ptr, buf, user_read_data);
+    if (png_ptr == NULL || info_ptr == NULL)
+    {
+	sprintf (image_error_string, "Bad allocation\n");
+	return NULL;
+    }
+    if (setjmp (png_jmpbuf (png_ptr)))
+    {
+	png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
+	sprintf (image_error_string, "Woops!\n");
+	return NULL;
+    }
+    png_set_read_fn (png_ptr, buf, user_read_data);
 
-	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_PACKING | PNG_TRANSFORM_BGR | PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_EXPAND, png_voidp_NULL);
-	pitch = png_get_rowbytes(png_ptr, info_ptr);
-	*width = png_get_image_width(png_ptr, info_ptr);
-	*height = png_get_image_height(png_ptr, info_ptr);
-	channels = png_get_channels(png_ptr, info_ptr);
-	depth = png_get_bit_depth(png_ptr, info_ptr);
-	*bpp = channels;
+    png_read_png (png_ptr, info_ptr,
+	PNG_TRANSFORM_PACKING | PNG_TRANSFORM_BGR | PNG_TRANSFORM_STRIP_16 |
+	PNG_TRANSFORM_EXPAND, png_voidp_NULL);
+    pitch = png_get_rowbytes (png_ptr, info_ptr);
+    *width = png_get_image_width (png_ptr, info_ptr);
+    *height = png_get_image_height (png_ptr, info_ptr);
+    channels = png_get_channels (png_ptr, info_ptr);
+    depth = png_get_bit_depth (png_ptr, info_ptr);
+    *bpp = channels;
 
-	row_pointers = png_get_rows(png_ptr, info_ptr);
+    row_pointers = png_get_rows (png_ptr, info_ptr);
 
-	out= malloc((*width)*(*height)*(*bpp));
-	for(i=0;i<info_ptr->height;++i)
-		memcpy(out+i*pitch, row_pointers[i], pitch);
-	png_destroy_read_struct(&png_ptr, &info_ptr, png_infopp_NULL);
-	return out;
+    out = malloc ((*width) * (*height) * (*bpp));
+    for (i = 0; i < info_ptr->height; ++i)
+	memcpy (out + i * pitch, row_pointers[i], pitch);
+    png_destroy_read_struct (&png_ptr, &info_ptr, png_infopp_NULL);
+    return out;
 }
-

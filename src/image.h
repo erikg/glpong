@@ -19,13 +19,13 @@
  ****************************************************************************/
 
 /*
- * $Id: image.h,v 1.4 2004/01/01 20:20:25 erik Exp $
+ * $Id: image.h,v 1.5 2004/01/02 12:31:00 erik Exp $
  */
 
 #ifndef IMAGE_H
 #define IMAGE_H
 
-void *image_load(char *filename, int *width, int *height, int *bpp);
-char *image_error(void);
+void *image_load (char *filename, int *width, int *height, int *bpp);
+char *image_error (void);
 
 #endif
