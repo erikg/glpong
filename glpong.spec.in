@@ -7,7 +7,7 @@ Vendor: Erik Greenwald
 Url: http://math.smsu.edu/~erik/software.php?id=72
 Group: Amusements/Games
 Source0: http://math.smsu.edu/~erik/files/@PACKAGE@-@VERSION@.tar.gz
-Buildroot: /usr/src/redhat/BUILD/@PACKAGE@
+Buildroot: /var/tmp/@PACKAGE@
 
 %description
 An implementation of the classic game 'Pong' using OpenGL, SDL, and OpenAL.
