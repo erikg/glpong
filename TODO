@@ -1,7 +1,6 @@
 
 next release
 	* fix sound (make it louder)
-	* fix 3bpp png endian issue
 
 future
 	* deb generator
@@ -11,5 +10,5 @@ future
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.8 2004/01/03 14:00:27 erik Exp $
+$Id: TODO,v 1.9 2004/01/03 14:01:50 erik Exp $
 
