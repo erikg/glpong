@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.33 2004/04/25 17:40:21 erik Exp $ 
+ * $Id: video.c,v 1.34 2004/04/25 22:57:15 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -314,26 +314,24 @@ video_do (game_t * g)
     glPopMatrix ();
     glColor3f (1, 1, 1);
     text_mode (display.width, display.height);
-    text_draw_static_ca (TEXT_MACHINE, display.width - 100,
-	display.height - 32, 100, 32);
-    text_draw_static_ca (TEXT_HUMAN, 100, display.height - 32, 112, 32);
-    text_draw_static_ca (TEXT_FPS, display.width / 2, 66, 60, 32);
 
-    sprintf (buf, "% 2d", g->player[MACHINE].score);
+    text_draw_static_ca (TEXT_MACHINE, display.width - 100, display.height - 32, 100, 32);
+    sprintf (buf, "%d", g->player[MACHINE].score);
     x = strlen (buf) * 32;
-    text_draw_string_ca (buf, display.width - 100, display.height - 32 * 2, x,
-	32);
+    text_draw_string_ca (buf, display.width - 100, display.height - 32 * 2, x, 32);
 
-    sprintf (buf, "% 2d", g->player[PLAYER].score);
+    text_draw_static_ca (TEXT_HUMAN, 100, display.height - 32, 112, 32);
+    sprintf (buf, "%d", g->player[PLAYER].score);
     x = strlen (buf) * 32;
     text_draw_string_ca (buf, 100, display.height - 32 * 2, x, 32);
 
-    sprintf (buf, "% .0f", timer_fps ());
+    text_draw_static_ca (TEXT_FPS, display.width / 2, 66, 60, 32);
+    sprintf (buf, "%d", (int)timer_fps ());
     x = strlen (buf) * 32;
     text_draw_string_ca (buf, display.width / 2, 32, x, 32);
+
     glEnable (GL_LIGHTING);
     reshape (display.width, display.height);
-
     SDL_GL_SwapBuffers ();
     return;
 }

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.22 2004/04/25 21:12:52 erik Exp $ 
+ * $Id: text.c,v 1.23 2004/04/25 22:57:15 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -104,11 +104,12 @@ text_draw_string (char *s, int x, int y, int w, int h)
 {
     int mlen = w / (int)strlen (s);
 
-    while (*s++)
+    while (*s)
     {
 	if (*s >= '0' && *s <= '9')
 	    text_draw_static (*s - '0', x, y, mlen, h);
 	x += mlen;
+	++s;
     }
     return;
 }
