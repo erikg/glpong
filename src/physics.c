@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.15 2003/07/28 14:48:37 erik Exp $ 
+ * $Id: physics.c,v 1.16 2003/07/29 15:38:15 erik Exp $ 
  */
 #include <stdio.h>
 #include <math.h>
@@ -64,23 +64,23 @@ physics_do (game_t * g)
     i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
     if (fabs (g->ball[0].pos[1]) > 8.0
 	&& fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
-    {
-	g->ball[0].vel[1] +=
-	    VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
-	g->ball[0].vel[0] *=
-	    VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
-	sound_play (SOUND_BOINK, NULL, NULL, NULL);
-    }
+      {
+	  g->ball[0].vel[1] +=
+	      VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
+	  g->ball[0].vel[0] *=
+	      VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
+      }
 
     /*
      * goal made 
      */
     if (fabs (g->ball[0].pos[1]) > 9.0)
-    {
-	g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
-	game_newball (g);
-	sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
-    }
+      {
+	  g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
+	  game_newball (g);
+	  sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
+      }
 
     /*
      * cap ball velocity 

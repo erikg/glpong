@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: map.c,v 1.5 2003/07/27 14:57:34 erik Exp $
+ * $Id: map.c,v 1.6 2003/07/29 15:38:15 erik Exp $
  */
 
 #include <stdio.h>
@@ -27,10 +27,12 @@
 #include <string.h>
 #include "map.h"
 
-struct _ll {
+struct _ll
+{
     struct _ll *next;
     void *data;
-} *map;
+}
+*map;
 
 	/*
 	 * wipes out existing map 
@@ -48,8 +50,8 @@ map_new ()
 int
 map_add_tri (int type, float v[3][3])
 {
-    struct _ll *l = (struct _ll *)malloc (sizeof (struct _ll));
-    struct map_tri *t = (struct map_tri *)malloc (sizeof (struct map_tri));
+    struct _ll *l = (struct _ll *) malloc (sizeof (struct _ll));
+    struct map_tri *t = (struct map_tri *) malloc (sizeof (struct map_tri));
 
     if (l == NULL || t == NULL)
 	return -1;
