@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.20 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: sound.c,v 1.21 2004/10/12 12:25:55 erik Exp $ 
  */
 
 #ifdef HAVE_CONFIG_H
@@ -69,17 +69,20 @@ sound_load (ALuint id, char *name)
 }
 
 static void *context_id;
-ALCdevice *dev;
+static ALCdevice *dev;
+static int have_al = 0;
 
 void
 sound_init ()
 {
-
+    if (have_al)
+	return;
     if ((dev = alcOpenDevice (NULL)) == NULL)
 	return;
     if ((context_id = alcCreateContext (dev, NULL)) == NULL)
     {
 	alcCloseDevice (dev);
+	have_al = 0;
 	return;
     }
     alcMakeContextCurrent (context_id);
@@ -93,14 +96,18 @@ sound_init ()
     alDistanceModel (AL_DISTANCE_MODEL);
     alSourcef (source, AL_REFERENCE_DISTANCE, 22.0);
 
+    have_al = 1;
     return;
 }
 
 void
 sound_close ()
 {
-    alcDestroyContext (context_id);
-    alcCloseDevice (dev);
+    if (have_al)
+    {
+	alcDestroyContext (context_id);
+	alcCloseDevice (dev);
+    }
     return;
 }
 
