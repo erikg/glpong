@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.h,v 1.12 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: game.h,v 1.13 2004/06/20 00:12:30 erik Exp $ 
  */
 
 #ifndef __GAME_H_
@@ -45,5 +45,6 @@ typedef struct game_s {
 
 game_t *game_init ();
 void game_newball (game_t * g);
+void game_end (game_t * g);
 
 #endif

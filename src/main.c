@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.25 2004/05/31 16:04:33 erik Exp $
+ * $Id: main.c,v 1.26 2004/06/20 00:12:30 erik Exp $
  */
 
 #include <stdio.h>
@@ -122,7 +122,7 @@ main (int argc, char **argv)
 	    fullscreen = SDL_FULLSCREEN;
 	    break;
 	case 'g':
-	    sscanf(optarg, "%dx%d", &width, &height);
+	    sscanf (optarg, "%dx%d", &width, &height);
 	    break;
 	case 'h':
 	    dohelp (name);
@@ -141,7 +141,7 @@ main (int argc, char **argv)
 
     SDL_Init (SDL_INIT_VIDEO);
     SDL_SetVideoMode (width, height, 32,
-		      SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
+	SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
@@ -166,6 +166,7 @@ main (int argc, char **argv)
 	physics_do (g);
 	video_do (g);
     }
+    game_end (g);
     sound_close ();
     printf ("%s\n", timer_report (buf));
     SDL_Quit ();

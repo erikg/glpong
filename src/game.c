@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.c,v 1.18 2004/06/20 00:02:19 erik Exp $ 
+ * $Id: game.c,v 1.19 2004/06/20 00:12:30 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -77,4 +77,11 @@ game_newball (game_t * g)
     g->ball->vel[2] = 0;
     g->ball->speed = INITVEL;
     g->ball->radius = .1;
+}
+
+void
+game_end (game_t * g)
+{
+    free (g);
+    return;
 }
