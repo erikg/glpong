@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.13 2003/07/19 19:20:48 erik Exp $ 
+ * $Id: video.c,v 1.14 2003/07/19 19:36:59 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -30,6 +30,7 @@
 #include <GL/gl.h>
 
 #include "game.h"
+#include "map.h"
 #include "text.h"
 #include "timer.h"
 #include "video.h"
@@ -207,6 +208,14 @@ video_init ()
 
 int angle = 0;
 
+static void drawtri(float v[3][3])
+{
+	glVertex3fv(v[0]);
+	glVertex3fv(v[1]);
+	glVertex3fv(v[2]);
+	return;
+}
+
 void
 video_do (game_t * g)
 {
@@ -256,16 +265,8 @@ video_do (game_t * g)
      * strips 
      */
     glColor3f (1, 0, 0);
-    glBegin (GL_QUADS);
-    glVertex3f (4.2, -.3, -9);
-    glVertex3f (4.2, -.3, 9);
-    glVertex3f (4.0, -.3, 9);
-    glVertex3f (4.0, -.3, -9);
-
-    glVertex3f (-4.2, -.3, -9);
-    glVertex3f (-4.2, -.3, 9);
-    glVertex3f (-4.0, -.3, 9);
-    glVertex3f (-4.0, -.3, -9);
+    glBegin (GL_TRIANGLES);
+    map_map_tri(MAP_WALL, drawtri);
     glEnd ();
 
     /*
