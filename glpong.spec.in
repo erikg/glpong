@@ -10,8 +10,8 @@ Source0: http://math.smsu.edu/~erik/files/@PACKAGE@-@VERSION@.tar.gz
 Buildroot: /usr/src/redhat/BUILD/@PACKAGE@
 
 %description
-An implementation of the classic game 'Pong' using OpenGL, SDL, SDL_image, and
-SDL_mixer. The only mode of play is one player against an AI. 
+An implementation of the classic game 'Pong' using OpenGL, SDL, and OpenAL.
+The only mode of play is one player against an AI.
 
 %prep
 %setup -q
