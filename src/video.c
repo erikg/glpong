@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.9 2003/06/23 22:46:52 erik Exp $ 
+ * $Id: video.c,v 1.10 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -46,12 +46,12 @@ draw_paddle (int reflective, float x)
      */
     float left, right;
 
-    left = 0.0833333333333333*x+.25;
-    right = 0.0833333333333333*x+.75;
+    left = 0.0833333333333333 * x + .25;
+    right = 0.0833333333333333 * x + .75;
     if (reflective)
-    {
-	glEnable (GL_TEXTURE_2D);
-    }
+      {
+	  glEnable (GL_TEXTURE_2D);
+      }
     glBindTexture (GL_TEXTURE_2D, refl);
     glBegin (GL_QUADS);
     glTexCoord2d (left, 1);
@@ -108,58 +108,61 @@ reshape (int w, int h)
 unsigned int
 video_load_texture (char *file, unsigned int *texid)
 {
-  SDL_Surface *t = NULL;
-  char buf[BUFSIZ];
+    SDL_Surface *t = NULL;
+    char buf[BUFSIZ];
 
-  glEnable (GL_TEXTURE_2D);
-  glGenTextures (1, texid);
+    glEnable (GL_TEXTURE_2D);
+    glGenTextures (1, texid);
 
-  snprintf(buf,BUFSIZ,"%s/%s."IMGEXT,DATADIR,file);
-  printf("trying %s\n", buf);
-  t = IMG_Load (buf);
+    snprintf (buf, BUFSIZ, "%s/%s." IMGEXT, DATADIR, file);
+    printf ("trying %s\n", buf);
+    t = IMG_Load (buf);
 
-  if (t == NULL)
-  {
-	  printf("couldn't read %s\n\t%s."IMGEXT"\n", buf, IMG_GetError());
-	  snprintf(buf,BUFSIZ,"../data/%s."IMGEXT,file);
-	  printf("trying %s\n", buf);
+    if (t == NULL)
+      {
+	  printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf,
+		  IMG_GetError ());
+	  snprintf (buf, BUFSIZ, "../data/%s." IMGEXT, file);
+	  printf ("trying %s\n", buf);
 	  t = IMG_Load (buf);
-  }
-  if (t == NULL)
-  {
-	  printf("couldn't read %s\n\t%s."IMGEXT"\n", buf, IMG_GetError());
-	  snprintf(buf,BUFSIZ,"data/%s."IMGEXT,file);
-	  printf("trying %s\n", buf);
+      }
+    if (t == NULL)
+      {
+	  printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf,
+		  IMG_GetError ());
+	  snprintf (buf, BUFSIZ, "data/%s." IMGEXT, file);
+	  printf ("trying %s\n", buf);
 	  t = IMG_Load (buf);
-  }
-  if (t == NULL)
-  {
-	  printf("couldn't read %s\n\t%s."IMGEXT"\n", buf, IMG_GetError());
-	  fprintf(stderr, "Cannot load texture: %s\nAborting...\n", file);
-	  SDL_Quit();
-	  exit(-1);
-  }
-  glBindTexture (GL_TEXTURE_2D, *texid);
-  glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-  glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t->w, t->h, 0,
-		(t->format->BytesPerPixel == 3) ? GL_RGB : GL_RGBA,
-		GL_UNSIGNED_BYTE, t->pixels);
-  SDL_FreeSurface (t);
-  return *texid;
+      }
+    if (t == NULL)
+      {
+	  printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf,
+		  IMG_GetError ());
+	  fprintf (stderr, "Cannot load texture: %s\nAborting...\n", file);
+	  SDL_Quit ();
+	  exit (-1);
+      }
+    glBindTexture (GL_TEXTURE_2D, *texid);
+    glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t->w, t->h, 0,
+		  (t->format->BytesPerPixel == 3) ? GL_RGB : GL_RGBA,
+		  GL_UNSIGNED_BYTE, t->pixels);
+    SDL_FreeSurface (t);
+    return *texid;
 }
 
 static void
 form_reflmap ()
 {
-  video_load_texture ("refl", &refl);
-  glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-  glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  return;
+    video_load_texture ("refl", &refl);
+    glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    return;
 }
 
 void
@@ -272,15 +275,17 @@ flip_surface (SDL_Surface * s)
 {
     int x;
     Uint8 *buf;
-    buf = (Uint8 *)malloc(s->pitch);
+
+    buf = (Uint8 *) malloc (s->pitch);
 
     for (x = 0; x < (480 / 2); x++)
-    {
-	memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
-	memcpy ((Uint8 *) (s->pixels + x * s->pitch),
-	    (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
-	memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf, s->pitch);
-    }
+      {
+	  memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
+	  memcpy ((Uint8 *) (s->pixels + x * s->pitch),
+		  (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
+	  memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf,
+		  s->pitch);
+      }
     return;
 }
 

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.6 2003/06/23 22:24:15 erik Exp $ 
+ * $Id: timer.c,v 1.7 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -27,34 +27,31 @@
 #include <SDL_timer.h>
 #include "timer.h"
 
-static double nowtime = 0, thentime = 0, deltatime = 0, fps = 0, fpstime = 0, min=999, max=0, firsttime=0, clock0=0;
-static int frames = 0, oframes=0;
+static double nowtime = 0, thentime = 0, deltatime = 0, fps = 0, fpstime =
+    0, min = 999, max = 0, firsttime = 0, clock0 = 0;
+static int frames = 0, oframes = 0;
 
-char *timer_report(char *buf)
+char *
+timer_report (char *buf)
 {
-	double cpuseconds=(double)clock()/(double)CLOCKS_PER_SEC;
-	double wallseconds= (nowtime-firsttime)/1000.0;
-	snprintf(buf,BUFSIZ,"\
+    double cpuseconds = (double) clock () / (double) CLOCKS_PER_SEC;
+    double wallseconds = (nowtime - firsttime) / 1000.0;
+
+    snprintf (buf, BUFSIZ, "\
 average fps:         %f\n\
 max fps:             %f\n\
 min fps:             %f\n\
 seconds in game:     %f\n\
 seconds of cpu time: %f\n\
-%% cpu usage:        %f\n",
-	(double)oframes/(double)wallseconds,
-	1.0/max,
-	1.0/min,
-	wallseconds,
-	cpuseconds, 
-	100.0*cpuseconds/wallseconds);
-	return buf;
+%% cpu usage:        %f\n", (double) oframes / (double) wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds);
+    return buf;
 }
 
 void
 timer_init ()
 {
     nowtime = SDL_GetTicks ();
-    firsttime=nowtime;
+    firsttime = nowtime;
     timer_update ();
     return;
 }
@@ -63,18 +60,20 @@ void
 timer_update ()
 {
     thentime = nowtime;
-    nowtime = (double)SDL_GetTicks ();
+    nowtime = (double) SDL_GetTicks ();
     deltatime = (nowtime - thentime) / 1000;
-    if(deltatime<min)min=deltatime;
-    if(deltatime>max)max=deltatime;
+    if (deltatime < min)
+	min = deltatime;
+    if (deltatime > max)
+	max = deltatime;
     frames++;
     oframes++;
     if (nowtime - fpstime > 500)
-    {
-	fps = 1000 * frames / (nowtime - fpstime);
-	frames = 0;
-	fpstime = nowtime;
-    }
+      {
+	  fps = 1000 * frames / (nowtime - fpstime);
+	  frames = 0;
+	  fpstime = nowtime;
+      }
     return;
 }
 

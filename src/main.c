@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.8 2003/06/26 14:09:41 erik Exp $ 
+ * $Id: main.c,v 1.9 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -41,14 +41,15 @@ main (int argc, char **argv)
     game_t *g;
     char buf[BUFSIZ];
 
-    if(argc>1)printf("%s: I don't do parms yet\n", argv[0]);
+    if (argc > 1)
+	printf ("%s: I don't do parms yet\n", argv[0]);
 
     SDL_Init (SDL_INIT_VIDEO);
     if (argc == 1)
 	SDL_SetVideoMode (640, 480, 32, SDL_OPENGL | SDL_DOUBLEBUF);
     else
 	SDL_SetVideoMode (640, 480, 32,
-	    SDL_OPENGL | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+			  SDL_OPENGL | SDL_DOUBLEBUF | SDL_FULLSCREEN);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
@@ -60,18 +61,17 @@ main (int argc, char **argv)
     physics_init ();
     text_init ();
     timer_init ();
-	sound_init();
+    sound_init ();
     video_init ();
 
     while (input_do (g))
-    {
-	timer_update ();
-	ai_do (g);
-	physics_do (g);
-	video_do (g);
-    }
-    printf("%s\n", timer_report(buf));
+      {
+	  timer_update ();
+	  ai_do (g);
+	  physics_do (g);
+	  video_do (g);
+      }
+    printf ("%s\n", timer_report (buf));
     SDL_Quit ();
     return 0;
 }
-

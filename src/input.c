@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: input.c,v 1.5 2003/06/23 22:46:51 erik Exp $ 
+ * $Id: input.c,v 1.6 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <SDL.h>
@@ -35,7 +35,7 @@ static char state[SDLK_LAST];
 void
 input_init ()
 {
-    memset(state,0,SDLK_LAST);
+    memset (state, 0, SDLK_LAST);
     return;
 }
 
@@ -46,19 +46,19 @@ input_do (game_t * g)
 
     if (SDL_PollEvent (&ev) != 0)
 	switch (ev.type)
-	{
-	case SDL_KEYDOWN:
-	    if (ev.key.keysym.sym == 27)
-		return 0;
-	    else if (ev.key.keysym.sym == SDLK_F10)
-		video_screenshot ();
-	    else
-		state[ev.key.keysym.sym] = 1;
-	    break;
-	case SDL_KEYUP:
-	    state[ev.key.keysym.sym] = 0;
-	    break;
-	}
+	  {
+	  case SDL_KEYDOWN:
+	      if (ev.key.keysym.sym == 27)
+		  return 0;
+	      else if (ev.key.keysym.sym == SDLK_F10)
+		  video_screenshot ();
+	      else
+		  state[ev.key.keysym.sym] = 1;
+	      break;
+	  case SDL_KEYUP:
+	      state[ev.key.keysym.sym] = 0;
+	      break;
+	  }
     if (state[SDLK_RIGHT])
 	g->playerX += 4.0 * timer_delta ();
     if (state[SDLK_LEFT])

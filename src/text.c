@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.7 2003/06/23 22:46:52 erik Exp $ 
+ * $Id: text.c,v 1.8 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -55,7 +55,7 @@ float texcoords[][4] = {
 void
 text_init ()
 {
-    video_load_texture("texture",&textid);
+    video_load_texture ("texture", &textid);
     glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -85,30 +85,34 @@ text_draw_static (int id, float x, float y, float w, float h)
 void
 text_draw_string (char *s, float x, float y, float w, float h)
 {
-    float mlen = w / (float)strlen (s);
+    float mlen = w / (float) strlen (s);
 
     glEnable (GL_TEXTURE_2D);
     glBindTexture (GL_TEXTURE_2D, textid);
     glBegin (GL_QUADS);
     s++;
     while (*s)
-    {
-	int n = (*s) - '0';
+      {
+	  int n = (*s) - '0';
 
-	if (n >= 0 && n <= 9)
-	{
-	    glTexCoord2d (texcoords[n][0] / 256.0, texcoords[n][1] / 256.0);
-	    glVertex3f (x, y + h, 0);
-	    glTexCoord2d (texcoords[n][2] / 256.0, texcoords[n][1] / 256.0);
-	    glVertex3f (x + mlen, y + h, 0);
-	    glTexCoord2d (texcoords[n][2] / 256.0, texcoords[n][3] / 256.0);
-	    glVertex3f (x + mlen, y, 0);
-	    glTexCoord2d (texcoords[n][0] / 256.0, texcoords[n][3] / 256.0);
-	    glVertex3f (x, y, 0);
-	}
-	s++;
-	x += mlen;
-    }
+	  if (n >= 0 && n <= 9)
+	    {
+		glTexCoord2d (texcoords[n][0] / 256.0,
+			      texcoords[n][1] / 256.0);
+		glVertex3f (x, y + h, 0);
+		glTexCoord2d (texcoords[n][2] / 256.0,
+			      texcoords[n][1] / 256.0);
+		glVertex3f (x + mlen, y + h, 0);
+		glTexCoord2d (texcoords[n][2] / 256.0,
+			      texcoords[n][3] / 256.0);
+		glVertex3f (x + mlen, y, 0);
+		glTexCoord2d (texcoords[n][0] / 256.0,
+			      texcoords[n][3] / 256.0);
+		glVertex3f (x, y, 0);
+	    }
+	  s++;
+	  x += mlen;
+      }
     glEnd ();
     glDisable (GL_TEXTURE_2D);
     return;

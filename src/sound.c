@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.6 2003/06/24 03:21:24 erik Exp $ 
+ * $Id: sound.c,v 1.7 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -38,51 +38,51 @@ float earpos[3], eardir[3];
 ALuint
 sound_load (char *name)
 {
-  ALuint id;
-  char filename[BUFSIZ];
-  Uint32 len;
-  Uint8 *buf;
-  SDL_AudioSpec spec;
+    ALuint id;
+    char filename[BUFSIZ];
+    Uint32 len;
+    Uint8 *buf;
+    SDL_AudioSpec spec;
 
-  snprintf (filename, BUFSIZ, "%s%s", DATADIR, name);
-  if (SDL_LoadWAV (filename, &spec, &buf, &len) == NULL)
-    {
-      printf ("Unable to load sound %s\n", filename);
-      return -1;
-    }
-  alGenBuffers (1, &id);
-  alBufferData (id, AL_FORMAT_MONO16, buf, len, spec.freq);
-  free (buf);
-  return id;
+    snprintf (filename, BUFSIZ, "%s%s", DATADIR, name);
+    if (SDL_LoadWAV (filename, &spec, &buf, &len) == NULL)
+      {
+	  printf ("Unable to load sound %s\n", filename);
+	  return -1;
+      }
+    alGenBuffers (1, &id);
+    alBufferData (id, AL_FORMAT_MONO16, buf, len, spec.freq);
+    free (buf);
+    return id;
 }
 
 void
 sound_init ()
 {
-  static void *context_id;
-  ALCdevice *dev;
+    static void *context_id;
+    ALCdevice *dev;
 
-  if ((dev = alcOpenDevice (0x0)) == 0x0)
+    if ((dev = alcOpenDevice (0x0)) == 0x0)
+	return;
+    if ((context_id = alcCreateContext (dev, 0x0)) == 0x0)
+      {
+	  alcCloseDevice (dev);
+	  return;
+      }
+    alcMakeContextCurrent (context_id);
+    alGenSources (2, wave);
+
+    wave[SOUND_BOINK] = sound_load ("/boink.wav");
+    wave[SOUND_NNGNGNG] = sound_load ("/lose.wav");
+
+    alDistanceModel (AL_DISTANCE_MODEL);
+
     return;
-  if ((context_id = alcCreateContext (dev, 0x0)) == 0x0)
-    {
-      alcCloseDevice (dev);
-      return;
-    }
-  alcMakeContextCurrent (context_id);
-  alGenSources (2, wave);
-
-  wave[SOUND_BOINK] = sound_load ("/boink.wav");
-  wave[SOUND_NNGNGNG] = sound_load ("/lose.wav");
-
-  alDistanceModel (AL_DISTANCE_MODEL);
-
-  return;
 }
 
 void
 sound_play (int sound)
 {
-  alSourcePlay (sound);
-  return;
+    alSourcePlay (sound);
+    return;
 }

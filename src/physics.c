@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.6 2003/06/25 00:38:46 erik Exp $ 
+ * $Id: physics.c,v 1.7 2003/06/26 14:10:30 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -64,45 +64,50 @@ physics_do (game_t * g)
 	g->playerX = -3;
 
     if (g->ballY > 8.0 && g->ballJ > 0)
-    {
-	if (fabs (g->playerX - g->ballX) > 1.0)
-	{
-	    g->machinescore++;
-	    game_newball (g);
-	    sound_play (SOUND_NNGNGNG);
+      {
+	  if (fabs (g->playerX - g->ballX) > 1.0)
+	    {
+		g->machinescore++;
+		game_newball (g);
+		sound_play (SOUND_NNGNGNG);
 
-	} else
-	{
-	    g->ballI += VELAMP * -sin ((g->playerX - g->ballX));
-	    g->ballJ *= VELAMP * -cos (1 * (g->playerX - g->ballX));
-	    sound_play (SOUND_BOINK);
-	}
-    }
+	    }
+	  else
+	    {
+		g->ballI += VELAMP * -sin ((g->playerX - g->ballX));
+		g->ballJ *= VELAMP * -cos (1 * (g->playerX - g->ballX));
+		sound_play (SOUND_BOINK);
+	    }
+      }
 
     if (g->ballY < -8.0 && g->ballJ < 0)
-    {
-	if (fabs (g->machineX - g->ballX) > 1.0)
-	{
-	    g->playerscore++;
-	    game_newball (g);
-	    sound_play (SOUND_NNGNGNG);
-	} else
-	{
-	    g->ballI += VELAMP * -sin ((g->machineX - g->ballX));
-	    g->ballJ *= -VELAMP * cos (1 * (g->machineX - g->ballX));
-	    sound_play (SOUND_BOINK);
-	}
-    }
+      {
+	  if (fabs (g->machineX - g->ballX) > 1.0)
+	    {
+		g->playerscore++;
+		game_newball (g);
+		sound_play (SOUND_NNGNGNG);
+	    }
+	  else
+	    {
+		g->ballI += VELAMP * -sin ((g->machineX - g->ballX));
+		g->ballJ *= -VELAMP * cos (1 * (g->machineX - g->ballX));
+		sound_play (SOUND_BOINK);
+	    }
+      }
 
-    if(fabs(g->ballJ)<.3)
-    {
-	if(g->ballJ<0)g->ballJ=-.3;
-	else
-		g->ballJ=.3;
-    }
+    if (fabs (g->ballJ) < .3)
+      {
+	  if (g->ballJ < 0)
+	      g->ballJ = -.3;
+	  else
+	      g->ballJ = .3;
+      }
 
-    if(g->ballJ>MAXVEL)g->ballJ=MAXVEL;
-    if(g->ballJ<-MAXVEL)g->ballJ=-MAXVEL;
+    if (g->ballJ > MAXVEL)
+	g->ballJ = MAXVEL;
+    if (g->ballJ < -MAXVEL)
+	g->ballJ = -MAXVEL;
 
     g->ballX += g->ballI * timer_delta ();
     g->ballY += g->ballJ * timer_delta ();
