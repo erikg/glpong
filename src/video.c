@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.11 2003/06/27 13:02:49 erik Exp $ 
+ * $Id: video.c,v 1.12 2003/07/03 06:13:53 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -33,6 +33,8 @@
 #include "text.h"
 #include "timer.h"
 #include "video.h"
+
+Uint32 rmask,gmask,bmask,amask;
 
 GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
 char buf[1024];
@@ -147,8 +149,8 @@ video_load_texture (char *file, unsigned int *texid)
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    t2 = SDL_CreateRGBSurface (SDL_SWSURFACE, t->w, t->h, 32, 0xff000000,
-			       0xff0000, 0xff00, 0xff);
+    t2 = SDL_CreateRGBSurface (SDL_SWSURFACE, t->w, t->h, 32, rmask,
+			       gmask, bmask, amask);
     SDL_BlitSurface (t, NULL, t2, NULL);
     SDL_FreeSurface (t);
     glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t2->w, t2->h, 0, GL_RGBA,
@@ -174,6 +176,19 @@ video_init ()
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
     GLfloat light_ambient[] = { 0, 0, 0, 0 };
+
+    /* snatched from sdldoc.sf.net */
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+#else
+    rmask = 0x000000ff;
+    gmask = 0x0000ff00;
+    bmask = 0x00ff0000;
+    amask = 0xff000000;
+#endif
 
     form_reflmap ();
 
