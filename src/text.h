@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.h,v 1.4 2003/06/23 22:46:52 erik Exp $ 
+ * $Id: text.h,v 1.5 2004/04/18 01:37:17 erik Exp $ 
  */
 
 #ifndef __TEXT_H_
@@ -30,6 +30,7 @@
 #define TEXT_FPS 12
 
 void text_init ();
+void text_mode (int w, int h);
 void text_draw_static (int id, float x, float y, float w, float h);
 void text_draw_string (char *string, float x, float y, float w, float h);
 void text_destroy ();

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.16 2004/03/03 14:01:02 erik Exp $ 
+ * $Id: text.c,v 1.17 2004/04/18 01:37:17 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -63,6 +63,17 @@ text_init ()
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    return;
+}
+
+void
+text_mode (int w, int h)
+{
+    glViewport (0, 0, (GLsizei) w, (GLsizei) h);
+    glMatrixMode (GL_PROJECTION);
+    glLoadIdentity ();
+    glOrtho (0,w,0,h,-1,1);
+    glMatrixMode (GL_MODELVIEW);
     return;
 }
 
