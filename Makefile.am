@@ -18,11 +18,11 @@ deb:
 
 # the macos type
 bundle: all
-	rm -rf $(PACKAGE).app
-	mkdir $(PACKAGE).app $(PACKAGE).app/Contents $(PACKAGE).app/Contents/Resources $(PACKAGE).app/Contents/MacOS
-	ln src/$(PACKAGE) $(PACKAGE).app/Contents/MacOS/$(PACKAGE)
+	${INSTALL} -d $(PACKAGE).app/Contents/MacOS $(PACKAGE).app/Contents/Resources
+	${INSTALL} Info.plist version.plist $(PACKAGE).app/Contents
+	${INSTALL} -s src/$(PACKAGE) $(PACKAGE).app/Contents/MacOS
 	echo "APPL????" > $(PACKAGE).app/Contents/PkgInfo
-	cd data && make bundle
-	
+	(cd data && make bundle)
+
 packages: rpm deb
 
