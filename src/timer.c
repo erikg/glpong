@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.8 2003/06/26 14:48:42 erik Exp $ 
+ * $Id: timer.c,v 1.9 2003/06/27 13:58:37 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -36,14 +36,17 @@ timer_report (char *buf)
 {
     double cpuseconds = (double) (clock () - clock0) / (double) CLOCKS_PER_SEC;
     double wallseconds = (nowtime - firsttime) / 1000.0;
+    double avefps = (double)oframes/(double)wallseconds;
 
     snprintf (buf, BUFSIZ, "\
 average fps:         %f\n\
-max fps:             %f\n\
 min fps:             %f\n\
+max fps:             %f\n\
 seconds in game:     %f\n\
 seconds of cpu time: %f\n\
-%% cpu usage:        %f\n", (double) oframes / (double) wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds);
+%% cpu usage:        %f\n\
+Max theoretical FPS: %f\n", (double) oframes / (double) wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes/cpuseconds);
+
     return buf;
 }
 
