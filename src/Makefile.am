@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.8 2004/04/17 14:43:14 erik Exp $
+# $Id: Makefile.am,v 1.9 2004/04/17 14:45:10 erik Exp $
 
 bin_PROGRAMS = glpong
 
@@ -8,5 +8,5 @@ AM_CFLAGS = @SDL_CFLAGS@ @PNG_CFLAGS@ @GL_CFLAGS@ @AL_CFLAGS@ -DDATADIR=\"${pkgd
 LDADD = @SDL_LIBS@ @PNG_LIBS@ @GL_LIBS@ @AL_LIBS@
 
 indent:
-	then for a in ${glpong_SOURCES} ${noinst_HEADERS}; do indent $$a ; done
+	for a in ${glpong_SOURCES} ${noinst_HEADERS}; do [ x`which gindent` = x ] && indent $$a || gindent $$a ; done
 
