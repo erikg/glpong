@@ -19,11 +19,12 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.13 2003/07/27 14:49:34 erik Exp $ 
+ * $Id: sound.c,v 1.14 2003/07/27 14:57:34 erik Exp $ 
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -94,11 +95,10 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     float zero[4] = { 0, 0, 0, 0 };
     float fwd[4] = { 0, 1, 0, 0 };
 
-/*
     alSourcefv (wave[sound], AL_POSITION, noisepos);
     alListenerfv (AL_POSITION, playerpos);
     alListenerfv (AL_ORIENTATION, playeror);
-*/
+
     alSourcefv (source, AL_POSITION, zero);
     alListenerfv (AL_POSITION, zero);
     alListenerfv (AL_ORIENTATION, fwd);

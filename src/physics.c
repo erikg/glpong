@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.12 2003/07/27 14:49:34 erik Exp $ 
+ * $Id: physics.c,v 1.13 2003/07/27 14:57:34 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -43,10 +43,6 @@ physics_init ()
 void
 physics_do (game_t * g)
 {
-    float ballvel =
-	sqrt (g->ball->vel[0] * g->ball->vel[0] +
-	g->ball->vel[1] * g->ball->vel[1] + g->ball->vel[2] * g->ball->vel[2]);
-
     /*
      * keep the paddles on the grid 
      */

@@ -19,11 +19,12 @@
  ****************************************************************************/
 
 /*
- * $Id: map.c,v 1.4 2003/07/27 14:49:34 erik Exp $
+ * $Id: map.c,v 1.5 2003/07/27 14:57:34 erik Exp $
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "map.h"
 
 struct _ll {

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.11 2003/07/27 14:49:34 erik Exp $ 
+ * $Id: timer.c,v 1.12 2003/07/27 14:57:34 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -45,7 +45,7 @@ max fps:             %f\n\
 seconds in game:     %f\n\
 seconds of cpu time: %f\n\
 %% cpu usage:        %f\n\
-Max theoretical FPS: %f\n", (double)oframes / (double)wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes / cpuseconds);
+Max theoretical FPS: %f\n", avefps, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes / cpuseconds);
 
     return buf;
 }
