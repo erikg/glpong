@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.27 2004/03/03 14:01:02 erik Exp $ 
+ * $Id: video.c,v 1.28 2004/04/18 01:37:06 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -41,6 +41,11 @@ Uint32 rmask, gmask, bmask, amask;
 GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
 char buf[1024];
 GLuint refl;
+
+struct display_s
+{
+    int width, height, depth;
+} display = { 0, 0, 0 };
 
 void
 draw_paddle (int reflective, float x)
@@ -101,6 +106,8 @@ draw_paddle (int reflective, float x)
 static void
 reshape (int w, int h)
 {
+    display.width = w;
+    display.height = h;
     glViewport (0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
@@ -117,7 +124,7 @@ video_load_texture (char *file, unsigned int *texid)
     int width, height, bpp, type;
 
     glEnable (GL_TEXTURE_2D);
-    glGenTextures (1, texid);
+    glGenTextures (1, (GLuint *)texid);
 
     snprintf (buf, BUFSIZ, "%s/%s.png", DATADIR, file);
     t = image_load (buf, &width, &height, &bpp);
@@ -165,7 +172,7 @@ video_load_texture (char *file, unsigned int *texid)
 static void
 form_reflmap ()
 {
-    video_load_texture ("refl", &refl);
+    video_load_texture ("refl", (unsigned int *)&refl);
     glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -303,6 +310,7 @@ video_do (game_t * g)
      */
     glPopMatrix ();
     glColor3f (1, 1, 1);
+    text_mode( display.width, display.height );
     text_draw_static (TEXT_MACHINE, 7, 8, 2, 1);
     text_draw_static (TEXT_HUMAN, -9, 8, 2, 1);
     text_draw_static (TEXT_FPS, 0, -9, 1.2, 1);
@@ -313,6 +321,7 @@ video_do (game_t * g)
     sprintf (buf, "% .0f", timer_fps ());
     text_draw_string (buf, -2, -9, 1.2, 1);
     glEnable (GL_LIGHTING);
+    reshape(display.width, display.height);
 
     SDL_GL_SwapBuffers ();
     return;
