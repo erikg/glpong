@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.18 2003/07/25 18:20:19 erik Exp $ 
+ * $Id: video.c,v 1.19 2003/07/25 18:31:42 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -276,10 +276,10 @@ video_do (game_t * g)
     glTranslatef (g->ball->pos[0], 0, g->ball->pos[1]);
     glColor3f (1, 1, 1);
     glBegin (GL_QUADS);
-    glVertex3f (-.1, -.3, -.1);
-    glVertex3f (-.1, -.2, -.1);
-    glVertex3f (.1, -.2, -.1);
-    glVertex3f (.1, -.3, -.1);
+    glVertex3f (-g->ball->radius, -.3, -g->ball->radius);
+    glVertex3f (-g->ball->radius, -.2, -g->ball->radius);
+    glVertex3f (g->ball->radius, -.2, -g->ball->radius);
+    glVertex3f (g->ball->radius, -.3, -g->ball->radius);
     glEnd ();
     glPopMatrix ();
 

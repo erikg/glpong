@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.h,v 1.7 2003/07/25 18:20:19 erik Exp $ 
+ * $Id: game.h,v 1.8 2003/07/25 18:31:42 erik Exp $ 
  */
 
 #ifndef __GAME_H_
@@ -28,7 +28,7 @@
 typedef struct ball_s
 {
 	float pos[3], vel[3];
-	float radius;
+	float radius, speed;
 } ball_t;
 
 typedef struct game_s
