@@ -19,13 +19,13 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.15 2004/01/01 20:20:25 erik Exp $ 
+ * $Id: text.c,v 1.16 2004/03/03 14:01:02 erik Exp $ 
  */
 
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <GL/gl.h>
+#include <SDL_opengl.h>
 #include <SDL.h>
 
 #include "image.h"

@@ -29,7 +29,9 @@ case $target in
 		;;
 	*)
 		MYDATADIR="$pkgdatadir"
-	esac
+		;;
+esac
+
 AC_SUBST(MYDATADIR)
 
 AC_OUTPUT(Makefile data/Makefile src/Makefile glpong.spec Info.plist version.plist)

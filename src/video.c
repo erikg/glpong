@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.26 2004/01/02 12:31:00 erik Exp $ 
+ * $Id: video.c,v 1.27 2004/03/03 14:01:02 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -27,7 +27,7 @@
 #include <string.h>
 #include <SDL.h>
 #include <image.h>
-#include <GL/gl.h>
+#include <SDL_opengl.h>
 
 #include "game.h"
 #include "image.h"
