@@ -15,8 +15,7 @@ AC_SUBST(GL_LIBS)
 AM_PATH_OPENAL(,AC_ERROR(Cannot find OpenAL. Get it from http://www.openal.org))
 AC_SUBST(AL_CFLAGS)
 AC_SUBST(AL_LIBS)
-PNG_CFLAGS=""
-PNG_LIBS="-lpng"
+AM_PATH_PNG(,AC_ERROR(Cannot find libpng.))
 AC_SUBST(PNG_CFLAGS)
 AC_SUBST(PNG_LIBS)
 
