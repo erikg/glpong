@@ -1,6 +1,6 @@
 SUBDIRS = data src
 
-EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist PkgInfo version.plist
+EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist.in version.plist.in
 
 .PHONY : rpm deb bundle packages doc
 rpm: dist
