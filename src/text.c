@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.21 2004/04/25 21:10:19 erik Exp $ 
+ * $Id: text.c,v 1.22 2004/04/25 21:12:52 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -56,7 +56,7 @@ float texcoords[][4] = {
 void
 text_init ()
 {
-    video_load_texture ("texture", &textid);
+    video_load_texture ("font", &textid);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     return;

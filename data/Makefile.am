@@ -1,7 +1,7 @@
-# $Id: Makefile.am,v 1.7 2004/01/01 20:20:24 erik Exp $
+# $Id: Makefile.am,v 1.8 2004/04/25 21:12:52 erik Exp $
 
 SOUNDS=lose.wav boink.wav 
-IMAGES=refl.png texture.png
+IMAGES=refl.png font.png
 
 dist_pkgdata_DATA = $(SOUNDS) $(IMAGES)
 
