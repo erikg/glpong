@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.13 2003/07/27 14:57:34 erik Exp $ 
+ * $Id: physics.c,v 1.14 2003/07/27 15:54:13 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -43,31 +43,28 @@ physics_init ()
 void
 physics_do (game_t * g)
 {
+    int i;
+
     /*
      * keep the paddles on the grid 
      */
-    if (g->player[MACHINE].X > 3)
-	g->player[MACHINE].X = 3;
-    if (g->player[MACHINE].X < -3)
-	g->player[MACHINE].X = -3;
-    if (g->player[PLAYER].X > 3)
-	g->player[PLAYER].X = 3;
-    if (g->player[PLAYER].X < -3)
-	g->player[PLAYER].X = -3;
+    for (i = 0; i < 1; ++i)
+	if (fabs (g->player[i].X) > 3)
+	    g->player[i].X = sign (g->player[i].X) * 3;
 
     /*
      * wall bounce 
      */
-    if (fabs (g->ball->pos[0]) > 4.0
-	&& (sign (g->ball->pos[0]) == sign (g->ball->vel[1])))
-	g->ball->vel[1] *= -1;
+    if (fabs (g->ball[0].pos[0]) > 4.0
+	&& (sign (g->ball[0].pos[0]) == sign (g->ball[0].vel[1])))
+	g->ball[0].vel[1] *= -1;
 
     /*
      * goal made 
      */
-    if (g->ball->pos[1] > 8.0 && g->ball->vel[0] > 0)
+    if (g->ball[0].pos[1] > 8.0 && g->ball[0].vel[0] > 0)
     {
-	if (fabs (g->player[PLAYER].X - g->ball->pos[0]) > 1.0)
+	if (fabs (g->player[PLAYER].X - g->ball[0].pos[0]) > 1.0)
 	{
 	    g->player[MACHINE].score++;
 	    game_newball (g);
@@ -75,27 +72,27 @@ physics_do (game_t * g)
 
 	} else
 	{
-	    g->ball->vel[1] +=
-		VELAMP * -sin ((g->player[PLAYER].X - g->ball->pos[0]));
-	    g->ball->vel[0] *=
-		VELAMP * -cos (1 * (g->player[PLAYER].X - g->ball->pos[0]));
+	    g->ball[0].vel[1] +=
+		VELAMP * -sin ((g->player[PLAYER].X - g->ball[0].pos[0]));
+	    g->ball[0].vel[0] *=
+		VELAMP * -cos (1 * (g->player[PLAYER].X - g->ball[0].pos[0]));
 	    sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	}
     }
 
-    if (g->ball->pos[1] < -8.0 && g->ball->vel[0] < 0)
+    if (g->ball[0].pos[1] < -8.0 && g->ball[0].vel[0] < 0)
     {
-	if (fabs (g->player[MACHINE].X - g->ball->pos[0]) > 1.0)
+	if (fabs (g->player[MACHINE].X - g->ball[0].pos[0]) > 1.0)
 	{
 	    g->player[PLAYER].score++;
 	    game_newball (g);
 	    sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
 	} else
 	{
-	    g->ball->vel[1] +=
-		VELAMP * -sin ((g->player[MACHINE].X - g->ball->pos[0]));
-	    g->ball->vel[0] *=
-		-VELAMP * cos (1 * (g->player[MACHINE].X - g->ball->pos[0]));
+	    g->ball[0].vel[1] +=
+		VELAMP * -sin ((g->player[MACHINE].X - g->ball[0].pos[0]));
+	    g->ball[0].vel[0] *=
+		-VELAMP * cos (1 * (g->player[MACHINE].X - g->ball[0].pos[0]));
 	    sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	}
     }
@@ -103,16 +100,16 @@ physics_do (game_t * g)
     /*
      * cap ball velocity 
      */
-    if (g->ball->vel[0] > MAXVEL)
-	g->ball->vel[0] = MAXVEL;
-    if (g->ball->vel[0] < -MAXVEL)
-	g->ball->vel[0] = -MAXVEL;
+    if (g->ball[0].vel[0] > MAXVEL)
+	g->ball[0].vel[0] = MAXVEL;
+    if (g->ball[0].vel[0] < -MAXVEL)
+	g->ball[0].vel[0] = -MAXVEL;
 
     /*
      * update ball location 
      */
-    g->ball->pos[0] += g->ball->vel[1] * timer_delta ();
-    g->ball->pos[1] += g->ball->vel[0] * timer_delta ();
+    g->ball[0].pos[0] += g->ball[0].vel[1] * timer_delta ();
+    g->ball[0].pos[1] += g->ball[0].vel[0] * timer_delta ();
 
     return;
 }
