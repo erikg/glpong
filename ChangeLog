@@ -3,6 +3,7 @@ May ??, 2004:
 	* release 1.2
 	* Improved text rendering
 	* Improved collision detection
+	* -g option to set window geometry
 	* Build system improvements
 
 Jan 03, 2004:
