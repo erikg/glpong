@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>BuildVersion</key>
+	<string>%%VERSION%%</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.2</string>
+	<key>CFBundleVersion</key>
+	<string>1.2</string>
+	<key>ProjectName</key>
+	<string>%%PACKAGE%%</string>
+	<key>ReleaseStatus</key>
+	<string>GM</string>
+	<key>SourceVersion</key>
+	<string>490000</string>
+</dict>
+</plist>

@@ -1,8 +1,8 @@
 SUBDIRS = data src
 
-EXTRA_DIST=ChangeLog glpong.spec
+EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist PkgInfo version.plist
 
-.PHONY : rpm deb packages doc
+.PHONY : rpm deb bundle packages doc
 rpm: dist
 	cp $(PACKAGE)-$(VERSION).tar.gz /usr/src/redhat/SOURCES/
 	rpm -ba $(PACKAGE).spec
@@ -16,5 +16,13 @@ deb:
 	debi
 	release
 
+# the macos type
+bundle: all
+	rm -rf $(PACKAGE).app
+	mkdir $(PACKAGE).app $(PACKAGE).app/Contents $(PACKAGE).app/Contents/Resources $(PACKAGE).app/Contents/MacOS
+	ln src/$(PACKAGE) $(PACKAGE).app/Contents/MacOS/$(PACKAGE)
+	for a in Info.plist PkgInfo version.plist ; do sed -e "s/%%VERSION%%/$(VERSION)/g" -e "s/%%PACKAGE%%/$(PACKAGE)/g" $$a > $(PACKAGE).app/Contents/$$a ; done
+	cd data && make bundle
+	
 packages: rpm deb
 

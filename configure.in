@@ -11,7 +11,17 @@ AM_PATH_OPENGL(,AC_ERROR(Cannot find OpenGL.))
 CFLAGS="$CFLAGS $SDL_CFLAGS $GL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS -lSDL_image $GL_LIBS -lSDL_mixer"
 
-AC_DEFINE(DATADIR, "@datadir@/glpong")
+case $target in
+	*-apple-darwin*)
+		MYDATADIR="$PACKAGE.app/Contents/Resources"
+		IMGEXT="tga"
+		;;
+	*)
+		MYDATADIR="@datadir@/glpong"
+		IMGEXT="png"
+	esac
+
+CFLAGS="$CFLAGS -DDATADIR=\\\"$MYDATADIR\\\" -DIMGEXT=\\\"$IMGEXT\\\""
 
 AC_OUTPUT(Makefile data/Makefile src/Makefile)
 
