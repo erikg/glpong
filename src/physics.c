@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.24 2004/01/01 14:17:08 erik Exp $ 
+ * $Id: physics.c,v 1.25 2004/01/01 16:41:49 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -199,8 +199,8 @@ physics_do (game_t * g)
 #define WALL 3.95
     if (fabs (g->ball[0].pos[0]) > WALL)
       {
-	  g->ball[0].pos[0] = 3.945 * sign (g->ball[0].vel[1]);
-	  g->ball[0].vel[1] *= -1;
+	  g->ball[0].pos[0] = 3.945 * sign (g->ball[0].vel[0]);
+	  g->ball[0].vel[0] *= -1;
 	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
 #undef WALL
@@ -211,15 +211,16 @@ physics_do (game_t * g)
 //    printf("%f seconds\n", timer_delta());
 #define PADDLEHALFWIDTH 1.0
     i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;	/* select player in risk */
-    if (fabs (g->ball[0].pos[1]) <= 8.0 && g->ball[0].pos[1]+g->ball[0].vel[1]*timer_delta() >= 8.0)
+    printf("\rplayer at risk: %d ", i);fflush(stdout);
+    if (fabs (g->ball[0].pos[1]) <= 8.0 && g->ball[0].pos[1]+g->ball[0].vel[0]*timer_delta() >= 8.0)
     {
 	    printf("Crossing the threshhold %f + %f\n",g->ball[0].pos[1],g->ball[0].vel[1]*timer_delta());
       if(fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
       {
 	      printf("Save! %f (ball)    %f (player %d)\n", g->ball[0].pos[0], g->player[i].X, i);
-	  g->ball[0].pos[1] = 7.845 * sign (g->ball[0].vel[0]);
-	  g->ball[0].vel[1] += VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
-	  g->ball[0].vel[0] *= VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+	  g->ball[0].pos[1] = 7.845 * sign (g->ball[0].vel[1]);
+	  g->ball[0].vel[0] += VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
+	  g->ball[0].vel[1] *= VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
 	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
       else
@@ -233,7 +234,7 @@ physics_do (game_t * g)
     /*
      * goal made 
      */
-    if (fabs (g->ball[0].pos[1]) <= 9.0 && g->ball[0].pos[1]+g->ball[0].vel[1]*timer_delta() >= 9.0)
+    if (fabs (g->ball[0].pos[1]) <= 9.0 && g->ball[0].pos[1]+g->ball[0].vel[0]*timer_delta() >= 9.0)
       {
 	  g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
 	  game_newball (g);
@@ -251,8 +252,8 @@ physics_do (game_t * g)
     /*
      * update ball location 
      */
-    g->ball[0].pos[0] += g->ball[0].vel[1] * timer_delta ();
-    g->ball[0].pos[1] += g->ball[0].vel[0] * timer_delta ();
+    g->ball[0].pos[0] += g->ball[0].vel[0] * timer_delta ();
+    g->ball[0].pos[1] += g->ball[0].vel[1] * timer_delta ();
 
     return;
 }
