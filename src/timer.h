@@ -27,7 +27,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.h,v 1.3 2003/06/22 22:48:20 erik Exp $
+ * $Id: timer.h,v 1.4 2003/06/23 20:12:40 erik Exp $
  */
 
 /*****************************************************************************
@@ -50,7 +50,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.h,v 1.3 2003/06/22 22:48:20 erik Exp $ 
+ * $Id: timer.h,v 1.4 2003/06/23 20:12:40 erik Exp $ 
  */
 
 #ifndef __TIMER_H_
@@ -60,5 +60,8 @@ void timer_init ();
 void timer_update ();
 double timer_delta ();
 double timer_fps ();
+
+	/* buf must be pre-allocated and at least BUFSIZ bytes! */
+char *timer_report(char *buf);
 
 #endif
