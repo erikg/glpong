@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.23 2004/04/25 17:40:21 erik Exp $ 
+ * $Id: main.c,v 1.24 2004/05/11 23:10:36 erik Exp $
  */
 
 #include <stdio.h>
@@ -28,14 +28,14 @@
 #include <unistd.h>
 
 #ifdef __linux__
-# ifndef __USE_BSD
-#  define __USE_BSD
-# endif
+#ifndef __USE_BSD
+#define __USE_BSD
+#endif
 #include <getopt.h>
 #endif
 
 #if HAVE_CONFIG_H
-# include "config.h"
+#include "config.h"
 #endif
 
 #include "ai.h"
@@ -104,21 +104,12 @@ main (int argc, char **argv)
     char buf[BUFSIZ], *name = *argv;
     int c, fullscreen = 0;
 
-    while ((c = getopt (argc, argv, "fwhv")) != -1)
+    width = 640;
+    height = 480;
+
+    while ((c = getopt (argc, argv, "g:fwhv")) != -1)
 	switch (tolower (c))
 	{
-	case 'h':
-	    dohelp (name);
-	    return EXIT_SUCCESS;
-	case 'v':
-	    doversion (name);
-	    return EXIT_SUCCESS;
-	case 'f':
-	    fullscreen = SDL_FULLSCREEN;
-	    break;
-	case 'w':
-	    fullscreen = 0;
-	    break;
 	case ':':
 	    printf ("Option \"%s\" missing parameter\n", optarg);
 	    dohelp (name);
@@ -126,17 +117,30 @@ main (int argc, char **argv)
 	case '?':
 	    dohelp (name);
 	    return 1;
+	case 'f':
+	    fullscreen = SDL_FULLSCREEN;
+	    break;
+	case 'g':
+	    sscanf(optarg, "%dx%d", &width, &height);
+	    break;
+	case 'h':
+	    dohelp (name);
+	    return EXIT_SUCCESS;
+	case 'v':
+	    doversion (name);
+	    return EXIT_SUCCESS;
+	case 'w':
+	    fullscreen = 0;
+	    break;
 	default:
 	    printf ("Unknown error (option: %c)\n", c);
 	    dohelp (name);
 	    return 2;
 	}
-    width = 640;
-    height = 480;
 
     SDL_Init (SDL_INIT_VIDEO);
     SDL_SetVideoMode (width, height, 32,
-	SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
+		      SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
