@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: ai.c,v 1.8 2003/07/27 14:49:34 erik Exp $ 
+ * $Id: ai.c,v 1.9 2004/01/01 17:42:23 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -33,7 +33,7 @@ ai_do (game_t * g)
     /*
      * don't act if the ball is going towards hoomon 
      */
-    if (g->ball->vel[0] > 0)
+    if (g->ball->vel[1] > 0)
 	return;
 
     if (g->player[MACHINE].X > g->ball->pos[0])
