@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.c,v 1.6 2003/06/25 00:38:46 erik Exp $ 
+ * $Id: game.c,v 1.7 2003/06/25 04:11:42 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -39,7 +39,7 @@
 # endif
 #endif
 
-#define INITVEL 6.0
+#define INITVEL 4.0
 #define INITCOS 0.7
 
 game_t *
