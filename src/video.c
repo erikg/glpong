@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.34 2004/04/25 22:57:15 erik Exp $ 
+ * $Id: video.c,v 1.35 2004/07/25 14:56:37 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -167,6 +167,7 @@ video_load_texture (char *file, unsigned int *texid)
     glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, type,
 	GL_UNSIGNED_BYTE, t);
+    free(t);
     return *texid;
 }
 
