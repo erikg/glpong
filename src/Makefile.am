@@ -27,3 +27,6 @@ LDADD =
 
 indent:
 	for a in *.[ch]; do indent $$a ; done
+
+gindent:
+	for a in *.[ch]; do gindent $$a ; done
