@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.22 2004/04/25 17:40:02 erik Exp $ 
+ * $Id: main.c,v 1.23 2004/04/25 17:40:21 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -135,7 +135,8 @@ main (int argc, char **argv)
     height = 480;
 
     SDL_Init (SDL_INIT_VIDEO);
-    SDL_SetVideoMode (width, height, 32, SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
+    SDL_SetVideoMode (width, height, 32,
+	SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
