@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.7 2003/06/26 14:10:30 erik Exp $ 
+ * $Id: timer.c,v 1.8 2003/06/26 14:48:42 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -34,7 +34,7 @@ static int frames = 0, oframes = 0;
 char *
 timer_report (char *buf)
 {
-    double cpuseconds = (double) clock () / (double) CLOCKS_PER_SEC;
+    double cpuseconds = (double) (clock () - clock0) / (double) CLOCKS_PER_SEC;
     double wallseconds = (nowtime - firsttime) / 1000.0;
 
     snprintf (buf, BUFSIZ, "\
@@ -52,6 +52,7 @@ timer_init ()
 {
     nowtime = SDL_GetTicks ();
     firsttime = nowtime;
+    clock0 = clock();
     timer_update ();
     return;
 }
