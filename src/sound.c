@@ -19,34 +19,70 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.5 2003/06/23 22:46:52 erik Exp $ 
+ * $Id: sound.c,v 1.6 2003/06/24 03:21:24 erik Exp $ 
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include <SDL_mixer.h>
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <SDL.h>
+#include <SDL_audio.h>
 
 #include "sound.h"
 
-static Mix_Chunk *wave[3];
+static ALuint wave[2];
+float earpos[3], eardir[3];
+
+ALuint
+sound_load (char *name)
+{
+  ALuint id;
+  char filename[BUFSIZ];
+  Uint32 len;
+  Uint8 *buf;
+  SDL_AudioSpec spec;
+
+  snprintf (filename, BUFSIZ, "%s%s", DATADIR, name);
+  if (SDL_LoadWAV (filename, &spec, &buf, &len) == NULL)
+    {
+      printf ("Unable to load sound %s\n", filename);
+      return -1;
+    }
+  alGenBuffers (1, &id);
+  alBufferData (id, AL_FORMAT_MONO16, buf, len, spec.freq);
+  free (buf);
+  return id;
+}
 
 void
 sound_init ()
 {
-    if (Mix_OpenAudio (MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
-    {
-	fprintf (stderr, "Couldn't open audio: %s\n", SDL_GetError ());
-    }
+  static void *context_id;
+  ALCdevice *dev;
 
-    wave[SOUND_BOINK] = Mix_LoadWAV (DATADIR"/boink.wav");
-    wave[SOUND_NNGNGNG] = Mix_LoadWAV (DATADIR"/lose.wav");
-
+  if ((dev = alcOpenDevice (0x0)) == 0x0)
     return;
+  if ((context_id = alcCreateContext (dev, 0x0)) == 0x0)
+    {
+      alcCloseDevice (dev);
+      return;
+    }
+  alcMakeContextCurrent (context_id);
+  alGenSources (2, wave);
+
+  wave[SOUND_BOINK] = sound_load ("/boink.wav");
+  wave[SOUND_NNGNGNG] = sound_load ("/lose.wav");
+
+  alDistanceModel (AL_DISTANCE_MODEL);
+
+  return;
 }
 
 void
 sound_play (int sound)
 {
-    Mix_PlayChannel (0, wave[sound], 0);
-    sleep (0);
-    return;
+  alSourcePlay (sound);
+  return;
 }
