@@ -18,7 +18,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.4 2003/06/19 15:03:57 erik Exp $ 
+ * $Id: video.c,v 1.5 2003/06/22 22:45:31 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -119,18 +119,21 @@ video_load_texture (char *file, unsigned int *texid)
 
   if (t == NULL)
   {
+	  printf("couldn't read %s\n\t%s\n", buf, IMG_GetError());
 	  snprintf(buf,BUFSIZ,"../data/%s",file);
 	  printf("trying %s\n", buf);
 	  t = IMG_Load (buf);
   }
   if (t == NULL)
   {
+	  printf("couldn't read %s\n\t%s\n", buf, IMG_GetError());
 	  snprintf(buf,BUFSIZ,"data/%s",file);
 	  printf("trying %s\n", buf);
 	  t = IMG_Load (buf);
   }
   if (t == NULL)
   {
+	  printf("couldn't read %s\n\t%s\n", buf, IMG_GetError());
 	  fprintf(stderr, "Cannot load texture: %s\nAborting...\n", file);
 	  SDL_Quit();
 	  exit(-1);
