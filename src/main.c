@@ -19,12 +19,24 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.17 2004/01/01 18:52:32 erik Exp $ 
+ * $Id: main.c,v 1.18 2004/01/01 19:15:39 erik Exp $ 
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
+#include <unistd.h>
+
+#ifdef __linux__
+# ifndef __USE_BSD
+#  define __USE_BSD
+# endif
+#include <getopt.h>
+#endif
+
+#if HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #include "ai.h"
 #include "game.h"
@@ -61,20 +73,66 @@ main_add_map ()
 }
 
 int
+doversion (char *name)
+{
+    printf ("\
+%s (%s) Copyright (C) 2001-2003 Erik Greenwald <erik@smluc.org>\n\
+%s comes with ABSOLUTELY NO WARRANTY. Please read the GPL for details.\n\n", name, PACKAGE, VERSION);
+    return 0;
+}
+
+int
+dohelp (char *name)
+{
+    doversion (name);
+    printf ("Usage\n\
+\t%s [-fwhv]\n\
+\n\
+ -f      Force fullscreen\n\
+ -w      Force windowed (default)\n\
+ -h      Display this help screen\n\
+ -v      Display the version\n\
+\n", name);
+    return 0;
+}
+
+int
 main (int argc, char **argv)
 {
     game_t *g;
-    char buf[BUFSIZ];
+    char buf[BUFSIZ], *name = *argv;
+    int c, fullscreen = 0;
 
-    if (argc > 1)
-	printf ("%s: I don't do parms yet\n", argv[0]);
+    while ((c = getopt (argc, argv, "fwhv")) != -1)
+	switch (tolower (c))
+	{
+	case 'h':
+	    dohelp (name);
+	    return EXIT_SUCCESS;
+	case 'v':
+	    doversion (name);
+	    return EXIT_SUCCESS;
+	case 'f':
+	    fullscreen = SDL_FULLSCREEN;
+	    break;
+	case 'w':
+	    fullscreen = 0;
+	    break;
+	case ':':
+	    printf ("Option \"%s\" missing parameter\n", optarg);
+	    dohelp (name);
+	    return 1;
+	case '?':
+	    dohelp (name);
+	    return 1;
+	default:
+	    printf ("Unknown error (option: %c)\n", c);
+	    dohelp (name);
+	    return 2;
+	}
 
     SDL_Init (SDL_INIT_VIDEO);
-    if (argc == 1)
-	SDL_SetVideoMode (640, 480, 32, SDL_OPENGL | SDL_DOUBLEBUF);
-    else
-	SDL_SetVideoMode (640, 480, 32,
-	    SDL_OPENGL | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    SDL_SetVideoMode (640, 480, 32, SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
