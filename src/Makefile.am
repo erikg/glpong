@@ -23,8 +23,6 @@ noinst_HEADERS =\
 	timer.h\
 	video.h
 
-LDADD = 
-
 indent:
 	for a in *.[ch]; do indent $$a ; done
 
