@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.16 2003/07/29 15:39:53 erik Exp $ 
+ * $Id: sound.c,v 1.17 2004/01/01 18:52:27 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -51,10 +51,10 @@ sound_load (ALuint id, char *name)
 
     snprintf (filename, BUFSIZ, "%s/%s", DATADIR, name);
     if ((spec2 =
-	 SDL_LoadWAV (filename, &spec, (Uint8 **) & buf, &len)) == NULL)
-      {
-	  printf ("Unable to load sound %s\n", filename);
-      }
+	    SDL_LoadWAV (filename, &spec, (Uint8 **) & buf, &len)) == NULL)
+    {
+	printf ("Unable to load sound %s\n", filename);
+    }
     for (i = 0; i < len / 2; ++i)
 	buf[i] = SDL_SwapLE16 (buf[i]);
     alBufferData (id, AL_FORMAT_MONO16, buf, len, spec2->freq);
@@ -71,10 +71,10 @@ sound_init ()
     if ((dev = alcOpenDevice (NULL)) == NULL)
 	return;
     if ((context_id = alcCreateContext (dev, NULL)) == NULL)
-      {
-	  alcCloseDevice (dev);
-	  return;
-      }
+    {
+	alcCloseDevice (dev);
+	return;
+    }
     alcMakeContextCurrent (context_id);
 
     alGenSources (1, &source);
@@ -95,16 +95,10 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     float zero[4] = { 0, 0, 0, 0 };
     float fwd[4] = { 0, 1, 0, 0 };
 
-    if (noisepos)
-	alSourcefv (wave[sound], AL_POSITION, noisepos);
-    if (playerpos)
-	alListenerfv (AL_POSITION, playerpos);
-    if (playeror)
-	alListenerfv (AL_ORIENTATION, playeror);
+    alSourcefv (wave[sound], AL_POSITION, noisepos ? noisepos : zero);
+    alListenerfv (AL_POSITION, playerpos ? playerpos : zero);
+    alListenerfv (AL_ORIENTATION, playeror ? playeror : fwd);
 
-    alSourcefv (source, AL_POSITION, zero);
-    alListenerfv (AL_POSITION, zero);
-    alListenerfv (AL_ORIENTATION, fwd);
     alSourcei (source, AL_BUFFER, wave[sound]);
     alSourcei (source, AL_GAIN, 1);
     alSourcei (source, AL_LOOPING, 0);
