@@ -1,5 +1,6 @@
 SUBDIRS = data src
 
+dist_man_MANS = $(PACKAGE).1
 EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist.in version.plist.in
 
 .PHONY : rpm deb bundle packages doc

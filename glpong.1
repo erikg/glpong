@@ -1,0 +1,63 @@
+.\" glpong.1 man page for glpong
+.\" http://math.smsu.edu/~erik/software.php?id=72
+.\" $Id: glpong.1,v 1.1 2004/01/01 19:27:25 erik Exp $
+.\"===========================================================================
+.Dd Jan 1, 2004
+.Dt glpong 1
+.\"===========================================================================
+.Sh NAME
+.Nm glpong
+.Nd An OpenGL based Pong game
+.\"===========================================================================
+.Sh SYNOPSIS
+.B glpong
+.Op Fl fwvh
+.\"===========================================================================
+.Sh DESCRIPTION
+An implementation of the classic game 'Pong' using OpenGL, SDL, and OpenAL.
+The only mode of play is one player against an AI.
+.Pp
+.\"===========================================================================
+.Sh OPTIONS
+.Bl -tag -width
+.It Op Fl s
+Force full screen (if supported)
+.It Op Fl r
+Force windowed (default)
+.It Op Fl v
+Show version and exit.
+.It Op Fl h
+Show help and exit.
+.El
+.\"===========================================================================
+.Sh DIAGNOSTICS
+.Nm
+returns 0 on success and non-zero on failure. The help (-h) and version (-v)
+flags return 0. Operational errors return a negative value and interface
+(human) errors return a positive value.
+.Pp
+.Bl -tag -width 4n -offset indent -compact
+.It Sy -1
+malloc or read error
+.It Sy 0
+Success, -v, or -h
+.It Sy 1
+poorly defined option (missing mandatory argument, etc) or -?
+.It Sy 2
+unknown option
+.El
+.Pp
+.\"===========================================================================
+.\".Sh SEE ALSO
+.\".Xr ln 1 ,
+.\".Xr link 3
+.\"===========================================================================
+.Sh BUGS
+Poor collision detection, highly noticable at low framerates.
+Bad graphics and sounds.
+Please report any new bugs to
+.An <erik@smluc.org>
+.\"===========================================================================
+.Sh AUTHOR
+.An Erik Greenwald <erik@smluc.org> <erik@math.smsu.edu>
+http://math.smsu.edu/~erik/software.php?id=72
