@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.29 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: physics.c,v 1.30 2004/05/11 22:28:02 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -97,6 +97,28 @@ float *
 normalize (float v[3], float a[3])
 {
     return scale (v, a, 1.0 / magnitude (a));
+}
+
+float
+det2(float a, float b, float c, float d)
+{
+    return a*d-b*c;
+	
+}
+
+float
+det3( float a, float b, float c, float d, float e, float f, float h, float i, float j)
+{
+    return  a*det2(e,f,i,j)-d*det2(b,c,i,j)+h*det2(b,c,e,f);
+}
+
+float
+det4(float a, float b, float c, float d, float e, float f, float h, float i, float j, float k, float l, float m, float n, float o, float p, float q)
+{
+    return a*det3(f,h,i,k,l,m,o,p,q)
+	 - e*det3(b,c,d,k,l,m,o,p,q) 
+	 + j*det3(b,c,d,f,h,i,o,p,q)
+	 - n*det3(b,c,d,f,h,i,k,l,m);
 }
 
 /***** Physics stuff ******************************************************/
