@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: image.c,v 1.7 2004/04/18 01:39:29 erik Exp $
+ * $Id: image.c,v 1.8 2004/04/25 21:10:29 erik Exp $
  */
 
 #include <stdio.h>
@@ -34,9 +34,9 @@
 
 #include "image.h"
 
-char image_error_string[BUFSIZ];
-void *readpng (void *buf, int *width, int *height, int *bpp);
-void user_read_data (png_structp png_ptr, png_bytep data, png_size_t length);
+static char image_error_string[BUFSIZ];
+static void *readpng (void *buf, int *width, int *height, int *bpp);
+static void user_read_data (png_structp png_ptr, png_bytep data, png_size_t length);
 
 void *
 image_load (char *filename, int *width, int *height, int *bpp)
