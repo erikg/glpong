@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.7 2003/06/23 22:46:51 erik Exp $ 
+ * $Id: main.c,v 1.8 2003/06/26 14:09:41 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -35,22 +35,11 @@
 #include "timer.h"
 #include "video.h"
 
-void nurk()
-{
-	FILE *fd;
-	char buf[BUFSIZ];
-	fd = fopen("/tmp/glpong.txt", "w");
-	fprintf(fd,"%s\n", getcwd(buf, BUFSIZ));
-	fclose(fd);
-	return;
-}
-
 int
 main (int argc, char **argv)
 {
     game_t *g;
     char buf[BUFSIZ];
-    nurk();
 
     if(argc>1)printf("%s: I don't do parms yet\n", argv[0]);
 
@@ -85,3 +74,4 @@ main (int argc, char **argv)
     SDL_Quit ();
     return 0;
 }
+
