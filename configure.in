@@ -9,15 +9,19 @@ AC_PROG_INSTALL
 AM_PATH_SDL(1.2.0,,AC_ERROR(Cannot find SDL.))
 AC_SUBST(SDL_CFLAGS)
 AC_SUBST(SDL_LIBS)
+
 AM_PATH_OPENGL(,AC_ERROR(Cannot find OpenGL.))
 AC_SUBST(GL_CFLAGS)
 AC_SUBST(GL_LIBS)
-AM_PATH_OPENAL(,AC_ERROR(Cannot find OpenAL. Get it from http://www.openal.org))
-AC_SUBST(AL_CFLAGS)
-AC_SUBST(AL_LIBS)
+
 AM_PATH_PNG(,AC_ERROR(Cannot find libpng.))
 AC_SUBST(PNG_CFLAGS)
 AC_SUBST(PNG_LIBS)
+
+AM_PATH_OPENAL(,AC_ERROR(Cannot find OpenAL. Get it from http://www.openal.org))
+AC_SUBST(AL_CFLAGS)
+AC_SUBST(AL_LIBS)
+AC_DEFINE(HAVE_SOUND,,Always enable sound)
 
 case $target in
 	*-apple-darwin*)

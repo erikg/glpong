@@ -19,8 +19,10 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.17 2004/01/01 18:52:27 erik Exp $ 
+ * $Id: sound.c,v 1.18 2004/01/02 12:30:47 erik Exp $ 
  */
+
+#ifdef HAVE_SOUND
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,3 +107,19 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     alSourcePlay (source);
     return;
 }
+
+#else
+
+void
+sound_init ()
+{
+    return;
+}
+
+void
+sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
+{
+    return;
+}
+
+#endif
