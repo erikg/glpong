@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.10 2003/06/27 13:02:36 erik Exp $ 
+ * $Id: main.c,v 1.11 2003/07/19 19:18:41 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -29,11 +29,26 @@
 #include "ai.h"
 #include "game.h"
 #include "input.h"
+#include "map.h"
 #include "physics.h"
 #include "sound.h"
 #include "text.h"
 #include "timer.h"
 #include "video.h"
+
+void main_add_map()
+{
+	int i;
+	float map[4][3][3] = {
+		{{4.2, -.3, -9},{4.2, -.3, 9},{4.0, -.3, 9}},
+		{{4.2, -.3, 9},{4.0, -.3, 9},{4.0, -.3, -9}},
+		{{-4.2, -.3, -9},{-4.2, -.3, 9},{-4.0, -.3, 9}},
+		{{-4.2, -.3, 9},{-4.0, -.3, 9},{-4.0, -.3, -9}}
+	};
+	for(i=0;i<4;++i)
+		map_add_tri(MAP_WALL, map[i]);
+	return;
+}	
 
 int
 main (int argc, char **argv)
@@ -63,6 +78,9 @@ main (int argc, char **argv)
     timer_init ();
     sound_init ();
     video_init ();
+
+	map_new();
+	main_add_map();
 
     while (input_do (g))
       {
