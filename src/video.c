@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.23 2003/12/28 20:29:26 erik Exp $ 
+ * $Id: video.c,v 1.24 2004/01/01 18:52:32 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -52,9 +52,9 @@ draw_paddle (int reflective, float x)
     left = 0.0833333333333333 * x + .25;
     right = 0.0833333333333333 * x + .75;
     if (reflective)
-      {
-	  glEnable (GL_TEXTURE_2D);
-      }
+    {
+	glEnable (GL_TEXTURE_2D);
+    }
     glBindTexture (GL_TEXTURE_2D, refl);
     glBegin (GL_TRIANGLE_STRIP);
     glTexCoord2d (left, 1);
@@ -122,40 +122,37 @@ video_load_texture (char *file, unsigned int *texid)
     t = IMG_Load (buf);
 
     if (t == NULL)
-      {
-	  printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf,
-		  IMG_GetError ());
-	  snprintf (buf, BUFSIZ, "../data/%s." IMGEXT, file);
-	  printf ("trying %s\n", buf);
-	  t = IMG_Load (buf);
-      }
+    {
+	printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf, IMG_GetError ());
+	snprintf (buf, BUFSIZ, "../data/%s." IMGEXT, file);
+	printf ("trying %s\n", buf);
+	t = IMG_Load (buf);
+    }
     if (t == NULL)
-      {
-	  printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf,
-		  IMG_GetError ());
-	  snprintf (buf, BUFSIZ, "data/%s." IMGEXT, file);
-	  printf ("trying %s\n", buf);
-	  t = IMG_Load (buf);
-      }
+    {
+	printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf, IMG_GetError ());
+	snprintf (buf, BUFSIZ, "data/%s." IMGEXT, file);
+	printf ("trying %s\n", buf);
+	t = IMG_Load (buf);
+    }
     if (t == NULL)
-      {
-	  printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf,
-		  IMG_GetError ());
-	  fprintf (stderr, "Cannot load texture: %s\nAborting...\n", file);
-	  SDL_Quit ();
-	  exit (-1);
-      }
+    {
+	printf ("couldn't read %s\n\t%s." IMGEXT "\n", buf, IMG_GetError ());
+	fprintf (stderr, "Cannot load texture: %s\nAborting...\n", file);
+	SDL_Quit ();
+	exit (-1);
+    }
     glBindTexture (GL_TEXTURE_2D, *texid);
     glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     t2 = SDL_CreateRGBSurface (SDL_SWSURFACE, t->w, t->h, 32, rmask,
-			       gmask, bmask, amask);
+	gmask, bmask, amask);
     SDL_BlitSurface (t, NULL, t2, NULL);
     SDL_FreeSurface (t);
     glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t2->w, t2->h, 0, GL_RGBA,
-		  GL_UNSIGNED_BYTE, t2->pixels);
+	GL_UNSIGNED_BYTE, t2->pixels);
     SDL_FreeSurface (t2);
     return *texid;
 }
@@ -217,30 +214,30 @@ static void
 drawtri (struct map_tri *t)
 {
     switch (t->type)
-      {
-      case MAP_WALL:
-	  if (curcolor != 0xff0000)
-	    {
-		curcolor = 0xff0000;
-		glColor3f (1, 0, 0);
-	    }
-	  glVertex3fv (t->v[0]);
-	  glVertex3fv (t->v[1]);
-	  glVertex3fv (t->v[2]);
-	  break;
-      case MAP_GATE:
+    {
+    case MAP_WALL:
+	if (curcolor != 0xff0000)
+	{
+	    curcolor = 0xff0000;
+	    glColor3f (1, 0, 0);
+	}
+	glVertex3fv (t->v[0]);
+	glVertex3fv (t->v[1]);
+	glVertex3fv (t->v[2]);
+	break;
+    case MAP_GATE:
 #ifdef DRAW_GATE
-	  if (curcolor != 0x00ff00)
-	    {
-		curcolor = 0x00ff00;
-		glColor3f (0, .5, 0);
-	    }
-	  glVertex3fv (t->v[0]);
-	  glVertex3fv (t->v[1]);
-	  glVertex3fv (t->v[2]);
+	if (curcolor != 0x00ff00)
+	{
+	    curcolor = 0x00ff00;
+	    glColor3f (0, .5, 0);
+	}
+	glVertex3fv (t->v[0]);
+	glVertex3fv (t->v[1]);
+	glVertex3fv (t->v[2]);
 #endif
-	  break;
-      }
+	break;
+    }
     return;
 }
 
@@ -325,13 +322,12 @@ flip_surface (SDL_Surface * s)
     buf = (Uint8 *) malloc (s->pitch);
 
     for (x = 0; x < (480 / 2); x++)
-      {
-	  memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
-	  memcpy ((Uint8 *) (s->pixels + x * s->pitch),
-		  (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
-	  memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf,
-		  s->pitch);
-      }
+    {
+	memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
+	memcpy ((Uint8 *) (s->pixels + x * s->pitch),
+	    (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
+	memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf, s->pitch);
+    }
     return;
 }
 

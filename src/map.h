@@ -19,15 +19,14 @@
  ****************************************************************************/
 
 /*
- * $Id: map.h,v 1.5 2003/07/29 15:38:15 erik Exp $
+ * $Id: map.h,v 1.6 2004/01/01 18:52:32 erik Exp $
  */
 
 #define MAP_WALL 0
 #define MAP_GATE 1
 #define MAP_LAST 2
 
-struct map_tri
-{
+struct map_tri {
     char type;			/* MAP_WALL or MAP_GATE */
     float v[3][3];		/* vertices of the tri */
 };

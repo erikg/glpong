@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.27 2004/01/01 17:57:27 erik Exp $ 
+ * $Id: physics.c,v 1.28 2004/01/01 18:52:32 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -163,46 +163,48 @@ physics_do (game_t * g)
     bpos = g->ball->pos;
 #if 0
     do
-      {
-	  nearestdist = 999999.9;	/* effectively infinity... */
-	  map_map_tri (physdist);
-	  //printf ("(ballvelleft) %.2f  (nearestdist) %.2f  (pos) %.2f %.2f %.2f  (vel) %.2f %.2f %.2f\n", ballvelleft, nearestdist, bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
-	  switch (nearesttype)
+    {
+	nearestdist = 999999.9;	/* effectively infinity... */
+	map_map_tri (physdist);
+	//printf ("(ballvelleft) %.2f  (nearestdist) %.2f  (pos) %.2f %.2f %.2f  (vel) %.2f %.2f %.2f\n", ballvelleft, nearestdist, bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
+	switch (nearesttype)
+	{
+	case MAP_WALL:
 	    {
-	    case MAP_WALL:
-		{
-		    float t[3], a[3];
+		float t[3], a[3];
 
-		    //printf("Nearest: %f", nearestdist);
-		    //printf(" move to: %.2f ", nearestdist-g->ball->radius);
-		    scale (t, normalize (a, bvel), clamp (0.0, 9999, nearestdist));	//- g->ball->radius));
-		    //          add (bpos, bpos, t);
-		    bvel[0] = -bvel[0];
-		    //PRINTVECTOR(bvel);
-		    //printf("\n");
-		}
-		break;
-	    case MAP_GATE:
-		goto GOAL;
-		break;
-	    default:
-		printf ("Unknown collision type: %d\n", nearesttype);
-		exit (-1);
-	    };
-	  ballvelleft -= nearestdist;
-      }
+		//printf("Nearest: %f", nearestdist);
+		//printf(" move to: %.2f ", nearestdist-g->ball->radius);
+		scale (t, normalize (a, bvel), clamp (0.0, 9999, nearestdist));	//- g->ball->radius));
+		//          add (bpos, bpos, t);
+		bvel[0] = -bvel[0];
+		//PRINTVECTOR(bvel);
+		//printf("\n");
+	    }
+	    break;
+	case MAP_GATE:
+	    goto GOAL;
+	    break;
+	default:
+	    printf ("Unknown collision type: %d\n", nearesttype);
+	    exit (-1);
+	};
+	ballvelleft -= nearestdist;
+    }
     while (ballvelleft > nearestdist);
     memcpy (g->ball[0].vel, bvel, sizeof (float) * 3);
 #endif
 
-    /* TODO remove this hack, use 'real' cd */
+    /*
+     * TODO remove this hack, use 'real' cd 
+     */
 #define WALL 3.95
     if (fabs (g->ball[0].pos[0]) > WALL)
-      {
-	  g->ball[0].pos[0] = 3.945 * sign (g->ball[0].vel[0]);
-	  g->ball[0].vel[0] *= -1;
-	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
-      }
+    {
+	g->ball[0].pos[0] = 3.945 * sign (g->ball[0].vel[0]);
+	g->ball[0].vel[0] *= -1;
+	sound_play (SOUND_BOINK, NULL, NULL, NULL);
+    }
 #undef WALL
 
     /*
@@ -211,15 +213,19 @@ physics_do (game_t * g)
 //    printf("%f seconds\n", timer_delta());
 #define PADDLEHALFWIDTH 1.0
     i = sign (g->ball[0].vel[1]) < 0 ? 1 : 0;	/* select player in risk */
-    if (fabs (g->ball[0].pos[1]) <= 8.0 && fabs(g->ball[0].pos[1]+g->ball[0].vel[1]*timer_delta()) >= 8.0)
+    if (fabs (g->ball[0].pos[1]) <= 8.0
+	&& fabs (g->ball[0].pos[1] + g->ball[0].vel[1] * timer_delta ()) >=
+	8.0)
     {
-      if(fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
-      {
-	  g->ball[0].pos[1] = 7.845 * sign (g->ball[0].vel[1]);
-	  g->ball[0].vel[1] *= VELAMP * -cos (g->player[i].X - g->ball[0].pos[0]);
-	  g->ball[0].vel[0] += VELAMP * -sin (g->player[i].X - g->ball[0].pos[0]);
-	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
-      }
+	if (fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
+	{
+	    g->ball[0].pos[1] = 7.845 * sign (g->ball[0].vel[1]);
+	    g->ball[0].vel[1] *=
+		VELAMP * -cos (g->player[i].X - g->ball[0].pos[0]);
+	    g->ball[0].vel[0] +=
+		VELAMP * -sin (g->player[i].X - g->ball[0].pos[0]);
+	    sound_play (SOUND_BOINK, NULL, NULL, NULL);
+	}
     }
 #undef PADDLEHALFWIDTH
 
@@ -228,11 +234,11 @@ physics_do (game_t * g)
      * goal made 
      */
     if (fabs (g->ball[0].pos[1]) > 9.0)
-      {
-	  g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
-	  game_newball (g);
-	  sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
-      }
+    {
+	g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
+	game_newball (g);
+	sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
+    }
 
     /*
      * cap ball velocity 

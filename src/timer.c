@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.13 2003/07/29 15:38:15 erik Exp $ 
+ * $Id: timer.c,v 1.14 2004/01/01 18:52:32 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -34,10 +34,9 @@ static int frames = 0, oframes = 0;
 char *
 timer_report (char *buf)
 {
-    double cpuseconds =
-	(double) (clock () - clock0) / (double) CLOCKS_PER_SEC;
+    double cpuseconds = (double)(clock () - clock0) / (double)CLOCKS_PER_SEC;
     double wallseconds = (nowtime - firsttime) / 1000.0;
-    double avefps = (double) oframes / (double) wallseconds;
+    double avefps = (double)oframes / (double)wallseconds;
 
     snprintf (buf, BUFSIZ, "\
 average fps:         %f\n\
@@ -65,7 +64,7 @@ void
 timer_update ()
 {
     thentime = nowtime;
-    nowtime = (double) SDL_GetTicks ();
+    nowtime = (double)SDL_GetTicks ();
     deltatime = (nowtime - thentime) / 1000;
     if (deltatime < min)
 	min = deltatime;
@@ -74,11 +73,11 @@ timer_update ()
     frames++;
     oframes++;
     if (nowtime - fpstime > 500)
-      {
-	  fps = 1000 * frames / (nowtime - fpstime);
-	  frames = 0;
-	  fpstime = nowtime;
-      }
+    {
+	fps = 1000 * frames / (nowtime - fpstime);
+	frames = 0;
+	fpstime = nowtime;
+    }
     return;
 }
 
