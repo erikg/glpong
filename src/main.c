@@ -19,13 +19,14 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.26 2004/06/20 00:12:30 erik Exp $
+ * $Id: main.c,v 1.27 2004/10/12 12:38:16 erik Exp $
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #ifdef __linux__
 #ifndef __USE_BSD

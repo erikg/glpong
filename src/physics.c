@@ -19,11 +19,13 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.31 2004/05/11 23:00:53 erik Exp $
+ * $Id: physics.c,v 1.32 2004/10/12 12:38:16 erik Exp $
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
+
 #include "game.h"
 #include "map.h"
 #include "physics.h"
@@ -38,13 +40,13 @@
 /***** Math stuff *********************************************************/
 
 #define PRINTVECTOR(x) printf("\t%.2f\t%.2f\t%.2f", x[0], x[1], x[2]);
-
+#if 0
 float
 clamp (float low, float high, float val)
 {
     return val < low ? low : val > high ? high : val;
 }
-
+#endif
 float
 dot (float a[3], float b[3])
 {
@@ -59,7 +61,7 @@ cross (float v[3], float a[3], float b[3])
     v[2] = (a[0] * b[1] - a[1] * b[0]);
     return v;
 }
-
+#if 0
 float *
 add (float v[3], float a[3], float b[3])
 {
@@ -68,7 +70,7 @@ add (float v[3], float a[3], float b[3])
     v[2] = a[2] + b[2];
     return v;
 }
-
+#endif
 float *
 subtract (float v[3], float a[3], float b[3])
 {
@@ -98,7 +100,7 @@ normalize (float v[3], float a[3])
 {
     return scale (v, a, 1.0 / magnitude (a));
 }
-
+#if 0
 float
 det2 (float a, float b, float c, float d)
 {
@@ -109,7 +111,9 @@ det2 (float a, float b, float c, float d)
 float
 det3 (float a, float b, float c, float d, float e, float f, float h, float i, float j)
 {
-    //return a * (e * j - f * i) - d * (b * j - c * i) + h * (b * f - c * e);
+    /*
+     return a * (e * j - f * i) - d * (b * j - c * i) + h * (b * f - c * e);
+     */
     return a * det2 (e, f, i, j) - d * det2 (b, c, i, j) + h * det2 (b, c, e, f);
 }
 
@@ -156,7 +160,7 @@ testIntersection (float ro[3], float re[3], float a[3], float b[3], float c[3])
 	return IN;
     return OUT;
 }
-
+#endif
 /***** Physics stuff ******************************************************/
 
 void
@@ -183,13 +187,12 @@ dist (float p0[3], float p1[3])
 	return -1.0;
     nearestdist = d;
     memcpy (nearestnorm, n, sizeof (float) * 3);
+    return nearestdist;
 }
 
 void
 physdist (struct map_tri *m)
 {
-    float x;
-
     if (dist (m->v[0], m->v[1]) >= 0)
 	nearesttype = m->type;
     if (dist (m->v[0], m->v[2]) >= 0)
@@ -202,8 +205,10 @@ void
 physics_do (game_t * g)
 {
     int i;
-    float ballvelleft = magnitude (g->ball[0].vel) * timer_delta ();
     float dt;
+#if 0
+    float ballvelleft = magnitude (g->ball[0].vel) * timer_delta ();
+#endif
 
     dt = timer_delta ();
 
@@ -263,7 +268,9 @@ physics_do (game_t * g)
     /*
      * paddle bounce
      */
+#if 0
     //printf ("%f seconds\n", timer_delta ());
+#endif
 #define PADDLEHALFWIDTH 1.0
     i = sign (g->ball[0].vel[1]) < 0 ? 1 : 0;	/* select player in risk */
     if (fabs (g->ball[0].pos[1]) <= 8.0
@@ -282,7 +289,9 @@ physics_do (game_t * g)
     }
 #undef PADDLEHALFWIDTH
 
+#if 0
 GOAL:
+#endif
 
     /*
      * goal made

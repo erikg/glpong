@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: image.c,v 1.8 2004/04/25 21:10:29 erik Exp $
+ * $Id: image.c,v 1.9 2004/10/12 12:38:16 erik Exp $
  */
 
 #include <stdio.h>
@@ -37,6 +37,7 @@
 static char image_error_string[BUFSIZ];
 static void *readpng (void *buf, int *width, int *height, int *bpp);
 static void user_read_data (png_structp png_ptr, png_bytep data, png_size_t length);
+static int ispng (void *);
 
 void *
 image_load (char *filename, int *width, int *height, int *bpp)
@@ -82,7 +83,7 @@ user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
     if (png_ptr == NULL)
 	bar = 0;
     else
-	memcpy (data, (void *)(png_ptr->io_ptr) + bar, length);
+	memcpy (data, (void *)((unsigned int)(png_ptr->io_ptr) + bar), length);
     bar += length;
     return;
 }
@@ -101,7 +102,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
     png_infop info_ptr = png_create_info_struct (png_ptr);
     png_bytepp row_pointers;
     void *out;
-    int i, pitch, channels, depth;
+    unsigned int i, pitch, channels, depth;
 
     if (png_ptr == NULL || info_ptr == NULL)
     {
@@ -130,7 +131,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
 
     out = malloc ((*width) * (*height) * (*bpp));
     for (i = 0; i < info_ptr->height; ++i)
-	memcpy (out + i * pitch, row_pointers[i], pitch);
+	memcpy ((void *)((unsigned int)out + i * pitch), row_pointers[i], pitch);
     png_destroy_read_struct (&png_ptr, &info_ptr, png_infopp_NULL);
     return out;
 }

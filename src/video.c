@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.35 2004/07/25 14:56:37 erik Exp $ 
+ * $Id: video.c,v 1.36 2004/10/12 12:38:17 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -340,17 +340,18 @@ video_do (game_t * g)
 static void
 flip_surface (SDL_Surface * s)
 {
-    int x;
+    unsigned int x;
     Uint8 *buf;
 
     buf = (Uint8 *) malloc (s->pitch);
 
     for (x = 0; x < (480 / 2); x++)
     {
-	memcpy (buf, (Uint8 *) (s->pixels + x * s->pitch), s->pitch);
-	memcpy ((Uint8 *) (s->pixels + x * s->pitch),
-	    (Uint8 *) (s->pixels + (479 - x) * s->pitch), s->pitch);
-	memcpy ((Uint8 *) (s->pixels + (479 - x) * s->pitch), buf, s->pitch);
+#define PTRADD(p,v) ((void *)((unsigned int)(p) + (v)))
+	memcpy (buf, (Uint8 *) PTRADD(s->pixels, x*s->pitch), s->pitch);
+	memcpy ((Uint8 *) PTRADD(s->pixels, x * s->pitch), (Uint8 *) PTRADD(s->pixels , (479 - x) * s->pitch), s->pitch);
+	memcpy ((Uint8 *) PTRADD(s->pixels , (479 - x) * s->pitch), buf, s->pitch);
+#undef PTRADD
     }
     return;
 }
