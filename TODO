@@ -1,12 +1,17 @@
 
 next release
-	* fx cd
+	* fix sound (make it louder)
+	* getopt
+	* libpng
+	* clean bundle and rpm generator
 
 future
+	* deb generator
+	* abstract cd
 	* menu
 	* highscores
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.4 2003/07/03 06:31:59 erik Exp $
+$Id: TODO,v 1.5 2004/01/01 18:56:13 erik Exp $
 
