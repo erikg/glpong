@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.16 2003/07/20 15:18:48 erik Exp $ 
+ * $Id: video.c,v 1.17 2003/07/24 15:57:22 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -271,7 +271,7 @@ video_do (game_t * g)
     glDisable (GL_LIGHTING);
 
     glPushMatrix ();
-    glTranslatef (g->ballX, 0, g->ballY);
+    glTranslatef (g->ball_pos[0], 0, g->ball_pos[1]);
     glColor3f (1, 1, 1);
     glBegin (GL_QUADS);
     glVertex3f (-.1, -.3, -.1);

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: ai.c,v 1.5 2003/06/23 22:46:51 erik Exp $ 
+ * $Id: ai.c,v 1.6 2003/07/24 15:57:22 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -33,12 +33,12 @@ ai_do (game_t * g)
     /*
      * don't act if the ball is going towards hoomon 
      */
-    if (g->ballJ > 0)
+    if (g->ball_vel[0] > 0)
 	return;
 
-    if (g->machineX > g->ballX)
+    if (g->machineX > g->ball_pos[0])
 	g->machineX -= timer_delta () * 4.0;
-    if (g->machineX < g->ballX)
+    if (g->machineX < g->ball_pos[0])
 	g->machineX += timer_delta () * 4.0;
     return;
 }

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.9 2003/07/20 14:57:44 erik Exp $ 
+ * $Id: physics.c,v 1.10 2003/07/24 15:57:22 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -43,10 +43,7 @@ physics_init ()
 void
 physics_do (game_t * g)
 {
-	/* wall bounce */
-    if (fabs (g->ballX) > 4.0 && (sign (g->ballX) == sign (g->ballI)))
-	g->ballI *= -1;
-
+	/* keep the paddles on the grid */
     if (g->machineX > 3)
 	g->machineX = 3;
     if (g->machineX < -3)
@@ -56,10 +53,14 @@ physics_do (game_t * g)
     if (g->playerX < -3)
 	g->playerX = -3;
 
+	/* wall bounce */
+    if (fabs (g->ball_pos[0]) > 4.0 && (sign (g->ball_pos[0]) == sign (g->ball_vel[1])))
+	g->ball_vel[1] *= -1;
+
     	/* goal made */
-    if (g->ballY > 8.0 && g->ballJ > 0)
+    if (g->ball_pos[1] > 8.0 && g->ball_vel[0] > 0)
       {
-	  if (fabs (g->playerX - g->ballX) > 1.0)
+	  if (fabs (g->playerX - g->ball_pos[0]) > 1.0)
 	    {
 		g->machinescore++;
 		game_newball (g);
@@ -68,15 +69,15 @@ physics_do (game_t * g)
 	    }
 	  else
 	    {
-		g->ballI += VELAMP * -sin ((g->playerX - g->ballX));
-		g->ballJ *= VELAMP * -cos (1 * (g->playerX - g->ballX));
+		g->ball_vel[1] += VELAMP * -sin ((g->playerX - g->ball_pos[0]));
+		g->ball_vel[0] *= VELAMP * -cos (1 * (g->playerX - g->ball_pos[0]));
 		sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	    }
       }
 
-    if (g->ballY < -8.0 && g->ballJ < 0)
+    if (g->ball_pos[1] < -8.0 && g->ball_vel[0] < 0)
       {
-	  if (fabs (g->machineX - g->ballX) > 1.0)
+	  if (fabs (g->machineX - g->ball_pos[0]) > 1.0)
 	    {
 		g->playerscore++;
 		game_newball (g);
@@ -84,21 +85,21 @@ physics_do (game_t * g)
 	    }
 	  else
 	    {
-		g->ballI += VELAMP * -sin ((g->machineX - g->ballX));
-		g->ballJ *= -VELAMP * cos (1 * (g->machineX - g->ballX));
+		g->ball_vel[1] += VELAMP * -sin ((g->machineX - g->ball_pos[0]));
+		g->ball_vel[0] *= -VELAMP * cos (1 * (g->machineX - g->ball_pos[0]));
 		sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	    }
       }
 
     	/* cap ball velocity */
-    if (g->ballJ > MAXVEL)
-	g->ballJ = MAXVEL;
-    if (g->ballJ < -MAXVEL)
-	g->ballJ = -MAXVEL;
+    if (g->ball_vel[0] > MAXVEL)
+	g->ball_vel[0] = MAXVEL;
+    if (g->ball_vel[0] < -MAXVEL)
+	g->ball_vel[0] = -MAXVEL;
 
     	/* update ball location */
-    g->ballX += g->ballI * timer_delta ();
-    g->ballY += g->ballJ * timer_delta ();
+    g->ball_pos[0] += g->ball_vel[1] * timer_delta ();
+    g->ball_pos[1] += g->ball_vel[0] * timer_delta ();
 
     return;
 }

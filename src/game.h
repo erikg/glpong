@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.h,v 1.5 2003/06/26 14:10:30 erik Exp $ 
+ * $Id: game.h,v 1.6 2003/07/24 15:57:22 erik Exp $ 
  */
 
 #ifndef __GAME_H_
@@ -29,8 +29,7 @@ typedef struct game_s
 {
     float playerX;
     float machineX;
-    float ballX, ballY;
-    float ballI, ballJ;
+    float ball_pos[3], ball_vel[3];
     int playerscore, machinescore;
 }
 game_t;
