@@ -1,12 +1,12 @@
 Summary: OpenGL Pong.
 Name: glpong
-Version: 1.0
+Version: 1.1
 Release: 1
 Copyright: GPL
 Vendor: Erik Greenwald
 Url: http://math.smsu.edu/~erik/software.php?id=72
 Group: Amusements/Games
-Source0: http://math.smsu.edu/~erik/files/glpong-1.0.tar.gz
+Source0: http://math.smsu.edu/~erik/files/glpong-1.1.tar.gz
 Buildroot: /usr/src/redhat/BUILD/glpong
 
 %description
