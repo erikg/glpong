@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.7 2003/06/26 14:10:30 erik Exp $ 
+ * $Id: sound.c,v 1.8 2003/06/27 14:11:44 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -33,7 +33,7 @@
 #include "sound.h"
 
 static ALuint wave[2];
-float earpos[3], eardir[3];
+static ALuint source;
 
 ALuint
 sound_load (char *name)
@@ -70,19 +70,34 @@ sound_init ()
 	  return;
       }
     alcMakeContextCurrent (context_id);
-    alGenSources (2, wave);
+
+    alGenSources (1, &source);
 
     wave[SOUND_BOINK] = sound_load ("/boink.wav");
     wave[SOUND_NNGNGNG] = sound_load ("/lose.wav");
 
     alDistanceModel (AL_DISTANCE_MODEL);
+    alSourcef(source, AL_REFERENCE_DISTANCE, 22.0);
 
     return;
 }
 
 void
-sound_play (int sound)
+sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
 {
-    alSourcePlay (sound);
+	float zero[4] = {0,0,0,0};
+	float fwd[4] = {0,1,0,0};
+/*
+    alSourcefv (wave[sound], AL_POSITION, noisepos);
+    alListenerfv (AL_POSITION, playerpos);
+    alListenerfv (AL_ORIENTATION, playeror);
+*/
+    alSourcefv (source, AL_POSITION, zero);
+    alListenerfv (AL_POSITION, zero);
+    alListenerfv (AL_ORIENTATION, fwd);
+    alSourcei(source, AL_BUFFER, wave[sound]);
+    alSourcei(source, AL_GAIN, 1);
+    alSourcei(source, AL_LOOPING, 0);
+    alSourcePlay (wave[sound]);
     return;
 }

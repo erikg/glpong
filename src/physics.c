@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.7 2003/06/26 14:10:30 erik Exp $ 
+ * $Id: physics.c,v 1.8 2003/06/27 14:11:44 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -69,14 +69,14 @@ physics_do (game_t * g)
 	    {
 		g->machinescore++;
 		game_newball (g);
-		sound_play (SOUND_NNGNGNG);
+		sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
 
 	    }
 	  else
 	    {
 		g->ballI += VELAMP * -sin ((g->playerX - g->ballX));
 		g->ballJ *= VELAMP * -cos (1 * (g->playerX - g->ballX));
-		sound_play (SOUND_BOINK);
+		sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	    }
       }
 
@@ -86,13 +86,13 @@ physics_do (game_t * g)
 	    {
 		g->playerscore++;
 		game_newball (g);
-		sound_play (SOUND_NNGNGNG);
+		sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
 	    }
 	  else
 	    {
 		g->ballI += VELAMP * -sin ((g->machineX - g->ballX));
 		g->ballJ *= -VELAMP * cos (1 * (g->machineX - g->ballX));
-		sound_play (SOUND_BOINK);
+		sound_play (SOUND_BOINK, NULL, NULL, NULL);
 	    }
       }
 
