@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.c,v 1.14 2003/07/29 15:38:14 erik Exp $ 
+ * $Id: game.c,v 1.15 2004/01/01 17:52:36 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -71,8 +71,8 @@ game_newball (game_t * g)
     while (sin (angle) > INITCOS);
     g->ball->pos[0] = 0.0;
     g->ball->pos[1] = 0.0;
-    g->ball->vel[0] = INITVEL * sin (angle);
-    g->ball->vel[1] = INITVEL * cos (angle);
+    g->ball->vel[0] = INITVEL * cos (angle);
+    g->ball->vel[1] = INITVEL * sin (angle);
     g->ball->speed = INITVEL;
     g->ball->radius = .1;
 }
