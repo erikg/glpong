@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.26 2004/01/01 17:43:52 erik Exp $ 
+ * $Id: physics.c,v 1.27 2004/01/01 17:57:27 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -216,8 +216,8 @@ physics_do (game_t * g)
       if(fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
       {
 	  g->ball[0].pos[1] = 7.845 * sign (g->ball[0].vel[1]);
-	  g->ball[0].vel[0] += VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
-	  g->ball[0].vel[1] *= VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+	  g->ball[0].vel[1] *= VELAMP * -cos (g->player[i].X - g->ball[0].pos[0]);
+	  g->ball[0].vel[0] += VELAMP * -sin (g->player[i].X - g->ball[0].pos[0]);
 	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
     }
