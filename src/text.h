@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.h,v 1.6 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: text.h,v 1.7 2004/04/25 17:25:00 erik Exp $ 
  */
 
 #ifndef __TEXT_H_
@@ -29,10 +29,12 @@
 #define TEXT_MACHINE 11
 #define TEXT_FPS 12
 
+void text_destroy ();
+void text_draw_static (int id, int x, int y, int w, int h);
+void text_draw_static_ca (int id, int x, int y, int w, int h);
+void text_draw_string (char *string, int x, int y, int w, int h);
+void text_draw_string_ca (char *string, int x, int y, int w, int h);
 void text_init ();
 void text_mode (int w, int h);
-void text_draw_static (int id, float x, float y, float w, float h);
-void text_draw_string (char *string, float x, float y, float w, float h);
-void text_destroy ();
 
 #endif

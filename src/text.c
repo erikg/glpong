@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.18 2004/04/18 01:39:29 erik Exp $ 
+ * $Id: text.c,v 1.19 2004/04/25 17:25:00 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -69,45 +69,58 @@ text_init ()
 void
 text_mode (int w, int h)
 {
-    glViewport (0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
-    glOrtho (0,w,0,h,-1,1);
+    glOrtho (0, w, 0, h, -1, 1);
     glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity ();
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBindTexture (GL_TEXTURE_2D, textid);
+    glEnable (GL_TEXTURE_2D);
     return;
 }
 
 void
-text_draw_static (int id, float x, float y, float w, float h)
+text_draw_static (int id, int x, int y, int w, int h)
 {
-    glEnable (GL_TEXTURE_2D);
     glBindTexture (GL_TEXTURE_2D, textid);
     glBegin (GL_TRIANGLE_STRIP);
     glTexCoord2d (texcoords[id][0] / 256.0, texcoords[id][1] / 256.0);
-    glVertex3f (x, y + h, 0);
+    glVertex3d (x, y + h, 0);
     glTexCoord2d (texcoords[id][2] / 256.0, texcoords[id][1] / 256.0);
-    glVertex3f (x + w, y + h, 0);
+    glVertex3d (x + w, y + h, 0);
     glTexCoord2d (texcoords[id][0] / 256.0, texcoords[id][3] / 256.0);
-    glVertex3f (x, y, 0);
+    glVertex3d (x, y, 0);
     glTexCoord2d (texcoords[id][2] / 256.0, texcoords[id][3] / 256.0);
-    glVertex3f (x + w, y, 0);
+    glVertex3d (x + w, y, 0);
     glEnd ();
-    glDisable (GL_TEXTURE_2D);
     return;
 }
 
 void
-text_draw_string (char *s, float x, float y, float w, float h)
+text_draw_static_ca (int id, int x, int y, int w, int h)
 {
-    float mlen = w / (float)strlen (s);
+    text_draw_static (id, x - w / 2, y - h / 2, w, h);
+}
+
+void
+text_draw_string (char *s, int x, int y, int w, int h)
+{
+    int mlen = w / (int) strlen (s);
 
     while (*s++)
-    {
-	if (*s >= '0' && *s <= '9')
-	    text_draw_static (*s - '0', x, y, mlen, h);
-	x += mlen;
-    }
+      {
+	  if (*s >= '0' && *s <= '9')
+	      text_draw_static (*s - '0', x, y, mlen, h);
+	  x += mlen;
+      }
     return;
+}
+
+void
+text_draw_string_ca (char *s, int x, int y, int w, int h)
+{
+    text_draw_string (s, x - w / 2, y - h / 2, w, h);
 }
 
 void
