@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.5 2003/06/23 22:46:52 erik Exp $ 
+ * $Id: physics.c,v 1.6 2003/06/25 00:38:46 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -28,6 +28,9 @@
 #include "physics.h"
 #include "sound.h"
 #include "timer.h"
+
+#define MAXVEL 70.0
+#define VELAMP 1.4
 
 int
 sign (float x)
@@ -70,8 +73,8 @@ physics_do (game_t * g)
 
 	} else
 	{
-	    g->ballI += 2.0 * -sin ((g->playerX - g->ballX));
-	    g->ballJ *= 2.0 * -cos (1 * (g->playerX - g->ballX));
+	    g->ballI += VELAMP * -sin ((g->playerX - g->ballX));
+	    g->ballJ *= VELAMP * -cos (1 * (g->playerX - g->ballX));
 	    sound_play (SOUND_BOINK);
 	}
     }
@@ -85,8 +88,8 @@ physics_do (game_t * g)
 	    sound_play (SOUND_NNGNGNG);
 	} else
 	{
-	    g->ballI += 2.0 * -sin ((g->machineX - g->ballX));
-	    g->ballJ *= -2.0 * cos (1 * (g->machineX - g->ballX));
+	    g->ballI += VELAMP * -sin ((g->machineX - g->ballX));
+	    g->ballJ *= -VELAMP * cos (1 * (g->machineX - g->ballX));
 	    sound_play (SOUND_BOINK);
 	}
     }
@@ -98,8 +101,8 @@ physics_do (game_t * g)
 		g->ballJ=.3;
     }
 
-    if(g->ballJ>100)g->ballJ=100;
-    if(g->ballJ<-100)g->ballJ=-100;
+    if(g->ballJ>MAXVEL)g->ballJ=MAXVEL;
+    if(g->ballJ<-MAXVEL)g->ballJ=-MAXVEL;
 
     g->ballX += g->ballI * timer_delta ();
     g->ballY += g->ballJ * timer_delta ();

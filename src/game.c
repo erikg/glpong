@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.c,v 1.5 2003/06/23 22:46:51 erik Exp $ 
+ * $Id: game.c,v 1.6 2003/06/25 00:38:46 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -38,6 +38,9 @@
 #   define M_PI 3.14159265358979323846
 # endif
 #endif
+
+#define INITVEL 6.0
+#define INITCOS 0.7
 
 game_t *
 game_init ()
@@ -62,9 +65,9 @@ game_newball (game_t * g)
 	{
 	angle = (float)rand() * (2.0*M_PI/(float)RAND_MAX);
 	}
-	while(cos(angle)>.8);
+	while(sin(angle)>INITCOS);
     g->ballX = 0;
     g->ballY = 0;
-    g->ballI = 3.0 * sin(angle);
-    g->ballJ = 3.0 * cos(angle);
+    g->ballI = INITVEL * sin(angle);
+    g->ballJ = INITVEL * cos(angle);
 }
