@@ -1,0 +1,9 @@
+glpong (1.1-1) stable; urgency=low
+
+  * A Release.
+
+ -- Erik Greenwald <erik@smluc.org>  Tue, 24 Jun 2003 09:42:04 -0600
+
+Local variables:
+mode: debian-changelog
+End:

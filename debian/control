@@ -1,0 +1,12 @@
+Source: glpong
+Section: games
+Priority: extra
+Maintainer: Erik Greenwald <erik@smluc.org>
+Standards-Version: 3.5.2
+Build-Depends: debhelper (>= 2.0.0)
+
+Package: glpong
+Architecture: i386
+Depends: ${shlibs:Depends}
+Suggests: 
+Description: opengl/sdl/openal game of pong
