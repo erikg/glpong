@@ -8,6 +8,42 @@ AM_CONFIG_HEADER(config.h)
 AC_PROG_CC
 AC_PROG_INSTALL
 
+dnl autosearch /usr/X11R6
+AC_MSG_CHECKING([for /usr/X11R6])
+if test -d /usr/X11R6/include ; then
+	AC_MSG_RESULT([found, adding /usr/X11R6 to search paths])
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
+	if test -d /usr/X11R6/lib ; then
+		LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
+	fi
+else
+	AC_MSG_RESULT([not found])
+fi
+
+dnl autosearch /usr/local
+AC_MSG_CHECKING([for /usr/local])
+if test -d /usr/local/include ; then
+	AC_MSG_RESULT([found, adding /usr/local to search paths])
+	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+	if test -d /usr/local/lib ; then
+		LDFLAGS="$LDFLAGS -L/usr/local/lib"
+	fi
+else
+	AC_MSG_RESULT([not found])
+fi
+
+dnl autosearch fink paths
+AC_MSG_CHECKING([for fink in /sw])
+if test -d /sw/include ; then
+	AC_MSG_RESULT([found, adding /sw to search paths])
+	CPPFLAGS="$CPPFLAGS -I/sw/include"
+	if test -d /sw/lib ; then
+		LDFLAGS="$LDFLAGS -L/sw/lib"
+	fi
+else
+	AC_MSG_RESULT([not found])
+fi
+
 AM_PATH_SDL(1.2.0,,AC_MSG_ERROR([Cannot find SDL.]))
 AC_SUBST(SDL_CFLAGS)
 AC_SUBST(SDL_LIBS)
