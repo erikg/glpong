@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.14 2003/07/19 19:36:59 erik Exp $ 
+ * $Id: video.c,v 1.15 2003/07/20 14:57:44 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -207,12 +207,26 @@ video_init ()
 }
 
 int angle = 0;
+static int curcolor = 0x000000;
 
-static void drawtri(float v[3][3])
+static void drawtri(struct map_tri *t)
 {
-	glVertex3fv(v[0]);
-	glVertex3fv(v[1]);
-	glVertex3fv(v[2]);
+	switch(t->type)
+	{
+		case MAP_WALL:
+			if(curcolor!=0xff0000)
+				glColor3f(1,0,0);
+			glVertex3fv(t->v[0]);
+			glVertex3fv(t->v[1]);
+			glVertex3fv(t->v[2]);
+			break;
+		case MAP_GATE:
+			if(curcolor!=0x00ff00)
+				glColor3f(1,0,0);
+			glVertex3fv(t->v[0]);
+			glVertex3fv(t->v[1]);
+			glVertex3fv(t->v[2]);
+	}
 	return;
 }
 
@@ -231,7 +245,6 @@ video_do (game_t * g)
     /*
      * machine paddle 
      */
-    glColor3f (0, 0, 1);
     glPushMatrix ();
     glTranslatef (g->machineX, 0, -8);
     draw_paddle (1, g->machineX);
@@ -240,7 +253,6 @@ video_do (game_t * g)
     /*
      * human paddle 
      */
-    glColor3f (1, 1, 0);
     glPushMatrix ();
     glTranslatef (g->playerX, 0, 8);
     draw_paddle (0, g->playerX);
@@ -250,6 +262,7 @@ video_do (game_t * g)
      * ball 
      */
     glDisable (GL_LIGHTING);
+
     glPushMatrix ();
     glTranslatef (g->ballX, 0, g->ballY);
     glColor3f (1, 1, 1);
@@ -264,9 +277,9 @@ video_do (game_t * g)
     /*
      * strips 
      */
-    glColor3f (1, 0, 0);
+    curcolor=0xffffff;
     glBegin (GL_TRIANGLES);
-    map_map_tri(MAP_WALL, drawtri);
+    map_map_tri(drawtri);
     glEnd ();
 
     /*

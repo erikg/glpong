@@ -19,33 +19,25 @@
  ****************************************************************************/
 
 /*
- * $Id: map.c,v 1.2 2003/07/19 19:20:48 erik Exp $
+ * $Id: map.c,v 1.3 2003/07/20 14:57:44 erik Exp $
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "map.h"
 
-#define memdup(d,s) memcpy(malloc(s),d,s)
-
 struct _ll
 {
     struct _ll *next;
     void *data;
 }
-*map[MAP_LAST];
+*map;
 
 	/* wipes out existing map */
 void
 map_new ()
 {
-    int i;
-
-    for (i = 0; i < MAP_LAST; ++i)
-      {
-	  /* memleak, need proper clearing */
-	  map[i] = NULL;
-      }
+    map = NULL;
     return;
 }
 
@@ -54,22 +46,25 @@ int
 map_add_tri (int type, float v[3][3])
 {
     struct _ll *l = (struct _ll *) malloc (sizeof (struct _ll));
+    struct map_tri *t = (struct map_tri *) malloc (sizeof (struct map_tri));
 
-    if (l == NULL)
+    if (l == NULL || t == NULL)
 	return -1;
-    l->data = memdup (v, sizeof (float) * 3 * 3);
-    l->next = map[type];
-    map[type] = l;
+    memcpy (t->v, v, sizeof (float) * 3 * 3);
+    t->type = type;
+    l->data = t;
+    l->next = map;
+    map = l;
     return 0;
 }
 
 	/* apply <func> to each vertex in <type> list */
 int
-map_map_tri (int type, void (*func) (float v[3][3]))
+map_map_tri (void (*func) (struct map_tri *t))
 {
-    struct _ll *l;
+    struct _ll *l = map;
 
-    for (l = map[type]; l; l = l->next)
+    for (; l; l = l->next)
 	func (l->data);
     return 0;
 }

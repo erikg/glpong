@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.8 2003/06/27 14:11:44 erik Exp $ 
+ * $Id: physics.c,v 1.9 2003/07/20 14:57:44 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -32,15 +32,7 @@
 #define MAXVEL 70.0
 #define VELAMP 1.4
 
-int
-sign (float x)
-{
-    if (x > 0)
-	return 1;
-    if (x < 0)
-	return -1;
-    return 0;
-}
+#define sign(x) (x>0?1:x<0?-1:0)
 
 void
 physics_init ()
@@ -51,6 +43,7 @@ physics_init ()
 void
 physics_do (game_t * g)
 {
+	/* wall bounce */
     if (fabs (g->ballX) > 4.0 && (sign (g->ballX) == sign (g->ballI)))
 	g->ballI *= -1;
 
@@ -63,6 +56,7 @@ physics_do (game_t * g)
     if (g->playerX < -3)
 	g->playerX = -3;
 
+    	/* goal made */
     if (g->ballY > 8.0 && g->ballJ > 0)
       {
 	  if (fabs (g->playerX - g->ballX) > 1.0)
@@ -96,20 +90,15 @@ physics_do (game_t * g)
 	    }
       }
 
-    if (fabs (g->ballJ) < .3)
-      {
-	  if (g->ballJ < 0)
-	      g->ballJ = -.3;
-	  else
-	      g->ballJ = .3;
-      }
-
+    	/* cap ball velocity */
     if (g->ballJ > MAXVEL)
 	g->ballJ = MAXVEL;
     if (g->ballJ < -MAXVEL)
 	g->ballJ = -MAXVEL;
 
+    	/* update ball location */
     g->ballX += g->ballI * timer_delta ();
     g->ballY += g->ballJ * timer_delta ();
+
     return;
 }
