@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.h,v 1.6 2003/07/19 19:20:48 erik Exp $ 
+ * $Id: sound.h,v 1.7 2003/07/27 14:49:34 erik Exp $ 
  */
 
 #ifndef __SOUND_H_
@@ -31,7 +31,7 @@
 
 void sound_init ();
 void sound_play (int sound, float *noisepos, float *playerpos,
-		 float *playeror);
+    float *playeror);
 
 
 #endif

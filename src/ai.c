@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: ai.c,v 1.7 2003/07/25 18:20:19 erik Exp $ 
+ * $Id: ai.c,v 1.8 2003/07/27 14:49:34 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -36,9 +36,9 @@ ai_do (game_t * g)
     if (g->ball->vel[0] > 0)
 	return;
 
-    if (g->machineX > g->ball->pos[0])
-	g->machineX -= timer_delta () * 4.0;
-    if (g->machineX < g->ball->pos[0])
-	g->machineX += timer_delta () * 4.0;
+    if (g->player[MACHINE].X > g->ball->pos[0])
+	g->player[MACHINE].X -= timer_delta () * 4.0;
+    if (g->player[MACHINE].X < g->ball->pos[0])
+	g->player[MACHINE].X += timer_delta () * 4.0;
     return;
 }

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: timer.c,v 1.10 2003/07/19 19:20:48 erik Exp $ 
+ * $Id: timer.c,v 1.11 2003/07/27 14:49:34 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -34,10 +34,9 @@ static int frames = 0, oframes = 0;
 char *
 timer_report (char *buf)
 {
-    double cpuseconds =
-	(double) (clock () - clock0) / (double) CLOCKS_PER_SEC;
+    double cpuseconds = (double)(clock () - clock0) / (double)CLOCKS_PER_SEC;
     double wallseconds = (nowtime - firsttime) / 1000.0;
-    double avefps = (double) oframes / (double) wallseconds;
+    double avefps = (double)oframes / (double)wallseconds;
 
     snprintf (buf, BUFSIZ, "\
 average fps:         %f\n\
@@ -46,7 +45,7 @@ max fps:             %f\n\
 seconds in game:     %f\n\
 seconds of cpu time: %f\n\
 %% cpu usage:        %f\n\
-Max theoretical FPS: %f\n", (double) oframes / (double) wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes / cpuseconds);
+Max theoretical FPS: %f\n", (double)oframes / (double)wallseconds, 1.0 / max, 1.0 / min, wallseconds, cpuseconds, 100.0 * cpuseconds / wallseconds, oframes / cpuseconds);
 
     return buf;
 }
@@ -65,7 +64,7 @@ void
 timer_update ()
 {
     thentime = nowtime;
-    nowtime = (double) SDL_GetTicks ();
+    nowtime = (double)SDL_GetTicks ();
     deltatime = (nowtime - thentime) / 1000;
     if (deltatime < min)
 	min = deltatime;
@@ -74,11 +73,11 @@ timer_update ()
     frames++;
     oframes++;
     if (nowtime - fpstime > 500)
-      {
-	  fps = 1000 * frames / (nowtime - fpstime);
-	  frames = 0;
-	  fpstime = nowtime;
-      }
+    {
+	fps = 1000 * frames / (nowtime - fpstime);
+	frames = 0;
+	fpstime = nowtime;
+    }
     return;
 }
 

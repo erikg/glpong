@@ -19,24 +19,29 @@
  ****************************************************************************/
 
 /*
- * $Id: map.h,v 1.3 2003/07/20 14:57:44 erik Exp $
+ * $Id: map.h,v 1.4 2003/07/27 14:49:34 erik Exp $
  */
 
 #define MAP_WALL 0
 #define MAP_GATE 1
 #define MAP_LAST 2
 
-struct map_tri
-{
-	char type;	/* MAP_WALL or MAP_GATE */
-	float v[3][3];	/* vertices of the tri */
+struct map_tri {
+    char type;			/* MAP_WALL or MAP_GATE */
+    float v[3][3];		/* vertices of the tri */
 };
 
-	/* wipes out existing map */
+	/*
+	 * wipes out existing map 
+	 */
 void map_new ();
 
-	/* adds a single triangle to the map */
+	/*
+	 * adds a single triangle to the map 
+	 */
 int map_add_tri (int type, float v[3][3]);
 
-	/* apply <func> to each vertex in <type> list */
+	/*
+	 * apply <func> to each vertex in <type> list 
+	 */
 int map_map_tri (void (*func) (struct map_tri *));

@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: game.c,v 1.11 2003/07/25 18:31:42 erik Exp $ 
+ * $Id: game.c,v 1.12 2003/07/27 14:49:34 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -30,7 +30,9 @@
 
 #include "game.h"
 
-	/* define pi if it's not already defined */
+	/*
+	 * define pi if it's not already defined 
+	 */
 #ifndef M_PI
 # ifdef PI
 #   define M_PI PI
@@ -49,10 +51,10 @@ game_init ()
 
     g = (game_t *) malloc (sizeof (game_t));
     srand (time (0) + getpid ());
-    g->playerX = 0;
-    g->machineX = 0;
-    g->playerscore = 0;
-    g->machinescore = 0;
+    g->player[PLAYER].X = 0;
+    g->player[MACHINE].X = 0;
+    g->player[PLAYER].score = 0;
+    g->player[MACHINE].score = 0;
     game_newball (g);
     return g;
 }
@@ -63,9 +65,9 @@ game_newball (game_t * g)
     float angle;
 
     do
-      {
-	  angle = (float) rand () * (2.0 * M_PI / (float) RAND_MAX);
-      }
+    {
+	angle = (float)rand () * (2.0 * M_PI / (float)RAND_MAX);
+    }
     while (sin (angle) > INITCOS);
     g->ball->pos[0] = 0;
     g->ball->pos[1] = 0;

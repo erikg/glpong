@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.12 2003/07/19 19:20:48 erik Exp $ 
+ * $Id: sound.c,v 1.13 2003/07/27 14:49:34 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -50,10 +50,10 @@ sound_load (ALuint id, char *name)
 
     snprintf (filename, BUFSIZ, "%s/%s", DATADIR, name);
     if ((spec2 =
-	 SDL_LoadWAV (filename, &spec, (Uint8 **) & buf, &len)) == NULL)
-      {
-	  printf ("Unable to load sound %s\n", filename);
-      }
+	    SDL_LoadWAV (filename, &spec, (Uint8 **) & buf, &len)) == NULL)
+    {
+	printf ("Unable to load sound %s\n", filename);
+    }
     for (i = 0; i < len / 2; ++i)
 	buf[i] = SDL_SwapLE16 (buf[i]);
     alBufferData (id, AL_FORMAT_MONO16, buf, len, spec2->freq);
@@ -70,10 +70,10 @@ sound_init ()
     if ((dev = alcOpenDevice (NULL)) == NULL)
 	return;
     if ((context_id = alcCreateContext (dev, NULL)) == NULL)
-      {
-	  alcCloseDevice (dev);
-	  return;
-      }
+    {
+	alcCloseDevice (dev);
+	return;
+    }
     alcMakeContextCurrent (context_id);
 
     alGenSources (1, &source);
