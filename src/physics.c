@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.17 2003/07/30 20:58:56 erik Exp $ 
+ * $Id: physics.c,v 1.18 2003/07/31 04:09:52 erik Exp $ 
  */
 #include <stdio.h>
 #include <math.h>
@@ -99,7 +99,7 @@ physics_init ()
 }
 
 float up[3] = { 0, 0, 1 };
-float bvel[3], bpos[3];
+float bvel[3], *bpos;
 float nearestdist, nearestnorm[3], n[3];
 int nearesttype;
 
@@ -111,7 +111,10 @@ dist (float p0[3], float p1[3])
     subtract (w, p0, p1);
     normalize (n, cross (a, w, up));
     d = dot (subtract (a, p0, bpos), n);
-    return d < 0 ? -1.0 : d;
+    if (d < 0 || d > nearestdist)
+	return -1.0;
+    nearestdist = d;
+    memcpy (nearestnorm, n, sizeof (float) * 3);
 }
 
 void
@@ -119,18 +122,21 @@ physdist (struct map_tri *m)
 {
     float x;
 
-    x = dist (m->v[0], m->v[1]);
-    if (x < nearestdist)
-      {
-	  nearestdist = x;
-	  memcpy (nearestnorm, n, sizeof (float) * 3);
-      }
+    if (dist (m->v[0], m->v[1]) >= 0)
+	nearesttype = m->type;
+    if (dist (m->v[0], m->v[2]) >= 0)
+	nearesttype = m->type;
+    if (dist (m->v[1], m->v[2]) >= 0)
+	nearesttype = m->type;
 }
 
 void
 physics_do (game_t * g)
 {
     int i;
+    float ballvelleft = magnitude (g->ball[0].vel);
+
+    memcpy (bvel, g->ball[0].vel, sizeof (float) * 3);
 
     /*
      * keep the paddles on the grid 
@@ -141,25 +147,55 @@ physics_do (game_t * g)
 
     /*
      * wall bounce 
+     *
+     if (fabs (g->ball[0].pos[0]) > 4.0
+     && (sign (g->ball[0].pos[0]) == sign (g->ball[0].vel[1])))
+     g->ball[0].vel[1] *= -1;
      */
-    if (fabs (g->ball[0].pos[0]) > 4.0
-	&& (sign (g->ball[0].pos[0]) == sign (g->ball[0].vel[1])))
-	g->ball[0].vel[1] *= -1;
+    bpos = g->ball->pos;
+    do
+      {
+	  printf ("%.2f %.2f %.2f   ->   %.2f %.2f %.2f\n",
+		  bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
+	  map_map_tri (physdist);
+	  switch (nearesttype)
+	    {
+	    case MAP_WALL:
+		{
+		    float t[3];
+
+		    scale (t, bvel, nearestdist);
+		    add (bpos, bpos, t);
+		    bvel[0] = -bvel[0];
+		}
+		break;
+	    case MAP_GATE:
+		goto GOAL;
+		break;
+	    default:
+		printf ("Unknown collision type: %d\n", nearesttype);
+		exit (-1);
+	    };
+	  ballvelleft -= nearestdist;
+      }
+    while (ballvelleft > nearestdist);
+    memcpy (g->ball[0].vel, bvel, sizeof (float) * 3);
 
     /*
      * paddle bounce
+     *
+     i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
+     if (fabs (g->ball[0].pos[1]) > 8.0
+     && fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
+     {
+     g->ball[0].vel[1] +=
+     VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
+     g->ball[0].vel[0] *=
+     VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+     sound_play (SOUND_BOINK, NULL, NULL, NULL);
+     }
      */
-    i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
-    if (fabs (g->ball[0].pos[1]) > 8.0
-	&& fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
-      {
-	  g->ball[0].vel[1] +=
-	      VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
-	  g->ball[0].vel[0] *=
-	      VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
-	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
-      }
-
+  GOAL:
     /*
      * goal made 
      */
