@@ -1,6 +1,5 @@
 
 next release
-	* fix texture endian issue
 	* fx cd
 
 future
@@ -9,5 +8,5 @@ future
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.3 2003/06/28 17:53:50 erik Exp $
+$Id: TODO,v 1.4 2003/07/03 06:31:59 erik Exp $
 
