@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.15 2003/07/20 14:57:44 erik Exp $ 
+ * $Id: video.c,v 1.16 2003/07/20 15:18:48 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -214,18 +214,25 @@ static void drawtri(struct map_tri *t)
 	switch(t->type)
 	{
 		case MAP_WALL:
-			if(curcolor!=0xff0000)
+			if(curcolor!=0xff0000){
+				curcolor=0xff0000;
 				glColor3f(1,0,0);
+			}
 			glVertex3fv(t->v[0]);
 			glVertex3fv(t->v[1]);
 			glVertex3fv(t->v[2]);
 			break;
 		case MAP_GATE:
-			if(curcolor!=0x00ff00)
-				glColor3f(1,0,0);
+#ifdef DRAW_GATE			
+			if(curcolor!=0x00ff00){
+				curcolor=0x00ff00;
+				glColor3f(0,.5,0);
+			}
 			glVertex3fv(t->v[0]);
 			glVertex3fv(t->v[1]);
 			glVertex3fv(t->v[2]);
+#endif
+			break;
 	}
 	return;
 }
