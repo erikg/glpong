@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.25 2004/01/01 16:41:49 erik Exp $ 
+ * $Id: physics.c,v 1.26 2004/01/01 17:43:52 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -210,31 +210,24 @@ physics_do (game_t * g)
      */
 //    printf("%f seconds\n", timer_delta());
 #define PADDLEHALFWIDTH 1.0
-    i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;	/* select player in risk */
-    printf("\rplayer at risk: %d ", i);fflush(stdout);
-    if (fabs (g->ball[0].pos[1]) <= 8.0 && g->ball[0].pos[1]+g->ball[0].vel[0]*timer_delta() >= 8.0)
+    i = sign (g->ball[0].vel[1]) < 0 ? 1 : 0;	/* select player in risk */
+    if (fabs (g->ball[0].pos[1]) <= 8.0 && fabs(g->ball[0].pos[1]+g->ball[0].vel[1]*timer_delta()) >= 8.0)
     {
-	    printf("Crossing the threshhold %f + %f\n",g->ball[0].pos[1],g->ball[0].vel[1]*timer_delta());
       if(fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
       {
-	      printf("Save! %f (ball)    %f (player %d)\n", g->ball[0].pos[0], g->player[i].X, i);
 	  g->ball[0].pos[1] = 7.845 * sign (g->ball[0].vel[1]);
 	  g->ball[0].vel[0] += VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
 	  g->ball[0].vel[1] *= VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
 	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
-      else
-      {
-	      printf("Yut oh:  %f (ball)    %f (player %d)\n", g->ball[0].pos[0], g->player[i].X, i);
-	      fflush(stdout);
-      } }
+    }
 #undef PADDLEHALFWIDTH
 
   GOAL:
     /*
      * goal made 
      */
-    if (fabs (g->ball[0].pos[1]) <= 9.0 && g->ball[0].pos[1]+g->ball[0].vel[0]*timer_delta() >= 9.0)
+    if (fabs (g->ball[0].pos[1]) > 9.0)
       {
 	  g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
 	  game_newball (g);
