@@ -2,6 +2,7 @@
 1.1
 	macosX port
 	move from sdl_mixer to openal
+	move from sdl_image to libpng
 	gameplay tweaks
 	performance statistics
 	endian fixes

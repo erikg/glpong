@@ -1,8 +1,8 @@
 
 next release
 	* fix sound (make it louder)
-	* libpng
-	* clean bundle and rpm generator
+	* fix 3bpp png endian issue
+	* clean rpm generator
 
 future
 	* deb generator
@@ -12,5 +12,5 @@ future
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.6 2004/01/01 19:16:01 erik Exp $
+$Id: TODO,v 1.7 2004/01/01 20:20:24 erik Exp $
 

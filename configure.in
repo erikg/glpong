@@ -7,22 +7,26 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 AM_PATH_SDL(1.2.0,,AC_ERROR(Cannot find SDL.))
+AC_SUBST(SDL_CFLAGS)
+AC_SUBST(SDL_LIBS)
 AM_PATH_OPENGL(,AC_ERROR(Cannot find OpenGL.))
+AC_SUBST(GL_CFLAGS)
+AC_SUBST(GL_LIBS)
 AM_PATH_OPENAL(,AC_ERROR(Cannot find OpenAL. Get it from http://www.openal.org))
-
-CFLAGS="$CFLAGS $SDL_CFLAGS $GL_CFLAGS $AL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS -lSDL_image $GL_LIBS $AL_LIBS"
+AC_SUBST(AL_CFLAGS)
+AC_SUBST(AL_LIBS)
+PNG_CFLAGS=""
+PNG_LIBS="-lpng"
+AC_SUBST(PNG_CFLAGS)
+AC_SUBST(PNG_LIBS)
 
 case $target in
 	*-apple-darwin*)
 		MYDATADIR="$PACKAGE.app/Contents/Resources"
-		IMGEXT="tga"
 		;;
 	*)
 		MYDATADIR="$pkgdatadir"
-		IMGEXT="png"
 	esac
-AC_SUBST(IMGEXT)
 AC_SUBST(MYDATADIR)
 
 AC_OUTPUT(Makefile data/Makefile src/Makefile glpong.spec Info.plist version.plist)

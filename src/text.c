@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.14 2004/01/01 18:52:32 erik Exp $ 
+ * $Id: text.c,v 1.15 2004/01/01 20:20:25 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -27,7 +27,8 @@
 #include <ctype.h>
 #include <GL/gl.h>
 #include <SDL.h>
-#include <SDL_image.h>
+
+#include "image.h"
 #include "text.h"
 #include "video.h"
 
