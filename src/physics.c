@@ -19,11 +19,12 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.16 2003/07/29 15:38:15 erik Exp $ 
+ * $Id: physics.c,v 1.17 2003/07/30 20:58:56 erik Exp $ 
  */
 #include <stdio.h>
 #include <math.h>
 #include "game.h"
+#include "map.h"
 #include "physics.h"
 #include "sound.h"
 #include "timer.h"
@@ -33,10 +34,97 @@
 
 #define sign(x) (x>0?1:x<0?-1:0)
 
+/***** Math stuff *********************************************************/
+
+float
+dot (float a[3], float b[3])
+{
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+float *
+cross (float v[3], float a[3], float b[3])
+{
+    v[0] = (a[1] * b[2] - a[2] * b[1]);
+    v[1] = (a[2] * b[0] - a[0] * b[2]);
+    v[2] = (a[0] * b[1] - a[1] * b[0]);
+    return v;
+}
+
+float *
+add (float v[3], float a[3], float b[3])
+{
+    v[0] = a[0] + b[0];
+    v[1] = a[1] + b[1];
+    v[2] = a[2] + b[2];
+    return v;
+}
+
+float *
+subtract (float v[3], float a[3], float b[3])
+{
+    v[0] = a[0] - b[0];
+    v[1] = a[1] - b[1];
+    v[2] = a[2] - b[2];
+    return v;
+}
+
+float *
+scale (float v[3], float a[3], float scale)
+{
+    v[0] = a[0] * scale;
+    v[1] = a[1] * scale;
+    v[2] = a[2] * scale;
+    return v;
+}
+
+float
+magnitude (float a[3])
+{
+    return sqrt (dot (a, a));
+}
+
+float *
+normalize (float v[3], float a[3])
+{
+    return scale (v, a, 1.0 / magnitude (a));
+}
+
+/***** Physics stuff ******************************************************/
+
 void
 physics_init ()
 {
     return;
+}
+
+float up[3] = { 0, 0, 1 };
+float bvel[3], bpos[3];
+float nearestdist, nearestnorm[3], n[3];
+int nearesttype;
+
+float
+dist (float p0[3], float p1[3])
+{
+    float w[3], a[3], d;
+
+    subtract (w, p0, p1);
+    normalize (n, cross (a, w, up));
+    d = dot (subtract (a, p0, bpos), n);
+    return d < 0 ? -1.0 : d;
+}
+
+void
+physdist (struct map_tri *m)
+{
+    float x;
+
+    x = dist (m->v[0], m->v[1]);
+    if (x < nearestdist)
+      {
+	  nearestdist = x;
+	  memcpy (nearestnorm, n, sizeof (float) * 3);
+      }
 }
 
 void
