@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.9 2003/06/26 14:10:30 erik Exp $ 
+ * $Id: main.c,v 1.10 2003/06/27 13:02:36 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -53,7 +53,7 @@ main (int argc, char **argv)
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
-    SDL_WM_SetCaption ("glpong (C) 2001 Erik Greenwald", "glpong");
+    SDL_WM_SetCaption ("glpong (C) 2001-2003 Erik Greenwald", "glpong");
 
     g = game_init ();
 
