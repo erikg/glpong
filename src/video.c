@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.10 2003/06/26 14:10:30 erik Exp $ 
+ * $Id: video.c,v 1.11 2003/06/27 13:02:49 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -108,7 +108,7 @@ reshape (int w, int h)
 unsigned int
 video_load_texture (char *file, unsigned int *texid)
 {
-    SDL_Surface *t = NULL;
+    SDL_Surface *t = NULL, *t2 = NULL;
     char buf[BUFSIZ];
 
     glEnable (GL_TEXTURE_2D);
@@ -147,10 +147,13 @@ video_load_texture (char *file, unsigned int *texid)
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t->w, t->h, 0,
-		  (t->format->BytesPerPixel == 3) ? GL_RGB : GL_RGBA,
-		  GL_UNSIGNED_BYTE, t->pixels);
+    t2 = SDL_CreateRGBSurface (SDL_SWSURFACE, t->w, t->h, 32, 0xff000000,
+			       0xff0000, 0xff00, 0xff);
+    SDL_BlitSurface (t, NULL, t2, NULL);
     SDL_FreeSurface (t);
+    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t2->w, t2->h, 0, GL_RGBA,
+		  GL_UNSIGNED_BYTE, t2->pixels);
+    SDL_FreeSurface (t2);
     return *texid;
 }
 
