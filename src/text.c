@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: text.c,v 1.11 2003/07/29 15:38:15 erik Exp $ 
+ * $Id: text.c,v 1.12 2003/12/28 20:30:55 erik Exp $ 
  */
 
 #include <stdlib.h>
@@ -70,15 +70,15 @@ text_draw_static (int id, float x, float y, float w, float h)
 {
     glEnable (GL_TEXTURE_2D);
     glBindTexture (GL_TEXTURE_2D, textid);
-    glBegin (GL_QUADS);
+    glBegin (GL_TRIANGLE_STRIP);
     glTexCoord2d (texcoords[id][0] / 256.0, texcoords[id][1] / 256.0);
     glVertex3f (x, y + h, 0);
     glTexCoord2d (texcoords[id][2] / 256.0, texcoords[id][1] / 256.0);
     glVertex3f (x + w, y + h, 0);
-    glTexCoord2d (texcoords[id][2] / 256.0, texcoords[id][3] / 256.0);
-    glVertex3f (x + w, y, 0);
     glTexCoord2d (texcoords[id][0] / 256.0, texcoords[id][3] / 256.0);
     glVertex3f (x, y, 0);
+    glTexCoord2d (texcoords[id][2] / 256.0, texcoords[id][3] / 256.0);
+    glVertex3f (x + w, y, 0);
     glEnd ();
     glDisable (GL_TEXTURE_2D);
     return;
@@ -91,7 +91,7 @@ text_draw_string (char *s, float x, float y, float w, float h)
 
     glEnable (GL_TEXTURE_2D);
     glBindTexture (GL_TEXTURE_2D, textid);
-    glBegin (GL_QUADS);
+    glBegin (GL_TRIANGLE_STRIP);
     s++;
     while (*s)
       {
@@ -105,12 +105,12 @@ text_draw_string (char *s, float x, float y, float w, float h)
 		glTexCoord2d (texcoords[n][2] / 256.0,
 			      texcoords[n][1] / 256.0);
 		glVertex3f (x + mlen, y + h, 0);
-		glTexCoord2d (texcoords[n][2] / 256.0,
-			      texcoords[n][3] / 256.0);
-		glVertex3f (x + mlen, y, 0);
 		glTexCoord2d (texcoords[n][0] / 256.0,
 			      texcoords[n][3] / 256.0);
 		glVertex3f (x, y, 0);
+		glTexCoord2d (texcoords[n][2] / 256.0,
+			      texcoords[n][3] / 256.0);
+		glVertex3f (x + mlen, y, 0);
 	    }
 	  s++;
 	  x += mlen;

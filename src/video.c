@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.22 2003/10/04 12:45:46 erik Exp $ 
+ * $Id: video.c,v 1.23 2003/12/28 20:29:26 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -56,43 +56,43 @@ draw_paddle (int reflective, float x)
 	  glEnable (GL_TEXTURE_2D);
       }
     glBindTexture (GL_TEXTURE_2D, refl);
-    glBegin (GL_QUADS);
+    glBegin (GL_TRIANGLE_STRIP);
     glTexCoord2d (left, 1);
     glNormal3f (-.1, -.1, 1);
     glVertex3f (-1, -.3, .1);
     glTexCoord2d (left, 0);
     glNormal3f (-.1, .1, 1);
     glVertex3f (-1, .3, .1);
-    glTexCoord2d (right, 0);
-    glNormal3f (.1, .1, 1);
-    glVertex3f (1, .3, .1);
     glTexCoord2d (right, 1);
     glNormal3f (.1, -.1, 1);
     glVertex3f (1, -.3, .1);
+    glTexCoord2d (right, 0);
+    glNormal3f (.1, .1, 1);
+    glVertex3f (1, .3, .1);
     glEnd ();
     glDisable (GL_TEXTURE_2D);
 
-    glBegin (GL_QUADS);
+    glBegin (GL_TRIANGLE_STRIP);
     glNormal3f (-.1, 1, -.1);
     glVertex3f (-1, .3, -.1);
     glNormal3f (-.1, 1, .1);
     glVertex3f (-1, .3, .1);
-    glNormal3f (.1, 1, .1);
-    glVertex3f (1, .3, .1);
     glNormal3f (.1, 1, -.1);
     glVertex3f (1, .3, -.1);
+    glNormal3f (.1, 1, .1);
+    glVertex3f (1, .3, .1);
 
     glNormal3f (1, 0, 0);
     glVertex3f (1, -.3, -.1);
     glVertex3f (1, -.3, .1);
-    glVertex3f (1, .3, .1);
     glVertex3f (1, .3, -.1);
+    glVertex3f (1, .3, .1);
 
     glNormal3f (-1, 0, 0);
     glVertex3f (-1, -.3, -.1);
     glVertex3f (-1, -.3, .1);
-    glVertex3f (-1, .3, .1);
     glVertex3f (-1, .3, -.1);
+    glVertex3f (-1, .3, .1);
     glEnd ();
     return;
 }
@@ -280,11 +280,11 @@ video_do (game_t * g)
     glPushMatrix ();
     glTranslatef (g->ball->pos[0], 0, g->ball->pos[1]);
     glColor3f (1, 1, 1);
-    glBegin (GL_QUADS);
+    glBegin (GL_TRIANGLE_STRIP);
     glVertex3f (-g->ball->radius, -.3, -g->ball->radius);
     glVertex3f (-g->ball->radius, -.2, -g->ball->radius);
-    glVertex3f (g->ball->radius, -.2, -g->ball->radius);
     glVertex3f (g->ball->radius, -.3, -g->ball->radius);
+    glVertex3f (g->ball->radius, -.2, -g->ball->radius);
     glEnd ();
     glPopMatrix ();
 
