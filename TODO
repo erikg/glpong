@@ -1,7 +1,6 @@
 
 next release
 	* fix sound (make it louder)
-	* getopt
 	* libpng
 	* clean bundle and rpm generator
 
@@ -13,5 +12,5 @@ future
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.5 2004/01/01 18:56:13 erik Exp $
+$Id: TODO,v 1.6 2004/01/01 19:16:01 erik Exp $
 
