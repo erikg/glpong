@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.9 2004/04/17 14:45:10 erik Exp $
+# $Id: Makefile.am,v 1.10 2004/10/31 21:16:06 erik Exp $
 
 bin_PROGRAMS = glpong
 
@@ -10,3 +10,5 @@ LDADD = @SDL_LIBS@ @PNG_LIBS@ @GL_LIBS@ @AL_LIBS@
 indent:
 	for a in ${glpong_SOURCES} ${noinst_HEADERS}; do [ x`which gindent` = x ] && indent $$a || gindent $$a ; done
 
+ctags: $(glpong_SOURCES) $(noinst_HEADERS)
+	ctags $(glpong_SOURCES) $(noinst_HEADERS)
