@@ -1,0 +1,13 @@
+
+next release
+	* fix macos reflection colors (rgb/bgr translation?)
+	* make sound play (openal tuning?)
+	* fx cd
+
+future
+	* highscores
+	* network game
+	* custom maps
+
+$Id: TODO,v 1.1 2003/06/25 04:11:49 erik Exp $
+
