@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: image.c,v 1.5 2004/01/02 12:31:00 erik Exp $
+ * $Id: image.c,v 1.6 2004/01/03 14:00:00 erik Exp $
  */
 
 #include <stdio.h>
@@ -117,7 +117,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
     png_set_read_fn (png_ptr, buf, user_read_data);
 
     png_read_png (png_ptr, info_ptr,
-	PNG_TRANSFORM_PACKING | PNG_TRANSFORM_BGR | PNG_TRANSFORM_STRIP_16 |
+	PNG_TRANSFORM_PACKING | PNG_TRANSFORM_STRIP_16 |
 	PNG_TRANSFORM_EXPAND, png_voidp_NULL);
     pitch = png_get_rowbytes (png_ptr, info_ptr);
     *width = png_get_image_width (png_ptr, info_ptr);
