@@ -1,0 +1,16 @@
+AC_INIT(src/main.c)
+AM_INIT_AUTOMAKE(glpong, 1.0)
+
+AC_PROG_CC
+AC_PROG_INSTALL
+
+AM_PATH_SDL(1.2.0,,AC_ERROR(Cannot find SDL.))
+AM_PATH_OPENGL(,AC_ERROR(Cannot find OpenGL.))
+
+CFLAGS="$CFLAGS $SDL_CFLAGS $GL_CFLAGS"
+LIBS="$LIBS $SDL_LIBS -lSDL_image $GL_LIBS -lSDL_mixer"
+
+AC_DEFINE(DATADIR, "@datadir@/glpong")
+
+AC_OUTPUT(Makefile data/Makefile src/Makefile)
+
