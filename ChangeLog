@@ -5,6 +5,7 @@ May ??, 2004:
 	* Improved collision detection
 	* -g option to set window geometry
 	* Build system improvements
+	* Improved ball emission algorithm
 
 Jan 03, 2004:
 	* release 1.1
