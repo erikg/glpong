@@ -18,6 +18,3 @@ deb:
 
 packages: rpm deb
 
-doc:
-	cd doc && make doc
-
