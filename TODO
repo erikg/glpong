@@ -1,7 +1,4 @@
 
-next release
-	* fix sound (make it louder)
-
 future
 	* deb generator
 	* abstract cd
@@ -10,5 +7,5 @@ future
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.9 2004/01/03 14:01:50 erik Exp $
+$Id: TODO,v 1.10 2004/01/03 14:58:28 erik Exp $
 
