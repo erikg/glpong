@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: main.c,v 1.24 2004/05/11 23:10:36 erik Exp $
+ * $Id: main.c,v 1.25 2004/05/31 16:04:33 erik Exp $
  */
 
 #include <stdio.h>
@@ -86,12 +86,13 @@ dohelp (char *name)
 {
     doversion (name);
     printf ("Usage\n\
-\t%s [-fwhv]\n\
+\t%s [-fwhv] [-w <width>x<height>]\n\
 \n\
- -f      Force fullscreen\n\
- -w      Force windowed (default)\n\
- -h      Display this help screen\n\
- -v      Display the version\n\
+ -f                      Force fullscreen\n\
+ -g <width>x<height>     Set resolution\n\
+ -w                      Force windowed (default)\n\
+ -h                      Display this help screen\n\
+ -v                      Display the version\n\
 \n", name);
     return 0;
 }
