@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.10 2003/06/28 17:48:02 erik Exp $ 
+ * $Id: sound.c,v 1.11 2003/06/28 17:52:16 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -55,8 +55,6 @@ sound_load (ALuint id, char *name)
       }
     for(i=0;i<len/2;++i)
 	    buf[i]=SDL_SwapLE16(buf[i]);
-    printf("Loaded sound %s into id %d\n", filename, id);
-    printf("format: %x\nchannels: %x\nfreq: %d\n", spec2->format, spec2->channels, spec2->freq);
     alBufferData (id, AL_FORMAT_MONO16, buf, len, spec2->freq);
     free (buf);
     return;
@@ -106,6 +104,5 @@ sound_play (int sound, float *noisepos, float *playerpos, float *playeror)
     alSourcei(source, AL_GAIN, 1);
     alSourcei(source, AL_LOOPING, 0);
     alSourcePlay (source);
-    printf("Playing %d\n", wave[sound]);
     return;
 }
