@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.21 2003/12/28 17:44:15 erik Exp $ 
+ * $Id: physics.c,v 1.22 2003/12/28 17:47:38 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -199,7 +199,7 @@ physics_do (game_t * g)
 #define WALL 3.95
     if (fabs (g->ball[0].pos[0]) > WALL)
       {
-	  g->ball[0].pos[0] -= g->ball[0].vel[1] * timer_delta ();
+	  g->ball[0].pos[0] = 3.945*sign(g->ball[0].vel[1]);
 	  g->ball[0].vel[1] *= -1;
 	  sound_play (SOUND_BOINK, NULL, NULL, NULL);
       }
