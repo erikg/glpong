@@ -19,9 +19,8 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.14 2003/07/27 15:54:13 erik Exp $ 
+ * $Id: physics.c,v 1.15 2003/07/28 14:48:37 erik Exp $ 
  */
-
 #include <stdio.h>
 #include <math.h>
 #include "game.h"
@@ -48,7 +47,7 @@ physics_do (game_t * g)
     /*
      * keep the paddles on the grid 
      */
-    for (i = 0; i < 1; ++i)
+    for (i = 0; i <= 1; ++i)
 	if (fabs (g->player[i].X) > 3)
 	    g->player[i].X = sign (g->player[i].X) * 3;
 
@@ -60,41 +59,27 @@ physics_do (game_t * g)
 	g->ball[0].vel[1] *= -1;
 
     /*
-     * goal made 
+     * paddle bounce
      */
-    if (g->ball[0].pos[1] > 8.0 && g->ball[0].vel[0] > 0)
+    i = sign (g->ball[0].vel[1]) > 0 ? 1 : 0;
+    if (fabs (g->ball[0].pos[1]) > 8.0
+	&& fabs (g->player[i].X - g->ball[0].pos[0]) < 1.0)
     {
-	if (fabs (g->player[PLAYER].X - g->ball[0].pos[0]) > 1.0)
-	{
-	    g->player[MACHINE].score++;
-	    game_newball (g);
-	    sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
-
-	} else
-	{
-	    g->ball[0].vel[1] +=
-		VELAMP * -sin ((g->player[PLAYER].X - g->ball[0].pos[0]));
-	    g->ball[0].vel[0] *=
-		VELAMP * -cos (1 * (g->player[PLAYER].X - g->ball[0].pos[0]));
-	    sound_play (SOUND_BOINK, NULL, NULL, NULL);
-	}
+	g->ball[0].vel[1] +=
+	    VELAMP * -sin ((g->player[i].X - g->ball[0].pos[0]));
+	g->ball[0].vel[0] *=
+	    VELAMP * -cos (1 * (g->player[i].X - g->ball[0].pos[0]));
+	sound_play (SOUND_BOINK, NULL, NULL, NULL);
     }
 
-    if (g->ball[0].pos[1] < -8.0 && g->ball[0].vel[0] < 0)
+    /*
+     * goal made 
+     */
+    if (fabs (g->ball[0].pos[1]) > 9.0)
     {
-	if (fabs (g->player[MACHINE].X - g->ball[0].pos[0]) > 1.0)
-	{
-	    g->player[PLAYER].score++;
-	    game_newball (g);
-	    sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
-	} else
-	{
-	    g->ball[0].vel[1] +=
-		VELAMP * -sin ((g->player[MACHINE].X - g->ball[0].pos[0]));
-	    g->ball[0].vel[0] *=
-		-VELAMP * cos (1 * (g->player[MACHINE].X - g->ball[0].pos[0]));
-	    sound_play (SOUND_BOINK, NULL, NULL, NULL);
-	}
+	g->player[sign (g->ball[0].pos[1]) == -1 ? 0 : 1].score++;
+	game_newball (g);
+	sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
     }
 
     /*
