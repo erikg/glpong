@@ -29,27 +29,11 @@ float texcoords[][4] = {
 void
 text_init ()
 {
-    int x;
-
-    SDL_Surface *t = NULL;
-glEnable(GL_TEXTURE_2D);
-    glGenTextures (1, &textid);
-    t = IMG_Load (DATADIR"/texture.png");
-    if (t == NULL)
-	printf ("Couldn't find texture! %s\n",DATADIR"/texture.png");
-    glBindTexture (GL_TEXTURE_2D, textid);
-    glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+    video_load_texture("texture.png",&textid);
     glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t->w, t->h, 0,
-	(t->format->BytesPerPixel == 3) ? GL_RGB : GL_RGBA,
-	GL_UNSIGNED_BYTE, t->pixels);
-    SDL_FreeSurface (t);
     return;
 }
 

@@ -78,26 +78,58 @@ reshape (int w, int h)
     return;
 }
 
+unsigned int
+video_load_texture (char *file, unsigned int *texid)
+{
+  SDL_Surface *t = NULL;
+  char buf[BUFSIZ];
+
+  glEnable (GL_TEXTURE_2D);
+  glGenTextures (1, texid);
+
+  snprintf(buf,BUFSIZ,"%s/%s",DATADIR,file);
+  printf("trying %s\n", buf);
+  t = IMG_Load (buf);
+
+  if (t == NULL)
+  {
+	  snprintf(buf,BUFSIZ,"../data/%s",file);
+	  printf("trying %s\n", buf);
+	  t = IMG_Load (buf);
+  }
+  if (t == NULL)
+  {
+	  snprintf(buf,BUFSIZ,"data/%s",file);
+	  printf("trying %s\n", buf);
+	  t = IMG_Load (buf);
+  }
+  if (t == NULL)
+  {
+	  fprintf(stderr, "Cannot load texture: %s\nAborting...\n", file);
+	  SDL_Quit();
+	  exit(-1);
+  }
+  glBindTexture (GL_TEXTURE_2D, *texid);
+  glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t->w, t->h, 0,
+		(t->format->BytesPerPixel == 3) ? GL_RGB : GL_RGBA,
+		GL_UNSIGNED_BYTE, t->pixels);
+  SDL_FreeSurface (t);
+  return *texid;
+}
+
 static void
 form_reflmap ()
 {
-    SDL_Surface *t = NULL;
-
-    glEnable (GL_TEXTURE_2D);
-    glGenTextures (1, &refl);
-    t = IMG_Load (DATADIR"/refl.png");
-    if (t == NULL)
-	printf ("Couldn't find texture!\n");
-    glBindTexture (GL_TEXTURE_2D, refl);
-    glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-    glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, t->w, t->h, 0,
-	(t->format->BytesPerPixel == 3) ? GL_RGB : GL_RGBA,
-	GL_UNSIGNED_BYTE, t->pixels);
-    SDL_FreeSurface (t);
-    return;
+  video_load_texture ("refl.png", &refl);
+  glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+  glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  return;
 }
 
 void

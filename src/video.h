@@ -6,5 +6,7 @@
 void video_init (game_t * g);
 void video_do (game_t * g);
 void video_screenshot ();
+unsigned int video_load_texture (char *file, unsigned int *texid);
+
 
 #endif
