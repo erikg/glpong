@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.21 2003/07/29 15:38:15 erik Exp $ 
+ * $Id: video.c,v 1.22 2003/10/04 12:45:46 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -204,7 +204,7 @@ video_init ()
     glEnable (GL_LIGHT0);
     glEnable (GL_DEPTH_TEST);
 
-    glClearColor (0.1, 0, 0.1, 1);
+    glClearColor (0.0, 0, 0.0, 1);
 
     reshape (640, 480);
     return;

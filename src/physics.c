@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.18 2003/07/31 04:09:52 erik Exp $ 
+ * $Id: physics.c,v 1.19 2003/10/04 12:45:46 erik Exp $ 
  */
 #include <stdio.h>
 #include <math.h>
@@ -35,6 +35,14 @@
 #define sign(x) (x>0?1:x<0?-1:0)
 
 /***** Math stuff *********************************************************/
+
+#define PRINTVECTOR(x) printf("\t%.2f\t%.2f\t%.2f", x[0], x[1], x[2]);
+
+float
+clamp (float low, float high, float val)
+{
+	return val<low?low:val>high?high:val;
+}
 
 float
 dot (float a[3], float b[3])
@@ -98,10 +106,11 @@ physics_init ()
     return;
 }
 
-float up[3] = { 0, 0, 1 };
+float up[3] = { 0, 1, 0 };
 float bvel[3], *bpos;
 float nearestdist, nearestnorm[3], n[3];
 int nearesttype;
+game_t *game;
 
 float
 dist (float p0[3], float p1[3])
@@ -110,8 +119,8 @@ dist (float p0[3], float p1[3])
 
     subtract (w, p0, p1);
     normalize (n, cross (a, w, up));
-    d = dot (subtract (a, p0, bpos), n);
-    if (d < 0 || d > nearestdist)
+    d = dot (subtract (a, p0, bpos), n) - game->ball->radius;
+    if (d <= 0 || d > nearestdist)
 	return -1.0;
     nearestdist = d;
     memcpy (nearestnorm, n, sizeof (float) * 3);
@@ -134,7 +143,9 @@ void
 physics_do (game_t * g)
 {
     int i;
-    float ballvelleft = magnitude (g->ball[0].vel);
+    float ballvelleft = magnitude (g->ball[0].vel) * timer_delta();
+
+    game = g;
 
     memcpy (bvel, g->ball[0].vel, sizeof (float) * 3);
 
@@ -145,28 +156,25 @@ physics_do (game_t * g)
 	if (fabs (g->player[i].X) > 3)
 	    g->player[i].X = sign (g->player[i].X) * 3;
 
-    /*
-     * wall bounce 
-     *
-     if (fabs (g->ball[0].pos[0]) > 4.0
-     && (sign (g->ball[0].pos[0]) == sign (g->ball[0].vel[1])))
-     g->ball[0].vel[1] *= -1;
-     */
     bpos = g->ball->pos;
     do
       {
-	  printf ("%.2f %.2f %.2f   ->   %.2f %.2f %.2f\n",
-		  bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
+	  nearestdist = 999999.9;	/* effectively infinity... */
 	  map_map_tri (physdist);
+	  printf ("(ballvelleft) %.2f  (nearestdist) %.2f  (pos) %.2f %.2f %.2f  (vel) %.2f %.2f %.2f\n", ballvelleft, nearestdist, bpos[0], bpos[1], bpos[2], bvel[0], bvel[1], bvel[2]);
 	  switch (nearesttype)
 	    {
 	    case MAP_WALL:
 		{
-		    float t[3];
+		    float t[3], a[3];
 
-		    scale (t, bvel, nearestdist);
-		    add (bpos, bpos, t);
+		    printf("Nearest: %f", nearestdist);
+		    //printf(" move to: %.2f ", nearestdist-g->ball->radius);
+		    scale (t, normalize(a,bvel), clamp(0.0,9999,nearestdist)); //- g->ball->radius));
+	//	    add (bpos, bpos, t);
 		    bvel[0] = -bvel[0];
+		    PRINTVECTOR(bvel);
+		    printf("\n");
 		}
 		break;
 	    case MAP_GATE:
@@ -205,6 +213,7 @@ physics_do (game_t * g)
 	  game_newball (g);
 	  sound_play (SOUND_NNGNGNG, NULL, NULL, NULL);
       }
+  MORP:
 
     /*
      * cap ball velocity 
