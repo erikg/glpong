@@ -21,7 +21,9 @@ bundle: all
 	rm -rf $(PACKAGE).app
 	mkdir $(PACKAGE).app $(PACKAGE).app/Contents $(PACKAGE).app/Contents/Resources $(PACKAGE).app/Contents/MacOS
 	ln src/$(PACKAGE) $(PACKAGE).app/Contents/MacOS/$(PACKAGE)
-	for a in Info.plist PkgInfo version.plist ; do sed -e "s/%%VERSION%%/$(VERSION)/g" -e "s/%%PACKAGE%%/$(PACKAGE)/g" $$a > $(PACKAGE).app/Contents/$$a ; done
+	echo "APPL????" > $(PACkAGE).app/Contents/PkgInfo
+	for a in Info.plist version.plist ; do sed -e "s/%%VERSION%%/$(VERSION)/g" -e "s/%%PACKAGE%%/$(PACKAGE)/g" $$a > $(PACKAGE).app/Contents/$$a ; done
+
 	cd data && make bundle
 	
 packages: rpm deb
