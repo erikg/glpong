@@ -3,7 +3,7 @@
 	* add /usr/local and /sw to paths, if they exist.
 
 20041012:
-	* code fixes for -W type flags.
+	* code fixes for warning/ansi type flags.
 
 20040815:
 	* improved ball emission.
