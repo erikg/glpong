@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: physics.c,v 1.30 2004/05/11 22:28:02 erik Exp $ 
+ * $Id: physics.c,v 1.31 2004/05/11 23:00:53 erik Exp $
  */
 
 #include <stdio.h>
@@ -100,25 +100,61 @@ normalize (float v[3], float a[3])
 }
 
 float
-det2(float a, float b, float c, float d)
+det2 (float a, float b, float c, float d)
 {
-    return a*d-b*c;
-	
+    return a * d - b * c;
+
 }
 
 float
-det3( float a, float b, float c, float d, float e, float f, float h, float i, float j)
+det3 (float a, float b, float c, float d, float e, float f, float h, float i, float j)
 {
-    return  a*det2(e,f,i,j)-d*det2(b,c,i,j)+h*det2(b,c,e,f);
+    //return a * (e * j - f * i) - d * (b * j - c * i) + h * (b * f - c * e);
+    return a * det2 (e, f, i, j) - d * det2 (b, c, i, j) + h * det2 (b, c, e, f);
 }
 
 float
-det4(float a, float b, float c, float d, float e, float f, float h, float i, float j, float k, float l, float m, float n, float o, float p, float q)
+det4 (float a, float b, float c, float d, float e, float f, float h, float i, float j, float k, float l, float m, float n, float o, float p, float q)
 {
-    return a*det3(f,h,i,k,l,m,o,p,q)
-	 - e*det3(b,c,d,k,l,m,o,p,q) 
-	 + j*det3(b,c,d,f,h,i,o,p,q)
-	 - n*det3(b,c,d,f,h,i,k,l,m);
+    //return a * (f * (l * p - m * o) - k * (h * q - i * p) + o * (h * m - i * l)) - e * (b * (l * p - m * o) - k * (c * q - d * p) + o * (c * m - d * l)) + j * (b * (h * p - i * o) - f * (c * q - d * p) + o * (c * i - d * h)) - n * (b * (h * l - i * k) - f * (c * m - d * l) + k * (c * i - d * h));
+    return a * det3 (f, h, i, k, l, m, o, p, q) - e * det3 (b, c, d, k, l, m, o, p, q) + j * det3 (b, c, d, f, h, i, o, p, q) - n * det3 (b, c, d, f, h, i, k, l, m);
+
+}
+
+int
+signedVolume (float a[3], float b[3], float c[3], float d[3])
+{
+    return det4 (a[0], a[1], a[2], 1, b[0], b[1], b[2], 1, c[0], c[1], c[2], 1, d[0], d[1], d[2], 1) / 6;
+}
+
+enum
+{
+    VERTEX,
+    EDGE_AC,
+    EDGE_BC,
+    EDGE_AB,
+    IN,
+    OUT
+};
+
+int
+testIntersection (float ro[3], float re[3], float a[3], float b[3], float c[3])
+{
+    int i = signedVolume (ro, re, a, c);
+    int j = signedVolume (ro, re, b, c);
+    int k = signedVolume (ro, re, a, b);
+
+    if (((i == 0) && (j == 0)) || ((i == 0) && (k == 0)) || ((j == 0) && (k == 0)))
+	return VERTEX;
+    if ((i == 0) && (i == k))
+	return EDGE_AC;
+    if ((j == 0) && (i == k))
+	return EDGE_BC;
+    if ((k == 0) && (i == j))
+	return EDGE_AB;
+    if ((i == j) && (j == k))
+	return IN;
+    return OUT;
 }
 
 /***** Physics stuff ******************************************************/
@@ -129,7 +165,7 @@ physics_init ()
     return;
 }
 
-float up[3] = { 0, 1, 0 };
+float up[3] = {0, 1, 0};
 float bvel[3], *bpos;
 float nearestdist, nearestnorm[3], n[3];
 int nearesttype;
@@ -176,7 +212,7 @@ physics_do (game_t * g)
     memcpy (bvel, g->ball[0].vel, sizeof (float) * 3);
 
     /*
-     * keep the paddles on the grid 
+     * keep the paddles on the grid
      */
     for (i = 0; i <= 1; ++i)
 	if (fabs (g->player[i].X) > 3)
@@ -195,13 +231,8 @@ physics_do (game_t * g)
 	    {
 		float t[3], a[3];
 
-		//printf("Nearest: %f", nearestdist);
-		//printf(" move to: %.2f ", nearestdist-g->ball->radius);
-		scale (t, normalize (a, bvel), clamp (0.0, 9999, nearestdist));	//- g->ball->radius));
-		//          add (bpos, bpos, t);
+		scale (t, normalize (a, bvel), clamp (0.0, 9999, nearestdist));
 		bvel[0] = -bvel[0];
-		//PRINTVECTOR(bvel);
-		//printf("\n");
 	    }
 	    break;
 	case MAP_GATE:
@@ -218,7 +249,7 @@ physics_do (game_t * g)
 #endif
 
     /*
-     * TODO remove this hack, use 'real' cd 
+     * TODO remove this hack, use 'real' cd
      */
 #define WALL 3.95
     if (fabs (g->ball[0].pos[0]) > WALL)
@@ -232,7 +263,7 @@ physics_do (game_t * g)
     /*
      * paddle bounce
      */
-//    printf("%f seconds\n", timer_delta());
+    //printf ("%f seconds\n", timer_delta ());
 #define PADDLEHALFWIDTH 1.0
     i = sign (g->ball[0].vel[1]) < 0 ? 1 : 0;	/* select player in risk */
     if (fabs (g->ball[0].pos[1]) <= 8.0
@@ -251,9 +282,10 @@ physics_do (game_t * g)
     }
 #undef PADDLEHALFWIDTH
 
-  GOAL:
+GOAL:
+
     /*
-     * goal made 
+     * goal made
      */
     if (fabs (g->ball[0].pos[1]) > 9.0)
     {
@@ -263,7 +295,7 @@ physics_do (game_t * g)
     }
 
     /*
-     * cap ball velocity 
+     * cap ball velocity
      */
     if (g->ball[0].vel[0] > MAXVEL)
 	g->ball[0].vel[0] = MAXVEL;
@@ -271,7 +303,7 @@ physics_do (game_t * g)
 	g->ball[0].vel[0] = -MAXVEL;
 
     /*
-     * update ball location 
+     * update ball location
      */
     g->ball[0].pos[0] += g->ball[0].vel[0] * timer_delta ();
     g->ball[0].pos[1] += g->ball[0].vel[1] * timer_delta ();
