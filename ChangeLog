@@ -1,4 +1,7 @@
 
+20050420:
+	* Release 1.2
+
 20050105:
 	* add /usr/local and /sw to paths, if they exist.
 
