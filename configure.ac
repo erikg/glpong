@@ -32,6 +32,18 @@ else
 	AC_MSG_RESULT([not found])
 fi
 
+dnl autosearch /opt/local
+AC_MSG_CHECKING([for /opt/local])
+if test -d /opt/local/include ; then
+	AC_MSG_RESULT([found, adding /opt/local to search paths])
+	CPPFLAGS="$CPPFLAGS -I/opt/local/include"
+	if test -d /opt/local/lib ; then
+		LDFLAGS="$LDFLAGS -L/opt/local/lib"
+	fi
+else
+	AC_MSG_RESULT([not found])
+fi
+
 dnl autosearch fink paths
 AC_MSG_CHECKING([for fink in /sw])
 if test -d /sw/include ; then
