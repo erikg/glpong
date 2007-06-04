@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.37 2005/03/18 17:44:26 erik Exp $ 
+ * $Id: video.c,v 1.38 2007/06/04 20:23:52 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -347,7 +347,7 @@ flip_surface (SDL_Surface * s)
 
     for (x = 0; x < (480 / 2); x++)
     {
-#define PTRADD(p,v) ((void *)((unsigned int)(p) + (v)))
+#define PTRADD(p,v) ((void *)((size_t)(p) + (v)))
 	memcpy (buf, (Uint8 *) PTRADD(s->pixels, x*s->pitch), s->pitch);
 	memcpy ((Uint8 *) PTRADD(s->pixels, x * s->pitch), (Uint8 *) PTRADD(s->pixels , (479 - x) * s->pitch), s->pitch);
 	memcpy ((Uint8 *) PTRADD(s->pixels , (479 - x) * s->pitch), buf, s->pitch);

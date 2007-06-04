@@ -19,11 +19,12 @@
  ****************************************************************************/
 
 /*
- * $Id: image.c,v 1.10 2005/03/18 17:44:26 erik Exp $
+ * $Id: image.c,v 1.11 2007/06/04 20:24:17 erik Exp $
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -78,12 +79,12 @@ image_error ()
 void
 user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
 {
-    static int bar = 0;
+    static size_t bar = 0;
 
     if (png_ptr == NULL)
 	bar = 0;
     else
-	memcpy (data, (void *)((unsigned int)(png_ptr->io_ptr) + bar), length);
+	memcpy (data, (void *) ((size_t)(png_ptr->io_ptr) + bar), length);
     bar += length;
     return;
 }
@@ -131,7 +132,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
 
     out = malloc ((*width) * (*height) * (*bpp));
     for (i = 0; i < info_ptr->height; ++i)
-	memcpy ((void *)((unsigned int)out + i * pitch), row_pointers[i], pitch);
+	memcpy ((void *)((size_t)out + i * pitch), row_pointers[i], pitch);
     png_destroy_read_struct (&png_ptr, &info_ptr, png_infopp_NULL);
     return out;
 }
