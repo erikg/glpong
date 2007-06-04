@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.22 2005/03/18 17:44:26 erik Exp $ 
+ * $Id: sound.c,v 1.23 2007/06/04 20:25:53 erik Exp $ 
  */
 
 #ifdef HAVE_CONFIG_H
@@ -32,8 +32,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <AL/al.h>
-#include <AL/alc.h>
+
+#ifdef __APPLE__
+# include <al.h>
+# include <alc.h>
+#else
+# include <AL/al.h>
+# include <AL/alc.h>
+#endif
+
 #include <SDL.h>
 #include <SDL_audio.h>
 #include <SDL_endian.h>
@@ -48,7 +55,7 @@ sound_load (ALuint id, char *name)
 {
     char filename[BUFSIZ];
     Uint32 len = 0, i;
-    Uint16 *buf = NULL;
+    Uint8 *buf = NULL;
     SDL_AudioSpec spec, *spec2;
 
     memset (&spec, 0, sizeof (spec));
@@ -56,14 +63,13 @@ sound_load (ALuint id, char *name)
     spec.channels = 1;
 
     snprintf (filename, BUFSIZ, "%s/%s", DATADIR, name);
-    if ((spec2 =
-	    SDL_LoadWAV (filename, &spec, (Uint8 **) & buf, &len)) == NULL)
-    {
+    if ((spec2 = SDL_LoadWAV (filename, &spec, &buf, &len)) == NULL) {
 	printf ("Unable to load sound %s\n", filename);
+	return;
     }
     for (i = 0; i < len / 2; ++i)
 	buf[i] = SDL_SwapLE16 (buf[i]);
-    alBufferData (id, AL_FORMAT_MONO16, buf, len, spec2->freq);
+    alBufferData (id, AL_FORMAT_MONO16, (Uint16 *)buf, len, spec2->freq);
     free (buf);
     return;
 }

@@ -1,3 +1,7 @@
+20070604:
+	* 64b fixes.
+	* Fixed possible crash if sound file not correctly loaded.
+	* Fixed OpenAL includes for MacOSX
 
 20050420:
 	* Release 1.2
