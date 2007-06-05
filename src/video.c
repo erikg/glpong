@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.40 2007/06/05 18:52:33 erik Exp $ 
+ * $Id: video.c,v 1.41 2007/06/05 18:55:12 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -124,12 +124,6 @@ video_load_texture (char *file, unsigned int *texid)
 
     snprintf (buf, BUFSIZ, "%s/%s.png", DATADIR, file);
     t = image_load (buf, &width, &height, &bpp);
-    if (t == NULL)
-    {
-	printf ("couldn't read %s: %s\n", buf, image_error ());
-	snprintf (buf, BUFSIZ, "../data/%s.png", file);
-	t = image_load (buf, &width, &height, &bpp);
-    }
     if (t == NULL)
     {
 	printf ("couldn't read %s: %s\n", buf, image_error ());
