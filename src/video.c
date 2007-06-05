@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.39 2007/06/05 18:45:29 erik Exp $ 
+ * $Id: video.c,v 1.40 2007/06/05 18:52:33 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -39,7 +39,7 @@
 
 static GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
 char buf[1024];
-static GLuint refl;
+static GLuint refl = -1;
 
 struct display_s {
     int width, height, depth;
@@ -104,9 +104,6 @@ draw_paddle (int reflective, float x)
 static void
 reshape (int w, int h)
 {
-    display.width = w;
-    display.height = h;
-    display.depth = 24;
     glViewport (0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
@@ -172,6 +169,7 @@ video_load_texture (char *file, unsigned int *texid)
 static void
 form_reflmap ()
 {
+    if(refl != -1) return;
     video_load_texture ("refl", (unsigned int *)&refl);
     glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
@@ -186,6 +184,10 @@ video_init (int width, int height)
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
     GLfloat light_ambient[] = { 0, 0, 0, 0 };
+
+    display.width = width;
+    display.height = height;
+    display.depth = 24;
 
     form_reflmap ();
 
