@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.38 2007/06/04 20:23:52 erik Exp $ 
+ * $Id: video.c,v 1.39 2007/06/05 18:45:29 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -36,17 +36,14 @@
 #include "timer.h"
 #include "video.h"
 
-Uint32 rmask, gmask, bmask, amask;
 
-GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
+static GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
 char buf[1024];
-GLuint refl;
+static GLuint refl;
 
 struct display_s {
     int width, height, depth;
-} display =
-{
-0, 0, 0};
+} display = {0, 0, 0};
 
 void
 draw_paddle (int reflective, float x)
@@ -109,6 +106,7 @@ reshape (int w, int h)
 {
     display.width = w;
     display.height = h;
+    display.depth = 24;
     glViewport (0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
@@ -188,21 +186,6 @@ video_init (int width, int height)
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
     GLfloat light_ambient[] = { 0, 0, 0, 0 };
-
-    /*
-     * snatched from sdldoc.sf.net 
-     */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xff000000;
-    gmask = 0x00ff0000;
-    bmask = 0x0000ff00;
-    amask = 0x000000ff;
-#else
-    rmask = 0x000000ff;
-    gmask = 0x0000ff00;
-    bmask = 0x00ff0000;
-    amask = 0xff000000;
-#endif
 
     form_reflmap ();
 
@@ -361,8 +344,8 @@ video_screenshot ()
 {
     SDL_Surface *ss;
 
-    ss = SDL_CreateRGBSurface (0, 640, 480, 24, 0, 0, 0, 0);
-    glReadPixels (0, 0, 640, 480, GL_BGR, GL_UNSIGNED_BYTE, ss->pixels);
+    ss = SDL_CreateRGBSurface (0, display.width, display.height, display.depth, 0, 0, 0, 0);
+    glReadPixels (0, 0, display.width, display.height, GL_BGR, GL_UNSIGNED_BYTE, ss->pixels);
     flip_surface (ss);
     SDL_SaveBMP (ss, "screenshot.bmp");
     return;
