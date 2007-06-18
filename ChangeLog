@@ -1,3 +1,6 @@
+200706??:
+	* Release 1.3
+
 20070604:
 	* 64b fixes.
 	* Fixed possible crash if sound file not correctly loaded.
