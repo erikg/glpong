@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: sound.c,v 1.24 2007/06/18 14:23:30 erik Exp $ 
+ * $Id: sound.c,v 1.25 2007/07/16 15:10:01 erik Exp $ 
  */
 
 #ifdef HAVE_CONFIG_H
@@ -34,8 +34,8 @@
 #include <unistd.h>
 
 #ifdef __APPLE__
-# include <al.h>
-# include <alc.h>
+# include <OpenAL/al.h>
+# include <OpenAL/alc.h>
 #else
 # include <AL/al.h>
 # include <AL/alc.h>
