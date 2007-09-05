@@ -83,6 +83,6 @@ esac
 
 AC_SUBST(MYDATADIR)
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile glpong.spec Info.plist version.plist])
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile debian/Makefile glpong.spec Info.plist version.plist])
 AC_OUTPUT
 

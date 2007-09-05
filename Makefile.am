@@ -1,4 +1,4 @@
-SUBDIRS = data src
+SUBDIRS = data src debian
 
 dist_man_MANS = $(PACKAGE).1
 EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist.in version.plist.in
@@ -10,12 +10,12 @@ rpm: dist
 	cp ${HOME}/rpm/RPMS/i386/$(PACKAGE)-$(VERSION)-*.i386.rpm .
 	cp ${HOME}/rpm/SRPMS/$(PACKAGE)-$(VERSION)-*.src.rpm .
 
-deb:
-	debian/rules
-	debuild
-	debc
-	debi
-	release
+deb: dist
+	rm -rf $(PACKAGE)-$(VERSION)
+	tar zxvf $(PACKAGE)-$(VERSION).tar.gz
+	(cd $(PACKAGE)-$(VERSION) && fakeroot debian/rules binary)
+	(cd $(PACKAGE)-$(VERSION) && debuild -us -uc)
+	rm -rf $(PACKAGE)-$(VERSION)
 
 # the macos type
 bundle: all
@@ -24,6 +24,4 @@ bundle: all
 	${INSTALL} -s src/$(PACKAGE) $(PACKAGE).app/Contents/MacOS
 	echo "APPL????" > $(PACKAGE).app/Contents/PkgInfo
 	(cd data && make bundle)
-
-packages: rpm deb
 

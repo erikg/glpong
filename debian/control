@@ -2,11 +2,13 @@ Source: glpong
 Section: games
 Priority: extra
 Maintainer: Erik Greenwald <erik@smluc.org>
-Standards-Version: 3.5.2
-Build-Depends: debhelper (>= 2.0.0)
+Build-Depends: debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
 
 Package: glpong
-Architecture: i386
-Depends: ${shlibs:Depends}
-Suggests: 
-Description: opengl/sdl/openal game of pong
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenGL/SDL/OpenAL game of Pong
+ A game of pong using the SDL, OpenGL and OpenAL libraries. This is a
+ single player game with the keyboard for input and a simple 'bot to play
+ against. There is no highscore or end.
