@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: image.c,v 1.12 2007/06/18 14:23:30 erik Exp $
+ * $Id: image.c,v 1.13 2007/09/11 18:21:22 erik Exp $
  */
 
 #include <stdio.h>
@@ -56,13 +56,13 @@ image_load (char *filename, int *width, int *height, int *bpp)
     user_read_data (NULL, NULL, 0);
     if (size != sb.st_size)
     {
-	sprintf (image_error_string, "Bad read! (%s)\n", filename);
+	snprintf (image_error_string, BUFSIZ, "Bad read! (%s)\n", filename);
 	free (buf);
 	return NULL;
     }
     if (!ispng (buf))
     {
-	sprintf (image_error_string, "%s is not a PNG", filename);
+	snprintf (image_error_string, BUFSIZ, "%s is not a PNG", filename);
 	return NULL;
     }
     image = readpng (buf, width, height, bpp);
@@ -107,13 +107,13 @@ readpng (void *buf, int *width, int *height, int *bpp)
 
     if (png_ptr == NULL || info_ptr == NULL)
     {
-	sprintf (image_error_string, "Bad allocation\n");
+	snprintf (image_error_string, BUFSIZ, "Bad allocation\n");
 	return NULL;
     }
     if (setjmp (png_jmpbuf (png_ptr)))
     {
 	png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
-	sprintf (image_error_string, "Woops!\n");
+	snprintf (image_error_string, BUFSIZ, "Woops!\n");
 	return NULL;
     }
     png_set_read_fn (png_ptr, buf, user_read_data);

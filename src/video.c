@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.43 2007/09/11 18:07:26 erik Exp $ 
+ * $Id: video.c,v 1.44 2007/09/11 18:21:22 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -38,7 +38,7 @@
 
 
 static GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
-char buf[1024];
+char buf[BUFSIZ];
 static GLuint refl = -1;
 
 struct display_s {
@@ -303,17 +303,17 @@ video_do (game_t * g)
     text_mode (display.width, display.height);
 
     text_draw_static_ca (TEXT_MACHINE, display.width - 100, display.height - 32, 100, 32);
-    sprintf (buf, "%d", g->player[MACHINE].score);
+    snprintf (buf, BUFSIZ, "%d", g->player[MACHINE].score);
     x = strlen (buf) * 32;
     text_draw_string_ca (buf, display.width - 100, display.height - 32 * 2, x, 32);
 
     text_draw_static_ca (TEXT_HUMAN, 100, display.height - 32, 112, 32);
-    sprintf (buf, "%d", g->player[PLAYER].score);
+    snprintf (buf, BUFSIZ, "%d", g->player[PLAYER].score);
     x = strlen (buf) * 32;
     text_draw_string_ca (buf, 100, display.height - 32 * 2, x, 32);
 
     text_draw_static_ca (TEXT_FPS, display.width / 2, 66, 60, 32);
-    sprintf (buf, "%d", (int)timer_fps ());
+    snprintf (buf, BUFSIZ, "%d", (int)timer_fps ());
     x = strlen (buf) * 32;
     text_draw_string_ca (buf, display.width / 2, 32, x, 32);
 
