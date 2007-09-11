@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.42 2007/06/18 14:23:30 erik Exp $ 
+ * $Id: video.c,v 1.43 2007/09/11 18:07:26 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -124,6 +124,13 @@ video_load_texture (char *file, unsigned int *texid)
 
     snprintf (buf, BUFSIZ, "%s/%s.png", DATADIR, file);
     t = image_load (buf, &width, &height, &bpp);
+#ifdef __APPLE__
+    if (t == NULL)
+    {
+	snprintf (buf, BUFSIZ, "glpong.app/Contents/Resources/%s.png", file);
+	t = image_load (buf, &width, &height, &bpp);
+    }
+#endif
     if (t == NULL)
     {
 	printf ("couldn't read %s: %s\n", buf, image_error ());
