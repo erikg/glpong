@@ -19,7 +19,7 @@
  ****************************************************************************/
 
 /*
- * $Id: video.c,v 1.44 2007/09/11 18:21:22 erik Exp $ 
+ * $Id: video.c,v 1.45 2007/09/11 18:22:23 erik Exp $ 
  */
 
 #include <stdio.h>
@@ -39,7 +39,7 @@
 
 static GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
 char buf[BUFSIZ];
-static GLuint refl = -1;
+static GLuint refl = (GLuint)-1;
 
 struct display_s {
     int width, height, depth;
@@ -170,7 +170,7 @@ video_load_texture (char *file, unsigned int *texid)
 static void
 form_reflmap ()
 {
-    if(refl != -1) return;
+    if(refl != (GLuint)-1) return;
     video_load_texture ("refl", (unsigned int *)&refl);
     glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     glTexGeni (GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
