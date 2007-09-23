@@ -3,11 +3,10 @@ next release
 	* abstract cd
 
 future
-	* deb generator
 	* menu
 	* highscores
 	* network game
 	* custom maps
 
-$Id: TODO,v 1.12 2004/08/15 18:40:34 erik Exp $
+$Id: TODO,v 1.13 2007/09/23 15:06:46 erik Exp $
 
