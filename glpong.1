@@ -1,6 +1,6 @@
 .\" glpong.1 man page for glpong
 .\" http://math.smsu.edu/~erik/software.php?id=72
-.\" $Id: glpong.1,v 1.1 2004/01/01 19:27:25 erik Exp $
+.\" $Id: glpong.1,v 1.2 2008/02/01 00:25:14 erik Exp $
 .\"===========================================================================
 .Dd Jan 1, 2004
 .Dt glpong 1
@@ -10,8 +10,9 @@
 .Nd An OpenGL based Pong game
 .\"===========================================================================
 .Sh SYNOPSIS
-.B glpong
-.Op Fl fwvh
+.Nm
+.Op Fl fwvh 
+.Op Fl g Cm <width>x<height>
 .\"===========================================================================
 .Sh DESCRIPTION
 An implementation of the classic game 'Pong' using OpenGL, SDL, and OpenAL.
@@ -22,6 +23,8 @@ The only mode of play is one player against an AI.
 .Bl -tag -width
 .It Op Fl s
 Force full screen (if supported)
+.It Op Fl g
+Set display geometry (defaults to 640x480)
 .It Op Fl r
 Force windowed (default)
 .It Op Fl v
@@ -59,5 +62,5 @@ Please report any new bugs to
 .An <erik@smluc.org>
 .\"===========================================================================
 .Sh AUTHOR
-.An Erik Greenwald <erik@smluc.org> <erik@math.smsu.edu>
-http://math.smsu.edu/~erik/software.php?id=72
+.An Erik Greenwald <erik@smluc.org> <erik@math.missouristate.edu>
+http://math.missouristate.edu/~erik/software.php?id=72
