@@ -4,9 +4,9 @@ Version: @VERSION@
 Release: 1
 Copyright: GPL
 Vendor: Erik Greenwald
-Url: http://math.smsu.edu/~erik/software.php?id=72
+Url: http://math.missouristate.edu/~erik/software.php?id=72
 Group: Amusements/Games
-Source0: http://math.smsu.edu/~erik/files/@PACKAGE@-@VERSION@.tar.gz
+Source0: http://math.missouristate.edu/~erik/files/@PACKAGE@-@VERSION@.tar.gz
 Buildroot: /var/tmp/@PACKAGE@
 
 %description
