@@ -2,7 +2,7 @@ Summary: OpenGL Pong.
 Name: @PACKAGE@
 Version: @VERSION@
 Release: 1
-Copyright: GPL
+License: GPL
 Vendor: Erik Greenwald
 Url: http://math.missouristate.edu/~erik/software.php?id=72
 Group: Amusements/Games
@@ -32,7 +32,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 /usr/bin/@PACKAGE@
 /usr/share/@PACKAGE@/*
-/usr/man/man1/@PACKAGE@.1*
+/usr/share/man/man1/@PACKAGE@.1*
 
 %changelog
 
