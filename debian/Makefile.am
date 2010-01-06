@@ -1,5 +1,5 @@
 # glpong - opengl/sdl game of the original video game; pong.
-# Copyright (C) 2001-2009 Erik Greenwald <erik@smluc.org>
+# Copyright (C) 2001-2010 Erik Greenwald <erik@smluc.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.4 2009/08/31 16:42:16 erik Exp $
+# $Id: Makefile.am,v 1.5 2010/01/06 01:05:59 erik Exp $
 
 EXTRA_DIST = \
 	README \
