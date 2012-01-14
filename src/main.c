@@ -1,7 +1,7 @@
 
 /*****************************************************************************
  * glpong - opengl/sdl game of the original video game; pong.                *
- * Copyright (C) 2001-2010 Erik Greenwald <erik@smluc.org>                   *
+ * Copyright (C) 2001-2010 Erik Greenwald <erik@brlcad.org>                   *
  *                                                                           *
  * This program is free software; you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
@@ -77,7 +77,7 @@ int
 doversion (char *name)
 {
     printf ("\
-%s (%s) Copyright (C) 2001-2010 Erik Greenwald <erik@smluc.org>\n\
+%s (%s) Copyright (C) 2001-2010 Erik Greenwald <erik@brlcad.org>\n\
 %s comes with ABSOLUTELY NO WARRANTY. Please read the GPL for details.\n\n", name, PACKAGE, VERSION);
     return 0;
 }
