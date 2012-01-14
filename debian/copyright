@@ -4,7 +4,7 @@ Wed, 05 Sep 2007 16:12:35 -0500.
 It was downloaded from http://math.missouristate.edu/~erik/files
 
 Upstream Author: Erik Greenwald <erik@brlcad.org>
-Copyright: Copyright (C) 2001-2010 Erik Greenwald
+Copyright: Copyright (C) 2001-2012 Erik Greenwald
 
 License:
 
@@ -25,7 +25,7 @@ License:
 On Debian systems, the complete text of the GNU General
 Public License can be found in `/usr/share/common-licenses/GPL'.
 
-The Debian packaging is (C) 2007-2010, Erik Greenwald <erik@brlcad.org> and
+The Debian packaging is (C) 2007-2012, Erik Greenwald <erik@brlcad.org> and
 is licensed under the GPL, see above.
 
 
