@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: map.h,v 1.12 2010/01/06 01:06:00 erik Exp $
- */
-
 #define MAP_WALL 0
 #define MAP_GATE 1
 #define MAP_LAST 2

@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: text.h,v 1.12 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #ifndef __TEXT_H_
 #define __TEXT_H_
 

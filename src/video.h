@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: video.h,v 1.13 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #ifndef __VIDEO_H_
 #define __VIDEO_H_
 

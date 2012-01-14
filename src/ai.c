@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: ai.c,v 1.15 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #include <stdlib.h>
 #include "game.h"
 #include "ai.h"

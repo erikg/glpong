@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: physics.h,v 1.11 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #ifndef __PHYSICS_H_
 #define __PHYSICS_H_
 

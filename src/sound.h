@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: sound.h,v 1.16 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #ifndef __SOUND_H_
 #define __SOUND_H_
 

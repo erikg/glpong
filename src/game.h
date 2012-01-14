@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: game.h,v 1.18 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #ifndef __GAME_H_
 #define __GAME_H_
 

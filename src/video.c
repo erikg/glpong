@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-/*
- * $Id: video.c,v 1.48 2010/01/06 01:06:00 erik Exp $ 
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
