@@ -15,8 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# $Id: Makefile.am,v 1.13 2010/01/06 01:06:00 erik Exp $
-
 bin_PROGRAMS = glpong
 
 glpong_SOURCES = ai.c game.c image.c input.c main.c map.c physics.c sound.c text.c timer.c video.c
