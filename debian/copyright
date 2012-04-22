@@ -1,9 +1,9 @@
 This package was debianized by Erik Greenwald <erik@brlcad.org> on
 Wed, 05 Sep 2007 16:12:35 -0500.
 
-It was downloaded from http://math.missouristate.edu/~erik/files
+It was downloaded from http://www.elfga.com/~erik/files
 
-Upstream Author: Erik Greenwald <erik@brlcad.org>
+Upstream Author: Erik Greenwald <erik@elfga.com>
 Copyright: Copyright (C) 2001-2012 Erik Greenwald
 
 License:
@@ -27,7 +27,3 @@ Public License can be found in `/usr/share/common-licenses/GPL'.
 
 The Debian packaging is (C) 2007-2012, Erik Greenwald <erik@brlcad.org> and
 is licensed under the GPL, see above.
-
-
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.
