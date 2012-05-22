@@ -24,7 +24,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
+#ifndef WIN32
+# include <unistd.h>
+#endif
 #include <signal.h>
 
 #include <png.h>
@@ -32,39 +34,6 @@
 #include "image.h"
 
 static char image_error_string[BUFSIZ];
-static void *readpng (void *buf, int *width, int *height, int *bpp);
-static void user_read_data (png_structp png_ptr, png_bytep data, png_size_t length);
-static int ispng (void *);
-
-void *
-image_load (char *filename, int *width, int *height, int *bpp)
-{
-    void *image, *buf;
-    int fd, size;
-    struct stat sb;
-
-    if (stat (filename, &sb) == -1)
-	return NULL;
-    buf = malloc (sb.st_size);
-    fd = open (filename, O_RDONLY);
-    size = read (fd, buf, sb.st_size);
-    close (fd);
-    user_read_data (NULL, NULL, 0);
-    if (size != sb.st_size)
-    {
-	snprintf (image_error_string, BUFSIZ, "Bad read! (%s)\n", filename);
-	free (buf);
-	return NULL;
-    }
-    if (!ispng (buf))
-    {
-	snprintf (image_error_string, BUFSIZ, "%s is not a PNG", filename);
-	return NULL;
-    }
-    image = readpng (buf, width, height, bpp);
-    free (buf);
-    return image;
-}
 
 char *
 image_error ()
@@ -132,3 +101,34 @@ readpng (void *buf, int *width, int *height, int *bpp)
     png_destroy_read_struct (&png_ptr, &info_ptr, png_infopp_NULL);
     return out;
 }
+
+void *
+image_load (char *filename, int *width, int *height, int *bpp)
+{
+    void *image, *buf;
+    int fd, size;
+    struct stat sb;
+
+    if (stat (filename, &sb) == -1)
+	return NULL;
+    buf = malloc (sb.st_size);
+    fd = open (filename, O_RDONLY);
+    size = read (fd, buf, sb.st_size);
+    close (fd);
+    user_read_data (NULL, NULL, 0);
+    if (size != sb.st_size)
+    {
+	snprintf (image_error_string, BUFSIZ, "Bad read! (%s)\n", filename);
+	free (buf);
+	return NULL;
+    }
+    if (!ispng (buf))
+    {
+	snprintf (image_error_string, BUFSIZ, "%s is not a PNG", filename);
+	return NULL;
+    }
+    image = readpng (buf, width, height, bpp);
+    free (buf);
+    return image;
+}
+
