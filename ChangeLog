@@ -1,6 +1,7 @@
 20120522:
 	* Integrate gamem4 files
 	* Add GPLv2 license file
+	* add initial cmake files
 
 20120422:
 	* Fix up deb and rpm packaging
