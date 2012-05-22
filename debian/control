@@ -1,9 +1,9 @@
 Source: glpong
 Section: games
 Priority: extra
-Maintainer: Erik Greenwald <erik@smluc.org>
-Build-Depends: debhelper (>= 5), autotools-dev
-Standards-Version: 3.7.2
+Maintainer: Erik Greenwald <erik@brlcad.org>
+Build-Depends: debhelper (>= 5), autotools-dev, libsdl1.2-dev
+Standards-Version: 3.9.3
 
 Package: glpong
 Architecture: any
