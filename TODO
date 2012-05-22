@@ -7,3 +7,7 @@ future
 	* highscores
 	* network game
 	* custom maps
+	* update to OpenGL 3+ (shaders)
+	* android port
+	* ios port
+	* windows port
