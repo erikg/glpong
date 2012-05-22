@@ -21,7 +21,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
-#include <unistd.h>
+#ifndef WIN32
+# include <unistd.h>
+#endif
 #include <ctype.h>
 
 #ifdef __linux__
@@ -105,6 +107,7 @@ main (int argc, char **argv)
     width = 640;
     height = 480;
 
+#ifndef WIN32
     while ((c = getopt (argc, argv, "g:fwhv")) != -1)
 	switch (tolower (c))
 	{
@@ -135,6 +138,7 @@ main (int argc, char **argv)
 	    dohelp (name);
 	    return 2;
 	}
+#endif
 
     SDL_Init (SDL_INIT_VIDEO);
     SDL_SetVideoMode (width, height, 32,
