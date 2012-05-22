@@ -18,30 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
-#ifndef WIN32
-# include <unistd.h>
-#endif
-#include <signal.h>
-
+#include <sys/stat.h>
 #include <png.h>
 
 #include "image.h"
 
 static char image_error_string[BUFSIZ];
 
-char *
-image_error ()
-{
-    return image_error_string;
-}
-
-void
+static void
 user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
 {
     static size_t bar = 0;
@@ -54,13 +40,13 @@ user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
     return;
 }
 
-int
+static int
 ispng (void *buf)
 {
     return !png_sig_cmp (buf, 0, 4);
 }
 
-void *
+static void *
 readpng (void *buf, int *width, int *height, int *bpp)
 {
     png_structp png_ptr =
@@ -100,6 +86,15 @@ readpng (void *buf, int *width, int *height, int *bpp)
 	memcpy ((void *)((size_t)out + i * pitch), row_pointers[i], pitch);
     png_destroy_read_struct (&png_ptr, &info_ptr, png_infopp_NULL);
     return out;
+}
+
+/************************************************************************/
+/* public interface */
+
+char *
+image_error ()
+{
+    return image_error_string;
 }
 
 void *
