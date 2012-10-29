@@ -1,7 +1,7 @@
 Source: glpong
 Section: games
 Priority: extra
-Maintainer: Erik Greenwald <erik@brlcad.org>
+Maintainer: Erik Greenwald <erik@elfga.com>
 Build-Depends: debhelper (>= 5), autotools-dev, libsdl1.2-dev
 Standards-Version: 3.9.3
 
