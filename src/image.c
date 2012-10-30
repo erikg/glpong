@@ -35,7 +35,7 @@ user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
     if (png_ptr == NULL)
 	bar = 0;
     else
-	memcpy (data, (void *) ((size_t)(png_ptr->io_ptr) + bar), length);
+	memcpy (data, (png_get_io_ptr(png_ptr) + bar), length);
     bar += length;
     return;
 }
@@ -71,7 +71,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
 
     png_read_png (png_ptr, info_ptr,
 	PNG_TRANSFORM_PACKING | PNG_TRANSFORM_STRIP_16 |
-	PNG_TRANSFORM_EXPAND, png_voidp_NULL);
+	PNG_TRANSFORM_EXPAND, NULL);
     pitch = png_get_rowbytes (png_ptr, info_ptr);
     *width = png_get_image_width (png_ptr, info_ptr);
     *height = png_get_image_height (png_ptr, info_ptr);
@@ -82,9 +82,9 @@ readpng (void *buf, int *width, int *height, int *bpp)
     row_pointers = png_get_rows (png_ptr, info_ptr);
 
     out = malloc ((*width) * (*height) * (*bpp));
-    for (i = 0; i < info_ptr->height; ++i)
+    for (i = 0; i < *height; ++i)
 	memcpy ((void *)((size_t)out + i * pitch), row_pointers[i], pitch);
-    png_destroy_read_struct (&png_ptr, &info_ptr, png_infopp_NULL);
+    png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
     return out;
 }
 
