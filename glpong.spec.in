@@ -4,9 +4,9 @@ Version: @VERSION@
 Release: 1
 License: GPL
 Vendor: Erik Greenwald
-Url: http://math.missouristate.edu/~erik/software.php?id=72
+Url: http://elfga.com/~erik/software.php?id=72
 Group: Amusements/Games
-Source0: http://math.missouristate.edu/~erik/files/@PACKAGE@-@VERSION@.tar.gz
+Source0: http://elfga.com/~erik/files/@PACKAGE@-@VERSION@.tar.gz
 Buildroot: /var/tmp/@PACKAGE@
 
 %description
