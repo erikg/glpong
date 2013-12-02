@@ -22,6 +22,7 @@
 #include <math.h>
 #include <time.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include "game.h"
 
