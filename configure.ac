@@ -25,6 +25,8 @@ AM_CONFIG_HEADER(config.h)
 AC_PROG_CC
 AC_PROG_INSTALL
 
+AC_CHECK_LIBM
+
 dnl autosearch /usr/X11R6
 AC_MSG_CHECKING([for /usr/X11R6])
 if test -d /usr/X11R6/include ; then
