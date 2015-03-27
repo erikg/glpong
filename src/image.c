@@ -56,7 +56,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
     png_infop info_ptr = png_create_info_struct (png_ptr);
     png_bytepp row_pointers;
     void *out;
-    unsigned int i, pitch, channels, depth;
+    unsigned int i, pitch, channels;
 
     if (png_ptr == NULL || info_ptr == NULL)
     {
@@ -78,7 +78,6 @@ readpng (void *buf, int *width, int *height, int *bpp)
     *width = png_get_image_width (png_ptr, info_ptr);
     *height = png_get_image_height (png_ptr, info_ptr);
     channels = png_get_channels (png_ptr, info_ptr);
-    depth = png_get_bit_depth (png_ptr, info_ptr);
     *bpp = channels;
 
     row_pointers = png_get_rows (png_ptr, info_ptr);
@@ -122,6 +121,7 @@ image_load (char *filename, int *width, int *height, int *bpp)
     if (!ispng (buf))
     {
 	snprintf (image_error_string, BUFSIZ, "%s is not a PNG", filename);
+        free(buf);
 	return NULL;
     }
     image = readpng (buf, width, height, bpp);

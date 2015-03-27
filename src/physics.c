@@ -270,7 +270,7 @@ physics_do (game_t * g)
 #define PADDLEHALFWIDTH 1.0
     i = sign (g->ball[0].vel[1]) < 0 ? 1 : 0;	/* select player in risk */
     if (fabs (g->ball[0].pos[1]) <= 8.0
-	&& fabs (g->ball[0].pos[1] + g->ball[0].vel[1] * timer_delta ()) >=
+	&& fabs (g->ball[0].pos[1] + g->ball[0].vel[1] * dt) >=
 	8.0)
     {
 	if (fabs (g->player[i].X - g->ball[0].pos[0]) <= PADDLEHALFWIDTH)
@@ -310,8 +310,8 @@ GOAL:
     /*
      * update ball location
      */
-    g->ball[0].pos[0] += g->ball[0].vel[0] * timer_delta ();
-    g->ball[0].pos[1] += g->ball[0].vel[1] * timer_delta ();
+    g->ball[0].pos[0] += g->ball[0].vel[0] * dt;
+    g->ball[0].pos[1] += g->ball[0].vel[1] * dt;
 
     return;
 }
