@@ -27,7 +27,7 @@
 #include "game.h"
 
 	/*
-	 * define pi if it's not already defined 
+	 * define pi if it's not already defined
 	 */
 #ifndef M_PI
 # ifdef PI
@@ -60,7 +60,7 @@ game_newball (game_t * g)
 {
     float angle;
 
-    /* 
+    /*
      * the puck emission would be towards one of the players relatively
      * aggressively, so it doesn't bounce side to side too much and get
      * boring...
@@ -71,7 +71,7 @@ game_newball (game_t * g)
      * [-pi/4,-3pi/4]. With a single sweep being pi/2, what we can do is get
      * a random number between 0 and pi, and subtract pi/2 from that, resulting
      * in a range of [-pi/4,pi/4]. We can then use sign*(range + pi/4) to get
-     * the output angle. 
+     * the output angle.
      */
     angle = ((float)rand()/(float)RAND_MAX - 0.5) * M_PI;
     angle = (angle>0?1:-1) * (fabs(angle) + M_PI/4.0);

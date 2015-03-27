@@ -1,7 +1,7 @@
 # Game/graphics/multimedia oriented m4 package for autoconf/aclocal.
-# 
+#
 # Copyright 2000-2010 Erik Greenwald <erik@smluc.org>
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -13,7 +13,7 @@
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 # This product includes software developed by Erik Greenwald.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,20 +44,20 @@ AC_DEFUN([AM_PATH_OPENAL],
   AC_LANG_SAVE
   AC_LANG_C
 
-  AC_ARG_WITH(al-prefix,    
+  AC_ARG_WITH(al-prefix,
     [  --with-al-prefix=PFX     Prefix where OpenAL is installed],
     [
       AL_CFLAGS="-I$withval/include"
       AL_LIBS="-L$withval/lib"
     ])
 
-  AC_ARG_WITH(al-includes,    
+  AC_ARG_WITH(al-includes,
     [  --with-al-includes=DIR   where the OpenAL includes are installed],
     [
       AL_CFLAGS="-I$withval"
     ])
 
-  AC_ARG_WITH(al-libraries,    
+  AC_ARG_WITH(al-libraries,
     [  --with-al-libraries=DIR  where the OpenAL libraries are installed],
     [
       AL_LIBS="-L$withval"
@@ -104,7 +104,7 @@ esac
   AC_LANG_RESTORE
 
   if test "$have_AL" = "yes"; then
-     ifelse([$1], , :, [$1])     
+     ifelse([$1], , :, [$1])
   else
      AL_CFLAGS=""
      AL_LIBS=""

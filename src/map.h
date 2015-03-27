@@ -28,16 +28,16 @@ struct map_tri {
 };
 
 	/*
-	 * wipes out existing map 
+	 * wipes out existing map
 	 */
 void map_new ();
 
 	/*
-	 * adds a single triangle to the map 
+	 * adds a single triangle to the map
 	 */
 int map_add_tri (int type, float v[3][3]);
 
 	/*
-	 * apply <func> to each vertex in <type> list 
+	 * apply <func> to each vertex in <type> list
 	 */
 int map_map_tri (void (*func) (struct map_tri *));

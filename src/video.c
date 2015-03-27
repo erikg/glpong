@@ -45,7 +45,7 @@ void
 draw_paddle (int reflective, float x)
 {
     /*
-     * range of x is [-3,3] 
+     * range of x is [-3,3]
      */
     float left, right;
 
@@ -252,7 +252,7 @@ video_do (game_t * g)
     glLightfv (GL_LIGHT0, GL_POSITION, light_position);
 
     /*
-     * machine paddle 
+     * machine paddle
      */
     glPushMatrix ();
     glTranslatef (g->player[MACHINE].X, 0, -8);
@@ -260,7 +260,7 @@ video_do (game_t * g)
     glPopMatrix ();
 
     /*
-     * human paddle 
+     * human paddle
      */
     glPushMatrix ();
     glTranslatef (g->player[PLAYER].X, 0, 8);
@@ -268,7 +268,7 @@ video_do (game_t * g)
     glPopMatrix ();
 
     /*
-     * ball 
+     * ball
      */
     glDisable (GL_LIGHTING);
 
@@ -284,7 +284,7 @@ video_do (game_t * g)
     glPopMatrix ();
 
     /*
-     * strips 
+     * strips
      */
     curcolor = 0xffffff;
     glBegin (GL_TRIANGLES);
@@ -292,7 +292,7 @@ video_do (game_t * g)
     glEnd ();
 
     /*
-     * text 
+     * text
      */
     glPopMatrix ();
     glColor3f (1, 1, 1);

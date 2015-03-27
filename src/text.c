@@ -31,7 +31,7 @@
 unsigned int textid;
 
 	/*
-	 * evil magic bound to our texture 
+	 * evil magic bound to our texture
 	 */
 float texcoords[][4] = {
     {32.0, 32.0, 64.0, 64.0},	/* 0 */

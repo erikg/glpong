@@ -27,7 +27,7 @@ void
 ai_do (game_t * g)
 {
     /*
-     * don't act if the ball is going towards hoomon 
+     * don't act if the ball is going towards hoomon
      */
     if (g->ball->vel[1] > 0)
 	return;

@@ -1,7 +1,7 @@
 # Game/graphics/multimedia oriented m4 package for autoconf/aclocal.
-# 
+#
 # Copyright 2000-2010 Erik Greenwald <erik@smluc.org>
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -13,7 +13,7 @@
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 # This product includes software developed by Erik Greenwald.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,20 +42,20 @@ AC_DEFUN([AM_PATH_PNG],
   AC_LANG_SAVE
   AC_LANG_C
 
-  AC_ARG_WITH(png-prefix,    
+  AC_ARG_WITH(png-prefix,
     [  --with-png-prefix=PFX     Prefix where PNG is installed],
     [
       PNG_CFLAGS="-I$withval/include"
       PNG_LIBS="-L$withval/lib"
     ])
 
-  AC_ARG_WITH(png-includes,    
+  AC_ARG_WITH(png-includes,
     [  --with-png-includes=DIR   where the PNG includes are installed],
     [
       PNG_CFLAGS="-I$withval"
     ])
 
-  AC_ARG_WITH(png-libraries,    
+  AC_ARG_WITH(png-libraries,
     [  --with-png-libraries=DIR  where the PNG libraries are installed],
     [
       PNG_LIBS="-L$withval"
@@ -83,7 +83,7 @@ dnl  exec AC_FD_MSG>/dev/null
   AC_LANG_RESTORE
 
   if test "$have_PNG" = "yes"; then
-     ifelse([$1], , :, [$1])     
+     ifelse([$1], , :, [$1])
   else
      PNG_CFLAGS=""
      PNG_LIBS=""

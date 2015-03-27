@@ -27,7 +27,7 @@ double timer_delta ();
 double timer_fps ();
 
 	/*
-	 * buf must be pre-allocated and at least BUFSIZ bytes! 
+	 * buf must be pre-allocated and at least BUFSIZ bytes!
 	 */
 char *timer_report (char *buf);
 

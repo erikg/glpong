@@ -1,7 +1,7 @@
 # Game/graphics/multimedia oriented m4 package for autoconf/aclocal.
-# 
+#
 # Copyright 2000-2010 Erik Greenwald <erik@smluc.org>
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -13,7 +13,7 @@
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 # This product includes software developed by Erik Greenwald.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,12 +28,12 @@
 #
 # $Id: OpenGL.m4,v 1.17 2010/01/06 01:05:59 erik Exp $
 #
-# thumbs up to 'famp' at http://famp.sourceforge.net for providing an 
+# thumbs up to 'famp' at http://famp.sourceforge.net for providing an
 # example of how this is done.
 #
 # AC_SUBST's both GL_CFLAGS and GL_LIBS, and sets have_GL
 #
-# oct 26, 2000 
+# oct 26, 2000
 # * Changed CONFIGURE_OPENGL to AM_PATH_OPENGL for consistancy
 # -Erik Greenwald <erik@smluc.org>
 
@@ -71,20 +71,20 @@ esac
     GL_X_LIBS="$X_PRE_LIBS $X_LIBS $GLXEXTRALIBSTUFF $X_EXTRA_LIBS $LIBM"
   fi
 
-  AC_ARG_WITH(gl-prefix,    
+  AC_ARG_WITH(gl-prefix,
     [  --with-gl-prefix=PFX     Prefix where OpenGL is installed],
     [
       GL_CFLAGS="-I$withval/include"
       GL_LIBS="-L$withval/lib"
     ])
 
-  AC_ARG_WITH(gl-includes,    
+  AC_ARG_WITH(gl-includes,
     [  --with-gl-includes=DIR   where the OpenGL includes are installed],
     [
       GL_CFLAGS="-I$withval"
     ])
 
-  AC_ARG_WITH(gl-libraries,    
+  AC_ARG_WITH(gl-libraries,
     [  --with-gl-libraries=DIR  where the OpenGL libraries are installed],
     [
       GL_LIBS="-L$withval"
@@ -132,7 +132,7 @@ esac
   AC_LANG_RESTORE
 
   if test "$have_GL" = "yes"; then
-     ifelse([$1], , :, [$1])     
+     ifelse([$1], , :, [$1])
   else
      GL_CFLAGS=""
      GL_LIBS=""
@@ -153,20 +153,20 @@ AC_DEFUN([AM_PATH_GLU],
   AC_LANG_SAVE
   AC_LANG_C
 
-  AC_ARG_WITH(glu-prefix,    
+  AC_ARG_WITH(glu-prefix,
     [  --with-glu-prefix=PFX     Prefix where GLU is installed],
     [
       GLU_CFLAGS="-I$withval/include"
       GLU_LIBS="-L$withval/lib"
     ])
 
-  AC_ARG_WITH(glu-includes,    
+  AC_ARG_WITH(glu-includes,
     [  --with-glu-includes=DIR   where the GLU includes are installed],
     [
       GLU_CFLAGS="-I$withval"
     ])
 
-  AC_ARG_WITH(glu-libraries,    
+  AC_ARG_WITH(glu-libraries,
     [  --with-glu-libraries=DIR  where the GLU libraries are installed],
     [
       GLU_LIBS="-L$withval"
@@ -211,7 +211,7 @@ esac
   AC_LANG_RESTORE
 
   if test "$have_GLU" = "yes"; then
-     ifelse([$1], , :, [$1])     
+     ifelse([$1], , :, [$1])
   else
      GLU_CFLAGS=""
      GLU_LIBS=""
@@ -232,20 +232,20 @@ AC_DEFUN([AM_PATH_GLUT],
   AC_LANG_SAVE
   AC_LANG_C
 
-  AC_ARG_WITH(glut-prefix,    
+  AC_ARG_WITH(glut-prefix,
     [  --with-glut-prefix=PFX     Prefix where glut is installed],
     [
       GLUT_CFLAGS="-I$withval/include"
       GLUT_LIBS="-L$withval/lib"
     ])
 
-  AC_ARG_WITH(glut-includes,    
+  AC_ARG_WITH(glut-includes,
     [  --with-glut-includes=DIR   where the glut includes are installed],
     [
       GLUT_CFLAGS="-I$withval"
     ])
 
-  AC_ARG_WITH(glut-libraries,    
+  AC_ARG_WITH(glut-libraries,
     [  --with-glut-libraries=DIR  where the glut libraries are installed],
     [
       GLUT_LIBS="-L$withval"
@@ -289,7 +289,7 @@ esac
   AC_LANG_RESTORE
 
   if test "$have_GLUT" = "yes"; then
-     ifelse([$1], , :, [$1])     
+     ifelse([$1], , :, [$1])
   else
      GLUT_CFLAGS=""
      GLUT_LIBS=""
