@@ -1,5 +1,5 @@
 # glpong - opengl/sdl game of the original video game; pong.
-# Copyright (C) 2001-2013 Erik Greenwald <erik@elfga.com>
+# Copyright (C) 2001-2015 Erik Greenwald <erik@elfga.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ bin_PROGRAMS = glpong
 glpong_SOURCES = ai.c game.c image.c input.c main.c map.c physics.c sound.c text.c timer.c video.c
 noinst_HEADERS = ai.h game.h image.h input.h map.h physics.h sound.h text.h timer.h video.h
 AM_CFLAGS = @SDL_CFLAGS@ @PNG_CFLAGS@ @GL_CFLAGS@ @AL_CFLAGS@ -DDATADIR=\"${pkgdatadir}\"
-LDADD = @SDL_LIBS@ @PNG_LIBS@ @GL_LIBS@ @AL_LIBS @LIBM@
+LDADD = @SDL_LIBS@ @PNG_LIBS@ @GL_LIBS@ @AL_LIBS@ @LIBM@
 
 indent:
 	for a in ${glpong_SOURCES} ${noinst_HEADERS}; do [ x`which gindent` = x ] && indent $$a || gindent $$a ; done
