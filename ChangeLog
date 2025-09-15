@@ -2,6 +2,7 @@
 	* Update copyright info
 	* fix CMake files
 	* Update to SDL2
+	* Improve stability and resource management
 
 20121202:
 	* Update copyright info

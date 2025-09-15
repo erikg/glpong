@@ -34,6 +34,17 @@ struct _ll {
 void
 map_new ()
 {
+    struct _ll *current, *next;
+
+    /* Free existing map if it exists */
+    current = map;
+    while (current != NULL) {
+        next = current->next;
+        free(current->data);  /* Free the triangle data */
+        free(current);        /* Free the linked list node */
+        current = next;
+    }
+
     map = NULL;
     return;
 }

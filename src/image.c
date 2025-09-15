@@ -109,6 +109,11 @@ image_load (char *filename, int *width, int *height, int *bpp)
 	return NULL;
     buf = malloc (sb.st_size);
     fd = open (filename, O_RDONLY);
+    if (fd == -1) {
+	snprintf (image_error_string, BUFSIZ, "Failed to open file: %s\n", filename);
+	free (buf);
+	return NULL;
+    }
     size = read (fd, buf, sb.st_size);
     close (fd);
     user_read_data (NULL, NULL, 0);

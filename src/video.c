@@ -329,14 +329,15 @@ flip_surface (SDL_Surface * s)
 
     buf = (Uint8 *) malloc (s->pitch);
 
-    for (x = 0; x < (480 / 2); x++)
+    for (x = 0; x < (s->h / 2); x++)
     {
 #define PTRADD(p,v) ((void *)((size_t)(p) + (v)))
 	memcpy (buf, (Uint8 *) PTRADD(s->pixels, x*s->pitch), s->pitch);
-	memcpy ((Uint8 *) PTRADD(s->pixels, x * s->pitch), (Uint8 *) PTRADD(s->pixels , (479 - x) * s->pitch), s->pitch);
-	memcpy ((Uint8 *) PTRADD(s->pixels , (479 - x) * s->pitch), buf, s->pitch);
+	memcpy ((Uint8 *) PTRADD(s->pixels, x * s->pitch), (Uint8 *) PTRADD(s->pixels , ((s->h - 1 - x) * s->pitch)), s->pitch);
+	memcpy ((Uint8 *) PTRADD(s->pixels , ((s->h - 1 - x) * s->pitch)), buf, s->pitch);
 #undef PTRADD
     }
+    free(buf);
     return;
 }
 
@@ -349,5 +350,6 @@ video_screenshot ()
     glReadPixels (0, 0, display.width, display.height, GL_BGR, GL_UNSIGNED_BYTE, ss->pixels);
     flip_surface (ss);
     SDL_SaveBMP (ss, "screenshot.bmp");
+    SDL_FreeSurface (ss);
     return;
 }
