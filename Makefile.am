@@ -18,7 +18,7 @@
 SUBDIRS = data src debian
 
 dist_man_MANS = $(PACKAGE).1
-EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist.in version.plist.in
+EXTRA_DIST=ChangeLog $(PACKAGE).spec Info.plist.in version.plist.in CMakeLists.txt src/CMakeLists.txt
 
 .PHONY : rpm deb bundle packages doc
 rpm: dist
