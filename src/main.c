@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #ifndef WIN32
 # include <unistd.h>
 #endif
@@ -143,8 +144,34 @@ main (int argc, char **argv)
 #endif
 
     SDL_Init (SDL_INIT_VIDEO);
+
+    /* Try to create a modern OpenGL context first */
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
     window = SDL_CreateWindow("glpong (C) 2001-2025 Erik Greenwald", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL | fullscreen);
     SDL_GLContext context = SDL_GL_CreateContext(window);
+
+    if (!context) {
+        /* Fallback to legacy OpenGL */
+        printf("Failed to create OpenGL 3.3 context, falling back to legacy OpenGL\n");
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, 0);
+        context = SDL_GL_CreateContext(window);
+        if (!context) {
+            fprintf(stderr, "Failed to create OpenGL context: %s\n", SDL_GetError());
+            SDL_Quit();
+            exit(-1);
+        }
+    }
+
+    /* Enable V-Sync */
+    SDL_GL_SetSwapInterval(1);
+
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
