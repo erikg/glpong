@@ -70,7 +70,7 @@ sound_load (ALuint id, char *name)
     return;
 }
 
-static void *context_id;
+static ALCcontext *context_id;
 static ALCdevice *dev;
 static int have_al = 0;
 
@@ -79,15 +79,24 @@ sound_init ()
 {
     if (have_al)
 	return;
-    if ((dev = alcOpenDevice (NULL)) == NULL)
+    if ((dev = alcOpenDevice (NULL)) == NULL) {
+	printf("Failed to open OpenAL device\n");
 	return;
+    }
     if ((context_id = alcCreateContext (dev, NULL)) == NULL)
     {
+	printf("Failed to create OpenAL context\n");
 	alcCloseDevice (dev);
 	have_al = 0;
 	return;
     }
-    alcMakeContextCurrent (context_id);
+    if (!alcMakeContextCurrent (context_id)) {
+	printf("Failed to make OpenAL context current\n");
+	alcDestroyContext(context_id);
+	alcCloseDevice (dev);
+	have_al = 0;
+	return;
+    }
 
     alGenSources (1, &source);
 
@@ -95,7 +104,7 @@ sound_init ()
     sound_load (wave[SOUND_BOINK], "/boink.wav");
     sound_load (wave[SOUND_NNGNGNG], "/lose.wav");
 
-    alDistanceModel (AL_DISTANCE_MODEL);
+    alDistanceModel (AL_INVERSE_DISTANCE);
     alSourcef (source, AL_REFERENCE_DISTANCE, 22.0);
 
     have_al = 1;
@@ -107,8 +116,12 @@ sound_close ()
 {
     if (have_al)
     {
+	alDeleteSources(1, &source);
+	alDeleteBuffers(2, wave);
+	alcMakeContextCurrent(NULL);
 	alcDestroyContext (context_id);
 	alcCloseDevice (dev);
+	have_al = 0;
     }
     return;
 }
