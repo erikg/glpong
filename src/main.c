@@ -88,10 +88,10 @@ dohelp (char *name)
 {
     doversion (name);
     printf ("Usage\n\
-\t%s [-fwhv] [-w <width>x<height>]\n\
+\t%s [-fwhv] [-g <width>x<height>]\n\
 \n\
- -f                      Force fullscreen\n\
- -g <width>x<height>     Set resolution\n\
+ -f                      Force fullscreen (uses native desktop resolution)\n\
+ -g <width>x<height>     Set resolution (windowed mode only)\n\
  -w                      Force windowed (default)\n\
  -h                      Display this help screen\n\
  -v                      Display the version\n\
@@ -122,7 +122,7 @@ main (int argc, char **argv)
 	    dohelp (name);
 	    return 1;
 	case 'f':
-	    fullscreen = SDL_WINDOW_FULLSCREEN;
+	    fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
 	    break;
 	case 'g':
 	    sscanf (optarg, "%dx%d", &width, &height);
@@ -145,6 +145,18 @@ main (int argc, char **argv)
 
     SDL_Init (SDL_INIT_VIDEO);
 
+    /* If fullscreen is requested, use the desktop's native resolution */
+    if (fullscreen) {
+        SDL_DisplayMode desktop_mode;
+        if (SDL_GetDesktopDisplayMode(0, &desktop_mode) == 0) {
+            width = desktop_mode.w;
+            height = desktop_mode.h;
+            printf("Fullscreen mode: using native resolution %dx%d\n", width, height);
+        } else {
+            printf("Warning: Could not get desktop display mode, using %dx%d\n", width, height);
+        }
+    }
+
     /* Try to create a modern OpenGL context first */
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -153,6 +165,10 @@ main (int argc, char **argv)
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
     window = SDL_CreateWindow("glpong (C) 2001-2025 Erik Greenwald", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL | fullscreen);
+
+    /* Get the actual window size after creation (important for fullscreen desktop) */
+    SDL_GetWindowSize(window, &width, &height);
+
     SDL_GLContext context = SDL_GL_CreateContext(window);
 
     if (!context) {
