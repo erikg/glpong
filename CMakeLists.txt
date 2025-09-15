@@ -14,8 +14,10 @@ project(glpong
 set(OpenGL_GL_PREFERENCE GLVND)
 
 # Find required packages
-find_package(PNG REQUIRED)
 find_package(OpenGL REQUIRED)
+# Use pkg-config for PNG to ensure consistent version
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PNG REQUIRED libpng)
 
 # Platform-specific package finding
 if(WIN32)
@@ -83,6 +85,11 @@ if(WIN32)
         "CreateShortCut '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\GLPong.lnk' '$INSTDIR\\\\glpong.exe' '' '$INSTDIR\\\\data\\\\paddle.ico'")
     set(CPACK_NSIS_DELETE_ICONS_EXTRA
         "Delete '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\GLPong.lnk'")
+elseif(APPLE)
+    set(CPACK_GENERATOR "DragNDrop")
+    set(CPACK_DMG_VOLUME_NAME "GLPong ${PROJECT_VERSION}")
+    set(CPACK_DMG_FORMAT "UDZO")
+    set(CPACK_PACKAGE_FILE_NAME "GLPong-${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}")
 endif()
 
 include(CPack)

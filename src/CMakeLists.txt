@@ -21,8 +21,29 @@ add_executable(glpong ${GLPONG_SOURCES})
 # Set target properties
 set_target_properties(glpong PROPERTIES
     MACOSX_BUNDLE TRUE
+    MACOSX_BUNDLE_ICON_FILE glpong.icns
     C_STANDARD 99
     C_STANDARD_REQUIRED ON
+)
+
+# Add resource files to macOS bundle
+set_source_files_properties(
+    ${CMAKE_SOURCE_DIR}/data/glpong.icns
+    ${CMAKE_SOURCE_DIR}/data/lose.wav
+    ${CMAKE_SOURCE_DIR}/data/refl.png
+    ${CMAKE_SOURCE_DIR}/data/paddle.png
+    ${CMAKE_SOURCE_DIR}/data/boink.wav
+    ${CMAKE_SOURCE_DIR}/data/font.png
+    PROPERTIES MACOSX_PACKAGE_LOCATION Resources
+)
+
+target_sources(glpong PRIVATE
+    ${CMAKE_SOURCE_DIR}/data/glpong.icns
+    ${CMAKE_SOURCE_DIR}/data/lose.wav
+    ${CMAKE_SOURCE_DIR}/data/refl.png
+    ${CMAKE_SOURCE_DIR}/data/paddle.png
+    ${CMAKE_SOURCE_DIR}/data/boink.wav
+    ${CMAKE_SOURCE_DIR}/data/font.png
 )
 
 # Target compile definitions
@@ -35,6 +56,10 @@ target_compile_definitions(glpong PRIVATE
 if(WIN32)
     target_compile_definitions(glpong PRIVATE
         DATADIR_RELATIVE="data"
+    )
+elseif(APPLE)
+    target_compile_definitions(glpong PRIVATE
+        DATADIR_RELATIVE="../Resources"
     )
 else()
     target_compile_definitions(glpong PRIVATE
@@ -63,7 +88,6 @@ endif()
 # Target include directories
 target_include_directories(glpong PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${PNG_INCLUDE_DIR}
 )
 
 # Platform-specific includes and libraries
@@ -80,12 +104,12 @@ if(WIN32)
 else()
     target_include_directories(glpong PRIVATE
         ${SDL2_INCLUDE_DIRS}
-        ${OPENGL_PKG_INCLUDE_DIRS}
+        ${PNG_INCLUDE_DIRS}
     )
     target_link_libraries(glpong PRIVATE
         ${SDL2_LIBRARIES}
-        ${PNG_LIBRARY}
-        ${OPENGL_PKG_LIBRARIES}
+        ${PNG_LIBRARIES}
+        ${OPENGL_LIBRARIES}
         m
     )
     if(OPENAL_FOUND)
