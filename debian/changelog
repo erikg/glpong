@@ -1,3 +1,18 @@
+glpong (1.4-1) unstable; urgency=medium
+
+  * New upstream release 1.4
+  * Updated to modern Debian packaging standards
+  * Migrated from SDL1.2 to SDL2
+  * Updated to modern OpenGL and OpenAL
+  * Fixed memory leaks and various bugs
+  * Updated build system to modern autotools and CMake
+  * Enhanced fullscreen support with native resolution
+  * debian/control: Updated build dependencies for SDL2, modern standards
+  * debian/rules: Simplified using modern debhelper
+  * debian/compat: Removed in favor of debhelper-compat in control
+
+ -- Erik Greenwald <erik@elfga.com>  Sun, 15 Sep 2025 00:00:00 +0000
+
 glpong (1.3) unstable; urgency=low
 
   * Initial Release.

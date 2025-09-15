@@ -1,38 +1,62 @@
-Summary: OpenGL Pong.
+Summary: OpenGL/SDL2 Pong Game
 Name: @PACKAGE@
 Version: @VERSION@
-Release: 1
-License: GPL
-Vendor: Erik Greenwald
-Url: http://elfga.com/~erik/software.php?id=72
-Group: Amusements/Games
-Source0: http://elfga.com/~erik/files/@PACKAGE@-@VERSION@.tar.gz
-Buildroot: /var/tmp/@PACKAGE@
+Release: 1%{?dist}
+License: GPL-2.0-or-later
+URL: https://github.com/erikg/glpong
+Source0: https://github.com/erikg/glpong/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+
+BuildRequires: gcc
+BuildRequires: autoconf
+BuildRequires: automake
+BuildRequires: pkgconfig
+BuildRequires: pkgconfig(sdl2)
+BuildRequires: pkgconfig(libpng)
+BuildRequires: pkgconfig(opengl)
+BuildRequires: pkgconfig(openal)
+BuildRequires: make
+
+Requires: SDL2
+Requires: libpng
+Requires: mesa-libGL
+Requires: openal-soft
 
 %description
-An implementation of the classic game 'Pong' using OpenGL, SDL, and OpenAL.
-The only mode of play is one player against an AI.
+An implementation of the classic game 'Pong' using modern OpenGL, SDL2, and OpenAL.
+Features a single player mode against an AI opponent with enhanced graphics and sound.
+This version has been modernized with SDL2, improved OpenGL support, and better
+fullscreen handling.
 
 %prep
-%setup -q
-%build
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr
+%autosetup -n %{name}-%{version}
 
-make
+%build
+%configure --prefix=%{_prefix} \
+           --bindir=%{_bindir} \
+           --datadir=%{_datadir} \
+           --mandir=%{_mandir}
+%make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/bin
-mkdir -p $RPM_BUILD_ROOT/usr/share/@PACKAGE@
-make DESTDIR=$RPM_BUILD_ROOT install
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+%make_install
 
 %files
-/usr/bin/@PACKAGE@
-/usr/share/@PACKAGE@/*
-/usr/share/man/man1/@PACKAGE@.1*
+%license COPYING
+%doc README AUTHORS NEWS TODO ChangeLog
+%{_bindir}/%{name}
+%{_datadir}/%{name}/
+%{_mandir}/man1/%{name}.1*
 
 %changelog
+* Sun Sep 15 2025 Erik Greenwald <erik@elfga.com> - 1.4-1
+- Updated to version 1.4
+- Migrated from SDL1.2 to SDL2
+- Updated to modern OpenGL and OpenAL
+- Fixed memory leaks and various bugs
+- Enhanced fullscreen support with native resolution
+- Modernized build system with autotools and CMake
+- Updated RPM spec to modern standards and practices
+
+* Wed Sep 05 2007 Erik Greenwald <erik@elfga.com> - 1.3-1
+- Initial RPM release
 

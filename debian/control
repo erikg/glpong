@@ -1,9 +1,18 @@
 Source: glpong
 Section: games
-Priority: extra
+Priority: optional
 Maintainer: Erik Greenwald <erik@elfga.com>
-Build-Depends: debhelper (>= 5), autotools-dev, libsdl1.2-dev
-Standards-Version: 3.9.3
+Build-Depends: debhelper-compat (= 13),
+               pkg-config,
+               libsdl2-dev,
+               libpng-dev,
+               libgl-dev,
+               libopenal-dev
+Standards-Version: 4.6.2
+Homepage: https://github.com/erikg/glpong
+Vcs-Git: https://github.com/erikg/glpong.git
+Vcs-Browser: https://github.com/erikg/glpong
+Rules-Requires-Root: no
 
 Package: glpong
 Architecture: any

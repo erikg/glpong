@@ -15,66 +15,46 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-AC_INIT
+AC_INIT([glpong], [1.4], [erik@elfga.com], [glpong], [https://github.com/erikg/glpong])
 AC_CONFIG_SRCDIR([src/main.c])
-AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(glpong, 1.3)
+AC_CANONICAL_TARGET
+AM_INIT_AUTOMAKE([1.11 foreign subdir-objects])
 
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 
+# Check for programs
 AC_PROG_CC
 AC_PROG_INSTALL
 PKG_PROG_PKG_CONFIG
 
-AC_CHECK_LIBM
-
-dnl autosearch /usr/X11R6
-AC_MSG_CHECKING([for /usr/X11R6])
-if test -d /usr/X11R6/include ; then
-	AC_MSG_RESULT([found, adding /usr/X11R6 to search paths])
-	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
-	if test -d /usr/X11R6/lib ; then
-		LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
-	fi
-else
-	AC_MSG_RESULT([not found])
+# Enable modern C standards
+AC_PROG_CC_C99
+if test "x$ac_cv_prog_cc_c99" = "xno"; then
+    AC_MSG_ERROR([C99 compiler required])
 fi
 
-dnl autosearch /usr/local
-AC_MSG_CHECKING([for /usr/local])
-if test -d /usr/local/include ; then
-	AC_MSG_RESULT([found, adding /usr/local to search paths])
-	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-	if test -d /usr/local/lib ; then
-		LDFLAGS="$LDFLAGS -L/usr/local/lib"
-	fi
-else
-	AC_MSG_RESULT([not found])
-fi
+# Check for math library
+AC_SEARCH_LIBS([cos], [m], [], [AC_MSG_ERROR([Math library not found])])
 
-dnl autosearch /opt/local
-AC_MSG_CHECKING([for /opt/local])
-if test -d /opt/local/include ; then
-	AC_MSG_RESULT([found, adding /opt/local to search paths])
-	CPPFLAGS="$CPPFLAGS -I/opt/local/include"
-	if test -d /opt/local/lib ; then
-		LDFLAGS="$LDFLAGS -L/opt/local/lib"
-	fi
-else
-	AC_MSG_RESULT([not found])
-fi
+# Check for required headers
+AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
 
-dnl autosearch fink paths
-AC_MSG_CHECKING([for fink in /sw])
-if test -d /sw/include ; then
-	AC_MSG_RESULT([found, adding /sw to search paths])
-	CPPFLAGS="$CPPFLAGS -I/sw/include"
-	if test -d /sw/lib ; then
-		LDFLAGS="$LDFLAGS -L/sw/lib"
-	fi
-else
-	AC_MSG_RESULT([not found])
-fi
+# Check for required functions
+AC_CHECK_FUNCS([memset])
+
+# Add common library paths for different platforms
+for search_path in /usr/X11R6 /usr/local /opt/local /sw; do
+    AC_MSG_CHECKING([for $search_path])
+    if test -d "$search_path/include"; then
+        AC_MSG_RESULT([found, adding $search_path to search paths])
+        CPPFLAGS="$CPPFLAGS -I$search_path/include"
+        if test -d "$search_path/lib"; then
+            LDFLAGS="$LDFLAGS -L$search_path/lib"
+        fi
+    else
+        AC_MSG_RESULT([not found])
+    fi
+done
 
 PKG_CHECK_MODULES([SDL2], [sdl2 >= 2.0.0], , AC_MSG_ERROR([Cannot find SDL2.]))
 AC_SUBST(SDL2_CFLAGS)
@@ -94,7 +74,7 @@ AC_SUBST(AL_LIBS)
 
 case $target in
 	*-apple-darwin*)
-		MYDATADIR="$PACKAGE.app/Contents/Resources"
+		MYDATADIR="$PACKAGE_NAME.app/Contents/Resources"
 		;;
 	*)
 		MYDATADIR="$pkgdatadir"

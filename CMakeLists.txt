@@ -1,26 +1,30 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
-SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Release type")
-PROJECT(glpong)
+# Set default build type before project()
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build" FORCE)
+endif()
 
-ADD_DEFINITIONS(-DPACKAGE="glpong" -DVERSION="1.4" -DDATADIR="data")
+project(glpong
+    VERSION 1.4
+    DESCRIPTION "OpenGL/SDL Pong Game"
+    LANGUAGES C)
 
-SET(OpenGL_GL_PREFERENCE GLVND)
+# Modern OpenGL preference
+set(OpenGL_GL_PREFERENCE GLVND)
 
-FIND_PACKAGE(PkgConfig REQUIRED)
-PKG_CHECK_MODULES(SDL2 REQUIRED sdl2)
-FIND_PACKAGE(PNG REQUIRED)
-PKG_CHECK_MODULES(OPENGL_PKG opengl)
-IF(NOT OPENGL_PKG_FOUND)
-    PKG_CHECK_MODULES(OPENGL_PKG gl REQUIRED)
-ENDIF()
-PKG_CHECK_MODULES(OPENAL openal)
+# Find required packages
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDL2 REQUIRED sdl2)
+find_package(PNG REQUIRED)
 
-INCLUDE_DIRECTORIES(${PNG_INCLUDE_DIR} ${OPENGL_PKG_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/src)
-IF (${OPENAL_FOUND})
-	ADD_DEFINITIONS(-DHAVE_SOUND)
-	INCLUDE_DIRECTORIES(${OPENAL_INCLUDE_DIRS})
-	SET (SND_LIB "${OPENAL_LIBRARIES}")
-ENDIF (${OPENAL_FOUND})
+# Try modern OpenGL first, fallback to legacy
+pkg_check_modules(OPENGL_PKG opengl)
+if(NOT OPENGL_PKG_FOUND)
+    pkg_check_modules(OPENGL_PKG gl REQUIRED)
+endif()
 
-ADD_SUBDIRECTORY(src)
+# Optional OpenAL
+pkg_check_modules(OPENAL openal)
+
+add_subdirectory(src)
