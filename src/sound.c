@@ -27,7 +27,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
 
 #ifdef __APPLE__
 # include <OpenAL/al.h>
@@ -42,6 +46,7 @@
 #include <SDL2/SDL_endian.h>
 
 #include "sound.h"
+#include "utils.h"
 
 static ALuint wave[2];
 static ALuint source;
@@ -58,7 +63,7 @@ sound_load (ALuint id, char *name)
     spec.format = AUDIO_S16MSB;
     spec.channels = 1;
 
-    snprintf (filename, BUFSIZ, "%s/%s", DATADIR, name);
+    snprintf (filename, BUFSIZ, "%s/%s", get_data_dir(), name);
     if ((spec2 = SDL_LoadWAV (filename, &spec, &buf, &len)) == NULL) {
 	printf ("Unable to load sound %s\n", filename);
 	return;

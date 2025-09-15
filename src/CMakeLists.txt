@@ -11,6 +11,7 @@ set(GLPONG_SOURCES
     sound.c
     text.c
     timer.c
+    utils.c
     video.c
 )
 
@@ -28,34 +29,67 @@ set_target_properties(glpong PROPERTIES
 target_compile_definitions(glpong PRIVATE
     PACKAGE="glpong"
     VERSION="${PROJECT_VERSION}"
-    DATADIR="data"
 )
 
+# Platform-specific data directory
+if(WIN32)
+    target_compile_definitions(glpong PRIVATE
+        DATADIR_RELATIVE="data"
+    )
+else()
+    target_compile_definitions(glpong PRIVATE
+        DATADIR="data"
+    )
+endif()
+
+# Windows-specific compile definitions
+if(WIN32)
+    target_compile_definitions(glpong PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+    )
+endif()
+
 # Conditional OpenAL support
-if(OPENAL_FOUND)
-    target_compile_definitions(glpong PRIVATE HAVE_SOUND)
+if(WIN32)
+    if(OpenAL_FOUND)
+        target_compile_definitions(glpong PRIVATE HAVE_SOUND)
+    endif()
+else()
+    if(OPENAL_FOUND)
+        target_compile_definitions(glpong PRIVATE HAVE_SOUND)
+    endif()
 endif()
 
 # Target include directories
 target_include_directories(glpong PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${SDL2_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIR}
-    ${OPENGL_PKG_INCLUDE_DIRS}
 )
 
-if(OPENAL_FOUND)
-    target_include_directories(glpong PRIVATE ${OPENAL_INCLUDE_DIRS})
-endif()
-
-# Target link libraries
-target_link_libraries(glpong PRIVATE
-    ${SDL2_LIBRARIES}
-    ${PNG_LIBRARY}
-    ${OPENGL_PKG_LIBRARIES}
-    m
-)
-
-if(OPENAL_FOUND)
-    target_link_libraries(glpong PRIVATE ${OPENAL_LIBRARIES})
+# Platform-specific includes and libraries
+if(WIN32)
+    target_link_libraries(glpong PRIVATE
+        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+        PNG::PNG
+        OpenGL::GL
+    )
+    if(OpenAL_FOUND)
+        target_link_libraries(glpong PRIVATE OpenAL::OpenAL)
+    endif()
+else()
+    target_include_directories(glpong PRIVATE
+        ${SDL2_INCLUDE_DIRS}
+        ${OPENGL_PKG_INCLUDE_DIRS}
+    )
+    target_link_libraries(glpong PRIVATE
+        ${SDL2_LIBRARIES}
+        ${PNG_LIBRARY}
+        ${OPENGL_PKG_LIBRARIES}
+        m
+    )
+    if(OPENAL_FOUND)
+        target_include_directories(glpong PRIVATE ${OPENAL_INCLUDE_DIRS})
+        target_link_libraries(glpong PRIVATE ${OPENAL_LIBRARIES})
+    endif()
 endif()

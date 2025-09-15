@@ -22,7 +22,12 @@
 #include <math.h>
 #include <time.h>
 #include <sys/types.h>
+#ifdef _WIN32
+#include <io.h>
+#include <process.h>
+#else
 #include <unistd.h>
+#endif
 
 #include "game.h"
 
@@ -46,7 +51,11 @@ game_init ()
     game_t *g;
 
     g = (game_t *) malloc (sizeof (game_t));
+#ifdef _WIN32
+    srand ((unsigned int)time (0) + _getpid ());
+#else
     srand (time (0) + getpid ());
+#endif
     g->player[PLAYER].X = 0;
     g->player[MACHINE].X = 0;
     g->player[PLAYER].score = 0;

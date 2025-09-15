@@ -31,6 +31,7 @@
 #include "text.h"
 #include "timer.h"
 #include "video.h"
+#include "utils.h"
 
 
 static GLfloat light_position[] = { -2, 5.0, 6, 0.0 };
@@ -120,7 +121,7 @@ video_load_texture (char *file, unsigned int *texid)
     glEnable (GL_TEXTURE_2D);
     glGenTextures (1, (GLuint *) texid);
 
-    snprintf (buf, BUFSIZ, "%s/%s.png", DATADIR, file);
+    snprintf (buf, BUFSIZ, "%s/%s.png", get_data_dir(), file);
     t = image_load (buf, &width, &height, &bpp);
 #ifdef __APPLE__
     if (t == NULL)

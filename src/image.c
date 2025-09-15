@@ -21,8 +21,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#ifdef _WIN32
+#include <io.h>
+#include <sys/stat.h>
+#else
 #include <unistd.h>
 #include <sys/stat.h>
+#endif
 #include <png.h>
 
 #include "image.h"
@@ -37,7 +42,7 @@ user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
     if (png_ptr == NULL)
 	bar = 0;
     else
-	memcpy (data, (png_get_io_ptr(png_ptr) + bar), length);
+	memcpy (data, ((char*)png_get_io_ptr(png_ptr) + bar), length);
     bar += length;
     return;
 }
@@ -74,7 +79,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
     png_read_png (png_ptr, info_ptr,
 	PNG_TRANSFORM_PACKING | PNG_TRANSFORM_STRIP_16 |
 	PNG_TRANSFORM_EXPAND, NULL);
-    pitch = png_get_rowbytes (png_ptr, info_ptr);
+    pitch = (unsigned int)png_get_rowbytes (png_ptr, info_ptr);
     *width = png_get_image_width (png_ptr, info_ptr);
     *height = png_get_image_height (png_ptr, info_ptr);
     channels = png_get_channels (png_ptr, info_ptr);
@@ -83,7 +88,7 @@ readpng (void *buf, int *width, int *height, int *bpp)
     row_pointers = png_get_rows (png_ptr, info_ptr);
 
     out = malloc ((*width) * (*height) * (*bpp));
-    for (i = 0; i < *height; ++i)
+    for (i = 0; i < (int)*height; ++i)
 	memcpy ((void *)((size_t)out + i * pitch), row_pointers[i], pitch);
     png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
     return out;
@@ -108,14 +113,26 @@ image_load (char *filename, int *width, int *height, int *bpp)
     if (stat (filename, &sb) == -1)
 	return NULL;
     buf = malloc (sb.st_size);
+#ifdef _WIN32
+    fd = _open (filename, O_RDONLY | O_BINARY);
+#else
     fd = open (filename, O_RDONLY);
+#endif
     if (fd == -1) {
 	snprintf (image_error_string, BUFSIZ, "Failed to open file: %s\n", filename);
 	free (buf);
 	return NULL;
     }
+#ifdef _WIN32
+    size = _read (fd, buf, sb.st_size);
+#else
     size = read (fd, buf, sb.st_size);
+#endif
+#ifdef _WIN32
+    _close (fd);
+#else
     close (fd);
+#endif
     user_read_data (NULL, NULL, 0);
     if (size != sb.st_size)
     {
