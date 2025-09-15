@@ -21,9 +21,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <image.h>
-#include <SDL_opengl.h>
+#include <SDL2/SDL_opengl.h>
 
 #include "game.h"
 #include "image.h"
@@ -40,6 +40,8 @@ static GLuint refl = (GLuint)-1;
 struct display_s {
     int width, height, depth;
 } display = {0, 0, 0};
+
+extern SDL_Window *window;
 
 void
 draw_paddle (int reflective, float x)
@@ -315,7 +317,7 @@ video_do (game_t * g)
 
     glEnable (GL_LIGHTING);
     reshape (display.width, display.height);
-    SDL_GL_SwapBuffers ();
+    SDL_GL_SwapWindow (window);
     return;
 }
 
@@ -343,7 +345,7 @@ video_screenshot ()
 {
     SDL_Surface *ss;
 
-    ss = SDL_CreateRGBSurface (0, display.width, display.height, display.depth, 0, 0, 0, 0);
+    ss = SDL_CreateRGBSurface (0, display.width, display.height, display.depth, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x00000000);
     glReadPixels (0, 0, display.width, display.height, GL_BGR, GL_UNSIGNED_BYTE, ss->pixels);
     flip_surface (ss);
     SDL_SaveBMP (ss, "screenshot.bmp");

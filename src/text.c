@@ -21,8 +21,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <SDL_opengl.h>
-#include <SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL.h>
 
 #include "image.h"
 #include "text.h"

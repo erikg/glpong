@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  ****************************************************************************/
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string.h>
 
 #include "game.h"
@@ -26,12 +26,12 @@
 #include "timer.h"
 #include "video.h"
 
-static char state[SDLK_LAST];
+static char state[SDL_NUM_SCANCODES];
 
 void
 input_init ()
 {
-    memset (state, 0, SDLK_LAST);
+    memset (state, 0, SDL_NUM_SCANCODES);
     return;
 }
 
@@ -44,20 +44,20 @@ input_do (game_t * g)
 	switch (ev.type)
 	{
 	case SDL_KEYDOWN:
-	    if (ev.key.keysym.sym == 27)
+	    if (ev.key.keysym.sym == SDLK_ESCAPE)
 		return 0;
 	    else if (ev.key.keysym.sym == SDLK_F10)
 		video_screenshot ();
 	    else
-		state[ev.key.keysym.sym] = 1;
+		state[ev.key.keysym.scancode] = 1;
 	    break;
 	case SDL_KEYUP:
-	    state[ev.key.keysym.sym] = 0;
+	    state[ev.key.keysym.scancode] = 0;
 	    break;
 	}
-    if (state[SDLK_RIGHT])
+    if (state[SDL_SCANCODE_RIGHT])
 	g->player[PLAYER].X += 4.0 * timer_delta ();
-    if (state[SDLK_LEFT])
+    if (state[SDL_SCANCODE_LEFT])
 	g->player[PLAYER].X -= 4.0 * timer_delta ();
     return 1;
 }

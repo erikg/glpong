@@ -37,9 +37,9 @@
 # include <AL/alc.h>
 #endif
 
-#include <SDL.h>
-#include <SDL_audio.h>
-#include <SDL_endian.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_audio.h>
+#include <SDL2/SDL_endian.h>
 
 #include "sound.h"
 

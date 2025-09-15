@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <SDL_timer.h>
+#include <SDL2/SDL_timer.h>
 #include "timer.h"
 
 static double nowtime = 0, thentime = 0, deltatime = 0, fps = 0, fpstime =

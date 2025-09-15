@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #ifndef WIN32
 # include <unistd.h>
 #endif
@@ -46,6 +46,8 @@
 #include "text.h"
 #include "timer.h"
 #include "video.h"
+
+SDL_Window *window;
 
 void
 main_add_map ()
@@ -119,7 +121,7 @@ main (int argc, char **argv)
 	    dohelp (name);
 	    return 1;
 	case 'f':
-	    fullscreen = SDL_FULLSCREEN;
+	    fullscreen = SDL_WINDOW_FULLSCREEN;
 	    break;
 	case 'g':
 	    sscanf (optarg, "%dx%d", &width, &height);
@@ -141,12 +143,11 @@ main (int argc, char **argv)
 #endif
 
     SDL_Init (SDL_INIT_VIDEO);
-    SDL_SetVideoMode (width, height, 32,
-	SDL_OPENGL | SDL_DOUBLEBUF | fullscreen);
+    window = SDL_CreateWindow("glpong (C) 2001-2025 Erik Greenwald", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL | fullscreen);
+    SDL_GLContext context = SDL_GL_CreateContext(window);
     atexit (SDL_Quit);
 
     SDL_ShowCursor (0);
-    SDL_WM_SetCaption ("glpong (C) 2001-2025 Erik Greenwald", "glpong");
 
     g = game_init ();
 
